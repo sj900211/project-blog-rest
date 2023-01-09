@@ -1,0 +1,66 @@
+version: "${DOCKER_COMPOSE_VERSION}"
+
+services:
+  redis:
+    container_name: ${REDIS_NAME}
+    image: redis:latest
+    ports:
+      - ${REDIS_PORT}:6379
+    command: redis-server --bind ${REDIS_BIND} --maxmemory ${REDIS_MAX_MEMORY} --requirepass ${REDIS_PASSWORD}
+    networks:
+      - infra-test
+
+  elasticsearch:
+    container_name: ${ELASTICSEARCH_NAME}
+    image: docker.elastic.co/elasticsearch/elasticsearch:${ELASTICSEARCH_VERSION}
+    ports:
+      - ${ELASTICSEARCH_9200_PORT}:9200
+      - ${ELASTICSEARCH_9300_PORT}:9300
+    environment:
+      node.name: elasticsearch
+      ES_JAVA_OPTS: -Xms512m -Xmx512m
+      ELASTIC_USERNAME: ${ELASTICSEARCH_USERNAME:-}
+      ELASTIC_PASSWORD: ${ELASTICSEARCH_PASSWORD:-}
+      discovery.type: single-node
+    networks:
+      - infra-test
+
+  minio:
+    container_name: ${MINIO_NAME}
+    image: minio/minio
+    ports:
+      - ${MINIO_API_PORT}:9000
+      - ${MINIO_UI_PORT}:9090
+    environment:
+      MINIO_ROOT_USER: ${MINIO_USERNAME:-}
+      MINIO_ROOT_PASSWORD: ${MINIO_PASSWORD:-}
+    command: server /data --console-address :9090
+    networks:
+      - infra-test
+
+  minio-mc:
+    container_name: ${MINIO_MC_NAME}
+    image: minio/mc
+    volumes:
+      - type: bind
+        source: ${WAIT_FOR_IT}
+        target: /wait-for-it.sh
+    depends_on:
+      - minio
+    entrypoint: >
+      /bin/sh -c "
+      /usr/bin/mc config host add local http://minio:9000 ${MINIO_USERNAME} ${MINIO_PASSWORD};
+      /usr/bin/mc mb local/${MINIO_BUCKET_NAME};
+      exit 0;
+      "
+    networks:
+      - infra-test
+
+networks:
+  infra-test:
+    name: ${NETWORK_NAME}
+    driver: bridge
+
+volumes:
+  infra-test:
+    name: ${VOLUME_NAME}

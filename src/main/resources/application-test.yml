@@ -1,0 +1,49 @@
+spring:
+  jpa:
+    show-sql: true
+    database: h2
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        show-sql: true
+        SQL: trace
+        format_sql: true
+        use_sql_comments: true
+        type:
+          descriptor:
+            sql: trace
+
+  h2:
+    console:
+      enabled: false
+
+  datasource:
+    hikari:
+      driver-class-name: org.h2.Driver
+      jdbc-url: jdbc:h2:mem:testdb
+      username: sa
+      password:
+
+  redis:
+    host: localhost
+    port: ${REDIS_PORT}
+    password: ${REDIS_PASSWORD}
+
+  config:
+    import: optional:file:.env[.properties]
+
+logging:
+  level:
+    root: info
+
+freshr:
+  minio:
+    bucket: ${MINIO_BUCKET_NAME}
+    access: ${MINIO_USERNAME}
+    secret: ${MINIO_PASSWORD}
+    host: http://localhost:${MINIO_API_PORT}
+
+  elasticsearch:
+    host: localhost

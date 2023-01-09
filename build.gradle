@@ -1,0 +1,157 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '2.7.7'
+    id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+    id 'org.asciidoctor.jvm.convert' version '3.3.2'
+    id 'com.google.cloud.tools.jib' version '3.3.1'
+}
+
+group = 'run.freshr'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '17'
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    maven {
+        url "${NEXUS_REPOSITORY}/maven-public/"
+    }
+}
+
+ext {
+    snippetsDir = file("build/generated-snippets")
+}
+
+dependencies {
+    // WEB
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    // Security
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    testImplementation 'org.springframework.security:spring-security-test'
+
+    implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
+    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
+
+    // Validation
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+    // Configuration Processor
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+
+    // LOMBOK
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    testCompileOnly 'org.projectlombok:lombok'
+    testAnnotationProcessor 'org.projectlombok:lombok'
+
+    // H2
+    runtimeOnly 'com.h2database:h2'
+    compileOnly "com.h2database:h2" // DB 툴에서 접속하기 위해 설정
+
+    // JPA
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation "com.querydsl:querydsl-jpa" // QueryDsl Jpa
+    annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jpa"
+    // QueryDsl Apt
+    testImplementation "com.querydsl:querydsl-jpa" // QueryDsl Jpa
+    testAnnotationProcessor "com.querydsl:querydsl-apt" // QueryDsl Apt
+
+    // Redis
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+
+    // Elasticsearch
+    implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch'
+
+    // RestDocs
+    testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+
+    // Thymeleaf
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
+
+    // Jakarta
+    annotationProcessor "jakarta.annotation:jakarta.annotation-api"
+    annotationProcessor "jakarta.persistence:jakarta.persistence-api"
+
+    implementation 'run.freshr:utils:1.0.0.RELEASE'
+    implementation 'run.freshr:unit:1.0.0.RELEASE'
+    implementation 'run.freshr:enumeration-mapper:1.0.0.RELEASE'
+    implementation 'run.freshr:exceptions:1.0.0.RELEASE'
+
+    implementation 'org.modelmapper:modelmapper:3.1.1'
+
+    implementation 'io.minio:minio:8.4.6'
+    implementation 'run.freshr:minio:1.0.0.RELEASE'
+
+    annotationProcessor 'run.freshr:search-docs:1.0.0.RELEASE'
+    annotationProcessor 'org.springframework.boot:spring-boot-starter-web'
+    annotationProcessor 'com.squareup:javapoet:1.13.0'
+
+    testImplementation 'run.freshr:rest-docs:1.0.0.RELEASE'
+    testAnnotationProcessor 'run.freshr:rest-docs:1.0.0.RELEASE'
+    testAnnotationProcessor 'com.google.guava:guava:31.1-jre'
+    testAnnotationProcessor 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+}
+
+test {
+    outputs.dir snippetsDir
+    useJUnitPlatform()
+
+    dependsOn compileTestJava
+}
+
+asciidoctor {
+    inputs.dir snippetsDir
+    dependsOn test
+}
+
+compileTestJava {
+    doFirst {
+        File asciidocDir = file('src/docs/asciidoc')
+        File docsDir = file('src/main/resources/templates/docs')
+
+        if (asciidocDir.exists()) {
+            delete(asciidocDir)
+        }
+
+        if (docsDir.exists()) {
+            delete(docsDir)
+        }
+    }
+}
+
+tasks.register('restdocs') {
+    dependsOn asciidoctor
+
+    doLast {
+        copy {
+            from "${asciidoctor.outputDir}"
+            into "src/main/resources/templates/docs"
+        }
+    }
+}
+
+bootJar {
+    dependsOn restdocs
+}
+
+jib {
+    from {
+        image = 'openjdk:17-jdk-alpine'
+    }
+    to {
+        image = "${DOCKER_REGISTRY}/${DOCKER_AUTHOR}/${rootProject.name}:${version}"
+        auth {
+            username = "${DOCKER_USERNAME}"
+            password = "${DOCKER_PASSWORD}"
+        }
+    }
+}
