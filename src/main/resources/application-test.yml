@@ -26,10 +26,11 @@ spring:
       username: sa
       password:
 
-  redis:
-    host: localhost
-    port: ${REDIS_PORT}
-    password: ${REDIS_PASSWORD}
+  data:
+    redis:
+      host: localhost
+      port: ${REDIS_PORT}
+      password: ${REDIS_PASSWORD}
 
   config:
     import: optional:file:.env[.properties]
@@ -38,12 +39,10 @@ logging:
   level:
     root: info
 
+
 freshr:
   minio:
     bucket: ${MINIO_BUCKET_NAME}
     access: ${MINIO_USERNAME}
     secret: ${MINIO_PASSWORD}
     host: http://localhost:${MINIO_API_PORT}
-
-  elasticsearch:
-    host: localhost

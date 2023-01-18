@@ -2,9 +2,10 @@ package run.freshr.controller;
 
 import static com.google.common.base.CaseFormat.LOWER_HYPHEN;
 import static com.google.common.base.CaseFormat.UPPER_CAMEL;
+import static org.springframework.http.MediaType.IMAGE_PNG_VALUE;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.restdocs.request.RequestDocumentation.formParameters;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
-import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
 import static org.springframework.restdocs.request.RequestDocumentation.requestParts;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -76,7 +77,7 @@ class CommonControllerTest extends TestExtension {
 
   @Test
   @DisplayName("파일 업로드")
-  @Docs(existsRequestParts = true, existsRequestParameters = true, existsResponseFields = true)
+  @Docs(existsRequestParts = true, existsFormParameters = true, existsResponseFields = true)
   public void createAttach() throws Exception {
     log.info("CommonControllerTest.createAttach");
 
@@ -86,13 +87,13 @@ class CommonControllerTest extends TestExtension {
 
     POST_MULTIPART(
         uriCommonAttach,
-        "temp",
-        new MockMultipartFile("files", "test.png", "image/png",
-            "FreshR".getBytes())
+        "",
+        new MockMultipartFile("files", "original", IMAGE_PNG_VALUE,
+            new byte[] {1})
     ).andDo(print())
         .andDo(docs(
             requestParts(AttachDocs.Request.createAttachFile()),
-            requestParameters(AttachDocs.Request.createAttach()),
+            formParameters(AttachDocs.Request.createAttach()),
             responseFields(AttachDocs.Response.createAttach())
         ))
         .andExpect(status().isOk());

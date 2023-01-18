@@ -12,6 +12,14 @@ import org.springframework.format.annotation.DateTimeFormat;
 import run.freshr.annotation.SearchClass;
 import run.freshr.annotation.SearchComment;
 
+/**
+ * Get Parameter 공통 VO.
+ *
+ * @param <ID> ID 데이터 유형
+ * @author FreshR
+ * @apiNote Get Parameter 공통 VO
+ * @since 2023. 1. 12. 오후 6:26:23
+ */
 @Data
 @SearchClass(base = true, extend = false)
 public class SearchExtension<ID> {
@@ -71,6 +79,14 @@ public class SearchExtension<ID> {
   @SearchComment("종료 날짜 시간")
   protected LocalDateTime endDatetime;
 
+  /**
+   * Cursor 데이터를 LocalDateTime 으로 변환.
+   *
+   * @return cursor at
+   * @apiNote Cursor 데이터를 LocalDateTime 으로 변환
+   * @author FreshR
+   * @since 2023. 1. 12. 오후 6:26:56
+   */
   public LocalDateTime getCursorAt() {
     LocalDateTime cursorAt;
 

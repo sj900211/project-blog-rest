@@ -2,6 +2,7 @@ package run.freshr.domain.auth.enumeration;
 
 import static java.util.Arrays.stream;
 
+import java.util.Arrays;
 import lombok.extern.slf4j.Slf4j;
 import run.freshr.mappers.EnumModel;
 
@@ -50,6 +51,10 @@ public enum Role implements EnumModel {
 
   public Integer getPermission() {
     return permission;
+  }
+
+  public boolean check(Role... roles) {
+    return Arrays.asList(roles).contains(this);
   }
 
   public static class Secured {

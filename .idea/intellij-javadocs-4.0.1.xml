@@ -1,0 +1,360 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+    <component name="JavaDocConfiguration">
+        <GENERAL>
+            <MODE>UPDATE</MODE>
+            <OVERRIDDEN_METHODS>true</OVERRIDDEN_METHODS>
+            <SPLITTED_CLASS_NAME>true</SPLITTED_CLASS_NAME>
+            <LEVELS>
+                <LEVEL>TYPE</LEVEL>
+                <LEVEL>METHOD</LEVEL>
+                <LEVEL>FIELD</LEVEL>
+            </LEVELS>
+            <VISIBILITIES>
+                <VISIBILITY>PUBLIC</VISIBILITY>
+                <VISIBILITY>PROTECTED</VISIBILITY>
+                <VISIBILITY>DEFAULT</VISIBILITY>
+                <VISIBILITY>PRIVATE</VISIBILITY>
+            </VISIBILITIES>
+        </GENERAL>
+        <TEMPLATES>
+            <CLASSES>
+                <CLASS>
+                    <KEY>^.*(public|protected|private)*.+interface\s+\w+.*</KEY>
+                    <VALUE>
+                        &lt;#assign nickname=&quot;FreshR&quot;&gt;
+                        &lt;#assign since=.now&gt;
+
+                        /** \n
+                        * ${name}.\n
+
+                        &lt;#if element.typeParameters?has_content&gt;
+                        * \n
+                        &lt;/#if&gt;
+
+                        &lt;#list element.typeParameters as typeParameter&gt;
+                        * @param &lt;${typeParameter.name}&gt; type parameter\n
+                        &lt;/#list&gt;
+
+                        * \n
+                        * @apiNote api note\n
+                        * @author ${nickname}\n
+                        * @since ${since}\n
+                        */
+                    </VALUE>
+                </CLASS>
+                <CLASS>
+                    <KEY>^.*(public|protected|private)*.+enum\s+\w+.*</KEY>
+                    <VALUE>
+                        &lt;#assign nickname=&quot;FreshR&quot;&gt;
+                        &lt;#assign since=.now&gt;
+
+                        /** \n
+                        * ${name}.\n
+                        * \n
+                        * @author ${nickname}\n
+                        * @apiNote\n
+                        * @since ${since}\n
+                        */
+                    </VALUE>
+                </CLASS>
+                <CLASS>
+                    <KEY>^.*(public|protected|private)*.+class\s+\w+.*</KEY>
+                    <VALUE>
+                        &lt;#assign nickname=&quot;FreshR&quot;&gt;
+                        &lt;#assign since=.now&gt;
+
+                        /** \n
+                        * ${name}.\n
+
+                        &lt;#if element.typeParameters?has_content&gt;
+                        * \n
+                        &lt;/#if&gt;
+
+                        &lt;#list element.typeParameters as typeParameter&gt;
+                        * @param &lt;${typeParameter.name}&gt; type parameter\n
+                        &lt;/#list&gt;
+
+                        * \n
+                        * @apiNote api note\n
+                        * @author ${nickname}\n
+                        * @since ${since}\n
+                        */
+                    </VALUE>
+                </CLASS>
+                <CLASS>
+                    <KEY>.+</KEY>
+                    <VALUE>
+                        &lt;#assign nickname=&quot;FreshR&quot;&gt;
+                        &lt;#assign since=.now&gt;
+
+                        /** \n
+                        * ${name}.\n
+                        * \n
+                        * @apiNote api note\n
+                        * @author ${nickname}\n
+                        * @since ${since}\n
+                        */
+                    </VALUE>
+                </CLASS>
+            </CLASSES>
+            <CONSTRUCTORS>
+                <CONSTRUCTOR>
+                    <KEY>.+</KEY>
+                    <VALUE>
+                        &lt;#assign nickname=&quot;FreshR&quot;&gt;
+                        &lt;#assign since=.now&gt;
+
+                        /** \n
+                        * 생성자.\n
+
+                        &lt;#if element.parameterList.parameters?has_content&gt;
+                        * \n
+                        &lt;/#if&gt;
+
+                        &lt;#list element.parameterList.parameters as parameter&gt;
+                        * @param ${parameter.name} ${paramNames[parameter.name]}\n
+                        &lt;/#list&gt;
+
+                        &lt;#if element.throwsList.referenceElements?has_content&gt;
+                        * \n
+                        &lt;/#if&gt;
+
+                        &lt;#list element.throwsList.referenceElements as exception&gt;
+                        * @throws ${exception.referenceName} ${exceptionNames[exception.referenceName]}\n
+                        &lt;/#list&gt;
+
+                        * \n
+                        * @apiNote api note\n
+                        * @author ${nickname}\n
+                        * @since ${since}\n
+                        */
+                    </VALUE>
+                </CONSTRUCTOR>
+            </CONSTRUCTORS>
+            <METHODS>
+                <METHOD>
+                    <KEY>^.*(public|protected|private)*\s*.*(\w(\s*&lt;.+&gt;)*)+\s+get\w+\s*\(.*\).+</KEY>
+                    <VALUE>
+                        &lt;#assign nickname=&quot;FreshR&quot;&gt;
+                        &lt;#assign since=.now&gt;
+
+                        /** \n
+                        * ${partName} Getter.\n
+
+                        &lt;#if element.typeParameters?has_content&gt;
+                        * \n
+                        &lt;/#if&gt;
+
+                        &lt;#list element.typeParameters as typeParameter&gt;
+                        * @param &lt;${typeParameter.name}&gt; type parameter\n
+                        &lt;/#list&gt;
+
+                        &lt;#if element.parameterList.parameters?has_content&gt;
+                        * \n
+                        &lt;/#if&gt;
+
+                        &lt;#list element.parameterList.parameters as parameter&gt;
+                        * @param ${parameter.name} ${paramNames[parameter.name]}\n
+                        &lt;/#list&gt;
+
+                        &lt;#if isNotVoid&gt;
+                        * \n
+                        * @return ${partName}\n
+                        &lt;/#if&gt;
+
+                        &lt;#if element.throwsList.referenceElements?has_content&gt;
+                        * \n
+                        &lt;/#if&gt;
+
+                        &lt;#list element.throwsList.referenceElements as exception&gt;
+                        * @throws ${exception.referenceName} ${exceptionNames[exception.referenceName]}\n
+                        &lt;/#list&gt;
+
+                        * \n
+                        * @apiNote api note\n
+                        * @author ${nickname}\n
+                        * @since ${since}\n
+                        */
+                    </VALUE>
+                </METHOD>
+                <METHOD>
+                    <KEY>^.*(public|protected|private)*\s*.*(void|\w(\s*&lt;.+&gt;)*)+\s+set\w+\s*\(.*\).+</KEY>
+                    <VALUE>
+                        &lt;#assign nickname=&quot;FreshR&quot;&gt;
+                        &lt;#assign since=.now&gt;
+
+                        /** \n
+                        * ${partName} Setter.\n
+
+                        &lt;#if element.typeParameters?has_content&gt;
+                        * \n
+                        &lt;/#if&gt;
+
+                        &lt;#list element.typeParameters as typeParameter&gt;
+                        * @param &lt;${typeParameter.name}&gt; type parameter\n
+                        &lt;/#list&gt;
+
+                        &lt;#if element.parameterList.parameters?has_content&gt;
+                        * \n
+                        &lt;/#if&gt;
+
+                        &lt;#list element.parameterList.parameters as parameter&gt;
+                        * @param ${parameter.name} ${paramNames[parameter.name]}\n
+                        &lt;/#list&gt;
+
+                        &lt;#if isNotVoid&gt;
+                        * \n
+                        * @return ${partName}\n
+                        &lt;/#if&gt;
+
+                        &lt;#if element.throwsList.referenceElements?has_content&gt;
+                        * \n
+                        &lt;/#if&gt;
+
+                        &lt;#list element.throwsList.referenceElements as exception&gt;
+                        * @throws ${exception.referenceName} ${exceptionNames[exception.referenceName]}\n
+                        &lt;/#list&gt;
+
+                        * \n
+                        * @apiNote api note\n
+                        * @author ${nickname}\n
+                        * @since ${since}\n
+                        */
+                    </VALUE>
+                </METHOD>
+                <METHOD>
+                    <KEY>^.*((public\s+static)|(static\s+public))\s+void\s+main\s*\(\s*String\s*(\[\s*\]|\.\.\.)\s+\w+\s*\).+</KEY>
+                    <VALUE>
+                        &lt;#assign nickname=&quot;FreshR&quot;&gt;
+                        &lt;#assign since=.now&gt;
+
+                        /** \n
+                        * entry point of application.\n
+
+                        &lt;#if element.parameterList.parameters?has_content&gt;
+                        * \n
+                        &lt;/#if&gt;
+
+                        * @param ${element.parameterList.parameters[0].name} input arguments\n
+
+                        &lt;#if element.throwsList.referenceElements?has_content&gt;
+                        * \n
+                        &lt;/#if&gt;
+
+                        &lt;#list element.throwsList.referenceElements as exception&gt;
+                        * @throws ${exception.referenceName} ${exceptionNames[exception.referenceName]}\n
+                        &lt;/#list&gt;
+
+                        * \n
+                        * @apiNote api note\n
+                        * @author ${nickname}\n
+                        * @since ${since}\n
+                        */
+                    </VALUE>
+                </METHOD>
+                <METHOD>
+                    <KEY>.+</KEY>
+                    <VALUE>
+                        &lt;#assign nickname=&quot;FreshR&quot;&gt;
+                        &lt;#assign since=.now&gt;
+
+                        /** \n
+                        * ${name}&lt;#if isNotVoid&gt; ${return}&lt;/#if&gt;.\n
+
+                        &lt;#if element.typeParameters?has_content&gt;
+                        * \n
+                        &lt;/#if&gt;
+
+                        &lt;#list element.typeParameters as typeParameter&gt;
+                        * @param &lt;${typeParameter.name}&gt; type parameter\n
+                        &lt;/#list&gt;
+
+                        &lt;#if element.parameterList.parameters?has_content&gt;
+                        * \n
+                        &lt;/#if&gt;
+
+                        &lt;#list element.parameterList.parameters as parameter&gt;
+                        * @param ${parameter.name} ${paramNames[parameter.name]}\n
+                        &lt;/#list&gt;
+
+                        &lt;#if isNotVoid&gt;
+                        * \n
+                        * @return ${return}\n
+                        &lt;/#if&gt;
+
+                        &lt;#if element.throwsList.referenceElements?has_content&gt;
+                        * \n
+                        &lt;/#if&gt;
+
+                        &lt;#list element.throwsList.referenceElements as exception&gt;
+                        * @throws ${exception.referenceName} ${exceptionNames[exception.referenceName]}\n
+                        &lt;/#list&gt;
+
+                        * \n
+                        * @apiNote api note\n
+                        * @author ${nickname}\n
+                        * @since ${since}\n
+                        */
+                    </VALUE>
+                </METHOD>
+            </METHODS>
+            <FIELDS>
+                <FIELD>
+                    <KEY>^.*(public|protected|private)*.+static.*(\w\s\w)+.+</KEY>
+                    <VALUE>
+                        &lt;#assign nickname=&quot;FreshR&quot;&gt;
+                        &lt;#assign since=.now&gt;
+
+                        /** \n
+                        * ${element.getName()}\n
+                        * \n
+                        * @apiNote api note\n
+                        * @since ${since}\n
+                        */
+                    </VALUE>
+                </FIELD>
+                <FIELD>
+                    <KEY>^.*(public|protected|private)*.*(\w\s\w)+.+</KEY>
+                    <VALUE>
+                        &lt;#assign nickname=&quot;FreshR&quot;&gt;
+                        &lt;#assign since=.now&gt;
+
+                        /** \n
+
+                        &lt;#if element.parent.isInterface()&gt;
+                        * ${element.getName()}\n
+                        &lt;#else&gt;
+                        * ${name}\n
+                        &lt;/#if&gt;
+
+                        * \n
+                        * @apiNote api note\n
+                        * @since ${since}\n
+                        */
+                    </VALUE>
+                </FIELD>
+                <FIELD>
+                    <KEY>.+</KEY>
+                    <VALUE>
+                        &lt;#assign nickname=&quot;FreshR&quot;&gt;
+                        &lt;#assign since=.now&gt;
+
+                        /** \n
+
+                        &lt;#if element.parent.isEnum()&gt;
+                        * ${name} ${typeName}\n
+                        &lt;#else&gt;
+                        * ${name}\n
+                        &lt;/#if&gt;
+
+                        * \n
+                        * @apiNote api note\n
+                        * @since ${since}\n
+                        */
+                    </VALUE>
+                </FIELD>
+            </FIELDS>
+        </TEMPLATES>
+    </component>
+</project>

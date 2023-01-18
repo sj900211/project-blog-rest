@@ -1,13 +1,14 @@
 package run.freshr.common.config;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+
 /**
- * Query dsl config.
+ * QueryDsl config.
  *
  * @author FreshR
  * @apiNote JPAQuery 를 프로젝트 전역에서 주입받을 수 있도록 설정

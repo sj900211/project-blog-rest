@@ -4,7 +4,6 @@ import static org.springframework.restdocs.payload.JsonFieldType.STRING;
 
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.restdocs.request.ParameterDescriptor;
 import run.freshr.common.snippet.PopupFieldsSnippet;
@@ -45,7 +44,7 @@ public class EnumDocs {
                   .build()
                   .getFieldList()
                   .get(0))
-              .collect(Collectors.toList())));
+              .toList()));
 
       return builder.build().getPopupList().toArray(PopupFieldsSnippet[]::new);
     }

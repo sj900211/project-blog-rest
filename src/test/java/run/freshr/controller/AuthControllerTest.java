@@ -11,7 +11,6 @@ import static run.freshr.common.config.URIConfig.uriAuthPassword;
 import static run.freshr.common.config.URIConfig.uriAuthSignIn;
 import static run.freshr.common.config.URIConfig.uriAuthSignOut;
 import static run.freshr.common.config.URIConfig.uriAuthToken;
-import static run.freshr.common.util.ThreadUtil.threadAccess;
 import static run.freshr.common.util.ThreadUtil.threadPublicKey;
 import static run.freshr.common.util.ThreadUtil.threadRefresh;
 import static run.freshr.utils.CryptoUtil.encryptRsa;
@@ -21,6 +20,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import run.freshr.annotation.Docs;
 import run.freshr.annotation.DocsGroup;
+import run.freshr.annotation.DocsPopup;
 import run.freshr.common.extension.TestExtension;
 import run.freshr.domain.auth.AccountDocs;
 import run.freshr.domain.auth.CryptoDocs;
@@ -111,7 +111,7 @@ public class AuthControllerTest extends TestExtension {
 
     apply();
 
-    POST_TOKEN(uriAuthSignOut, threadAccess.get())
+    POST(uriAuthSignOut)
         .andDo(print())
         .andExpect(status().isOk());
   }
@@ -190,7 +190,10 @@ public class AuthControllerTest extends TestExtension {
 
   @Test
   @DisplayName("로그인 계정 정보 수정 - MANAGER")
-  @Docs(existsRequestFields = true)
+  @Docs(existsRequestFields = true, popup = {
+      @DocsPopup(name = "manager-docs-get-info-privilege",
+          include = "common-controller-test/get-enum-list/popup/popup-fields-privilege-beta.adoc")
+  })
   public void updateInfoForManager() throws Exception {
     log.info("AuthControllerTest.updateInfoForManager");
 
@@ -213,7 +216,10 @@ public class AuthControllerTest extends TestExtension {
 
   @Test
   @DisplayName("로그인 계정 정보 수정 - STAFF")
-  @Docs(existsRequestFields = true)
+  @Docs(existsRequestFields = true, popup = {
+      @DocsPopup(name = "staff-docs-get-info-privilege",
+          include = "common-controller-test/get-enum-list/popup/popup-fields-privilege-gamma.adoc")
+  })
   public void updateInfoForStaff() throws Exception {
     log.info("AuthControllerTest.updateInfoForStaff");
 
@@ -236,7 +242,10 @@ public class AuthControllerTest extends TestExtension {
 
   @Test
   @DisplayName("로그인한 계정 정보 수정 - USER")
-  @Docs(existsRequestFields = true)
+  @Docs(existsRequestFields = true, popup = {
+      @DocsPopup(name = "user-docs-get-info-privilege",
+          include = "common-controller-test/get-enum-list/popup/popup-fields-privilege-delta.adoc")
+  })
   public void updateInfoForUser() throws Exception {
     log.info("AuthControllerTest.updateInfoForUser");
 

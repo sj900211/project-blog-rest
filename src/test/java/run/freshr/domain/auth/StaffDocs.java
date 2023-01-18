@@ -34,12 +34,11 @@ public class StaffDocs {
       log.info("StaffDocs.Response.getInfo");
 
       return ResponseDocs
-          .Response
           .data()
 
           .prefixDescription("중간 관리자")
           .field(staff.id, staff.username, staff.name, staff.useFlag)
-          .linkField(staff.privilege)
+          .linkField("staff-docs-get-info-privilege", staff.privilege)
 
           .prefixOptional()
           .field(staff.signAt, staff.removeAt, staff.createAt, staff.updateAt)

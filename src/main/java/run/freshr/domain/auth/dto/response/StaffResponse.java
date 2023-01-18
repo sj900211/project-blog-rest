@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import run.freshr.common.extension.response.ResponseExtension;
+import run.freshr.common.extension.response.ResponseLogicalExtension;
 import run.freshr.domain.auth.enumeration.Privilege;
 
 @Data
@@ -14,7 +14,7 @@ import run.freshr.domain.auth.enumeration.Privilege;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class StaffResponse extends ResponseExtension<Long> {
+public class StaffResponse extends ResponseLogicalExtension<Long> {
 
   private Privilege privilege;
 

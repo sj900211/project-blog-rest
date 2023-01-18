@@ -2,7 +2,7 @@ package run.freshr.domain.auth.unit;
 
 import static java.util.Objects.isNull;
 
-import javax.persistence.EntityNotFoundException;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;

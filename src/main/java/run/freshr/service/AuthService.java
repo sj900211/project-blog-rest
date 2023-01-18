@@ -1,6 +1,5 @@
 package run.freshr.service;
 
-import javax.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
 import run.freshr.domain.auth.dto.request.EncryptRequest;
 import run.freshr.domain.auth.dto.request.RefreshTokenRequest;
@@ -16,7 +15,7 @@ public interface AuthService {
 
   ResponseEntity<?> signIn(SignInRequest dto);
 
-  ResponseEntity<?> signOut(HttpServletRequest request);
+  ResponseEntity<?> signOut();
 
   ResponseEntity<?> getInfo();
 

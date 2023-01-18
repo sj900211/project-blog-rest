@@ -34,12 +34,11 @@ public class ManagerDocs {
       log.info("ManagerDocs.Response.getInfo");
 
       return ResponseDocs
-          .Response
           .data()
 
           .prefixDescription("관리자")
           .field(manager.id, manager.username, manager.name, manager.useFlag)
-          .linkField(manager.privilege)
+          .linkField("manager-docs-get-info-privilege", manager.privilege)
 
           .prefixOptional()
           .field(manager.signAt, manager.removeAt, manager.createAt, manager.updateAt)

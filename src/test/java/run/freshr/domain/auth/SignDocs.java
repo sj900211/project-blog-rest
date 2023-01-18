@@ -64,7 +64,6 @@ public class SignDocs {
       log.info("SignDocs.Response.signIn");
 
       return ResponseDocs
-          .Response
           .data()
 
           .field("accessToken", "접속 토큰", STRING)
@@ -77,7 +76,6 @@ public class SignDocs {
       log.info("SignDocs.Response.refreshToken");
 
       return ResponseDocs
-          .Response
           .data()
 
           .field("accessToken", "접속 토큰", STRING)

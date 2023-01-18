@@ -42,7 +42,7 @@ public class CommonServiceImpl implements CommonService {
 
     List<MultipartFile> files = dto.getFiles();
     List<IdResponse<?>> idList = new ArrayList<>();
-    String directory = ofNullable(dto.getDirectory()).orElse("");
+    String directory = ofNullable(dto.getDirectory()).orElse(".temp");
 
     for (MultipartFile file : files) {
       String contentType = ofNullable(file.getContentType()).orElse("");

@@ -23,7 +23,7 @@ import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
 import javax.crypto.spec.SecretKeySpec;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -35,34 +35,70 @@ import run.freshr.domain.auth.redis.AccessRedis;
 import run.freshr.domain.auth.unit.AccessRedisUnit;
 import run.freshr.domain.auth.unit.RefreshRedisUnit;
 
+/**
+ * Token 관리 기능 정의.
+ *
+ * @author FreshR
+ * @apiNote Token 관리 기능 정의
+ * @since 2023. 1. 12. 오후 7:05:15
+ */
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class JwtTokenProvider {
+public class TokenProvider {
 
   private final AccessRedisUnit accessRedisUnit;
   private final RefreshRedisUnit refreshRedisUnit;
 
   private final ObjectMapper objectMapper;
 
-  public static final String JWT_VARIABLE = "EMOTION"; // JWT 암호화 키 값
+  public static final String JWT_VARIABLE = "FRESHR"; // JWT 암호화 키 값 TODO: 설정 파일에서 관리할 수 있도록 수정 예정
   public static final String JWT_SHA = encryptSha256(JWT_VARIABLE);
   public static final byte[] JWT_BYTE = encodeBase64(JWT_SHA).getBytes(UTF_8); // JWT 암호화 키 Byte
   public static final Key JWT_KEY = new SecretKeySpec(JWT_BYTE, HS512.getJcaName()); // Key 생성
-  public static final Integer EXPIRATION_ACCESS = 1000 * 60 * 15; // Access Token 만료 시간
+  public static final Integer EXPIRATION_ACCESS = 1000 * 60 * 15; // Access Token 만료 시간 TODO: 설정 파일에서 관리할 수 있도록 수정 예정
   public static final String AUTHORIZATION_STRING = "Authorization";
   public static final String BEARER_PREFIX = "Bearer ";
   public static ThreadLocal<Long> signedId = new ThreadLocal<>(); // 요청한 토큰의 계정 일련 번호
   public static ThreadLocal<Role> signedRole = new ThreadLocal<>(); // 요청한 토큰의 계정 권한
 
+  /**
+   * Access Token 생성.
+   *
+   * @param id id
+   * @return string
+   * @apiNote Access Token 생성
+   * @author FreshR
+   * @since 2023. 1. 12. 오후 7:05:15
+   */
   public String generateAccessToken(final Long id) {
     return generate(id.toString(), EXPIRATION_ACCESS, null);
   }
 
+  /**
+   * Refresh Token 생성.
+   *
+   * @param id id
+   * @return string
+   * @apiNote Refresh Token 생성
+   * @author FreshR
+   * @since 2023. 1. 12. 오후 7:05:15
+   */
   public String generateRefreshToken(final Long id) {
     return generate(id.toString(), null, null);
   }
 
+  /**
+   * JWT Token 생성.
+   *
+   * @param subject    subject
+   * @param expiration expiration
+   * @param claim      claim
+   * @return string
+   * @apiNote JWT Token 생성
+   * @author FreshR
+   * @since 2023. 1. 12. 오후 7:05:15
+   */
   public String generate(final String subject, final Integer expiration,
       final HashMap<String, Object> claim) {
     JwtBuilder jwtBuilder = Jwts.builder()
@@ -82,12 +118,31 @@ public class JwtTokenProvider {
     return jwtBuilder.compact();
   }
 
+  /**
+   * 요청 정보에서 토큰 조회.
+   *
+   * @param request request
+   * @return string
+   * @apiNote 요청 정보에서 토큰 조회
+   * @author FreshR
+   * @since 2023. 1. 12. 오후 7:05:15
+   */
   public String resolve(HttpServletRequest request) {
     String header = request.getHeader(AUTHORIZATION_STRING);
 
     return hasLength(header) ? header.replace(BEARER_PREFIX, "") : null;
   }
 
+  /**
+   * 토큰 정보를 조회.
+   *
+   * @param jwt jwt
+   * @return claims
+   * @throws JwtException jwt exception
+   * @apiNote 토큰 정보를 조회
+   * @author FreshR
+   * @since 2023. 1. 12. 오후 7:05:15
+   */
   public Claims get(final String jwt) throws JwtException {
     return Jwts
         .parserBuilder()
@@ -97,6 +152,15 @@ public class JwtTokenProvider {
         .getBody();
   }
 
+  /**
+   * Access 토큰 검증.
+   *
+   * @param token token
+   * @return boolean
+   * @apiNote Access 토큰 검증
+   * @author FreshR
+   * @since 2023. 1. 12. 오후 7:05:15
+   */
   public boolean validateAccess(final String token) {
     if (!hasLength(token)) {
       return true;
@@ -113,6 +177,15 @@ public class JwtTokenProvider {
     return true;
   }
 
+  /**
+   * Refresh 토큰 검증
+   *
+   * @param token token
+   * @return boolean
+   * @apiNote Refresh 토큰 검증
+   * @author FreshR
+   * @since 2023. 1. 12. 오후 7:05:16
+   */
   public boolean validateRefresh(final String token) {
     if (!hasLength(token)) {
       return true;
@@ -129,6 +202,16 @@ public class JwtTokenProvider {
     return true;
   }
 
+  /**
+   * 토큰의 만료 여부 체크.
+   *
+   * @param jwt jwt
+   * @return boolean
+   * @throws JwtException jwt exception
+   * @apiNote 토큰의 만료 여부 체크
+   * @author FreshR
+   * @since 2023. 1. 12. 오후 7:05:16
+   */
   public boolean checkExpiration(final String jwt) throws JwtException {
     boolean flag = false;
 
@@ -141,6 +224,14 @@ public class JwtTokenProvider {
     return flag;
   }
 
+  /**
+   * 토큰 정보 저장.
+   *
+   * @param accessToken access token
+   * @apiNote 통신이 유지되는 동안 프로젝트 전역에서 접근할 수 있도록 토큰 정보를 저장
+   * @author FreshR
+   * @since 2023. 1. 12. 오후 7:05:16
+   */
   public void setThreadLocal(String accessToken) {
     Long id = 0L;
     Role role = ROLE_ANONYMOUS;
@@ -156,6 +247,14 @@ public class JwtTokenProvider {
     signedRole.set(role);
   }
 
+  /**
+   * 인증 정보 생성.
+   *
+   * @return authentication
+   * @apiNote 인증 정보 생성
+   * @author FreshR
+   * @since 2023. 1. 12. 오후 7:05:16
+   */
   public Authentication getAuthentication() {
     Role role = signedRole.get();
 
@@ -166,6 +265,15 @@ public class JwtTokenProvider {
     );
   }
 
+  /**
+   * 만료되었을 때 반환 데이터 설정.
+   *
+   * @return string
+   * @throws JsonProcessingException json processing exception
+   * @apiNote 만료되었을 때 반환 데이터 설정
+   * @author FreshR
+   * @since 2023. 1. 12. 오후 7:05:16
+   */
   public String expiredJwt() throws JsonProcessingException {
     return objectMapper.writeValueAsString(ResponseData
         .builder()

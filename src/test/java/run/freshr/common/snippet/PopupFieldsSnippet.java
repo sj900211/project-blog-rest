@@ -9,6 +9,13 @@ import org.springframework.restdocs.payload.AbstractFieldsSnippet;
 import org.springframework.restdocs.payload.FieldDescriptor;
 import org.springframework.restdocs.payload.PayloadSubsectionExtractor;
 
+/**
+ * Popup 문서 snippet 정의.
+ *
+ * @author FreshR
+ * @apiNote Popup 문서 snippet 정의
+ * @since 2023. 1. 13. 오전 11:23:28
+ */
 @Slf4j
 public class PopupFieldsSnippet extends AbstractFieldsSnippet {
 

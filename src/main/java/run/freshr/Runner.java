@@ -20,9 +20,7 @@ public class Runner implements ApplicationRunner {
    * Application Run 마지막에 동작하는 Method
    *
    * @param args the args
-   * @apiNote api note
-   * @implSpec implementation spec
-   * @implNote implementation note
+   * @apiNote 지금 사용되는 기능은 없음. 그저 멋...⭐
    * @author FreshR
    * @since 2022. 12. 23. 오후 2:15:05
    */

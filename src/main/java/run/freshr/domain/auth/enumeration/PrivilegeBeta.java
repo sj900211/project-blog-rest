@@ -1,17 +1,17 @@
 package run.freshr.domain.auth.enumeration;
 
+import lombok.extern.slf4j.Slf4j;
+import run.freshr.mappers.EnumModel;
+
 import static java.util.Arrays.stream;
 import static run.freshr.domain.auth.enumeration.Role.ROLE_BETA;
 import static run.freshr.domain.auth.enumeration.Role.ROLE_DELTA;
-
-import lombok.extern.slf4j.Slf4j;
-import run.freshr.mappers.EnumModel;
 
 /**
  * Privilege.
  *
  * @author FreshR
- * @implNote 권한 목록
+ * @apiNote 권한 목록
  * @since 2022. 12. 23. 오후 4:23:59
  */
 @Slf4j
@@ -29,8 +29,6 @@ public enum PrivilegeBeta implements EnumModel {
    *
    * @param value value
    * @apiNote api note
-   * @implSpec implementation spec
-   * @implNote implementation note
    * @author FreshR
    * @since 2022. 12. 23. 오후 4:23:59
    */

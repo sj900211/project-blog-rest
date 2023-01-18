@@ -1,7 +1,7 @@
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '2.7.7'
-    id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+    id 'org.springframework.boot' version '3.0.1'
+    id 'io.spring.dependency-management' version '1.1.0'
     id 'org.asciidoctor.jvm.convert' version '3.3.2'
     id 'com.google.cloud.tools.jib' version '3.3.1'
 }
@@ -23,7 +23,7 @@ repositories {
 }
 
 ext {
-    snippetsDir = file("build/generated-snippets")
+    snippetsDir = file('build/generated-snippets')
 }
 
 dependencies {
@@ -53,21 +53,22 @@ dependencies {
 
     // H2
     runtimeOnly 'com.h2database:h2'
-    compileOnly "com.h2database:h2" // DB 툴에서 접속하기 위해 설정
+    compileOnly 'com.h2database:h2' // DB 툴에서 접속하기 위해 설정
 
     // JPA
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation "com.querydsl:querydsl-jpa" // QueryDsl Jpa
-    annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jpa"
+    implementation "com.querydsl:querydsl-jpa:${dependencyManagement.importedProperties['querydsl.version']}:jakarta" // QueryDsl Jpa
     // QueryDsl Apt
-    testImplementation "com.querydsl:querydsl-jpa" // QueryDsl Jpa
-    testAnnotationProcessor "com.querydsl:querydsl-apt" // QueryDsl Apt
+    annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jakarta"
+    testImplementation 'com.querydsl:querydsl-jpa' // QueryDsl Jpa
+    testAnnotationProcessor 'com.querydsl:querydsl-apt' // QueryDsl Apt
+
+    // Jakarta
+    annotationProcessor 'jakarta.annotation:jakarta.annotation-api'
+    annotationProcessor 'jakarta.persistence:jakarta.persistence-api'
 
     // Redis
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
-
-    // Elasticsearch
-    implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch'
 
     // RestDocs
     testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
@@ -75,10 +76,6 @@ dependencies {
     // Thymeleaf
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
-
-    // Jakarta
-    annotationProcessor "jakarta.annotation:jakarta.annotation-api"
-    annotationProcessor "jakarta.persistence:jakarta.persistence-api"
 
     implementation 'run.freshr:utils:1.0.0.RELEASE'
     implementation 'run.freshr:unit:1.0.0.RELEASE'
@@ -110,6 +107,13 @@ test {
 
 asciidoctor {
     inputs.dir snippetsDir
+
+    inProcess = JAVA_EXEC
+    forkOptions {
+        jvmArgs('--add-opens', 'java.base/sun.nio.ch=ALL-UNNAMED',
+                '--add-opens', 'java.base/java.io=ALL-UNNAMED')
+    }
+
     dependsOn test
 }
 
@@ -118,10 +122,12 @@ compileTestJava {
         File asciidocDir = file('src/docs/asciidoc')
         File docsDir = file('src/main/resources/templates/docs')
 
+        // src/docs/asciidoc 삭제
         if (asciidocDir.exists()) {
             delete(asciidocDir)
         }
 
+        // src/main/resources/templates/docs 삭제
         if (docsDir.exists()) {
             delete(docsDir)
         }
@@ -129,21 +135,22 @@ compileTestJava {
 }
 
 tasks.register('restdocs') {
-    dependsOn asciidoctor
+    group 'docs'
 
-    doLast {
-        copy {
-            from "${asciidoctor.outputDir}"
-            into "src/main/resources/templates/docs"
-        }
+    // Rest Docs 빌드 html 파일을 복사
+    copy {
+        from "${asciidoctor.outputDir}"
+        into 'src/main/resources/templates/docs'
     }
+
+    dependsOn asciidoctor
 }
 
 bootJar {
     dependsOn restdocs
 }
 
-jib {
+jib { // Docker 플러그인 설정
     from {
         image = 'openjdk:17-jdk-alpine'
     }
@@ -152,6 +159,40 @@ jib {
         auth {
             username = "${DOCKER_USERNAME}"
             password = "${DOCKER_PASSWORD}"
+        }
+    }
+}
+
+tasks.register('testInfraUp') { // TEST 환경 Docker Compose UP
+    group 'test infra'
+
+    dependsOn testInfraBuild
+
+    if (file('docker-compose.yml').exists()) {
+        exec {
+            commandLine('docker-compose', 'up', '-d')
+        }
+    }
+}
+
+tasks.register('testInfraBuild') { // TEST 환경 Docker Compose Build
+    group 'test infra'
+
+    dependsOn testInfraDown
+
+    if (file('docker-compose.yml').exists()) {
+        exec {
+            commandLine('docker-compose', 'build')
+        }
+    }
+}
+
+tasks.register('testInfraDown') { // TEST 환경 Docker Compose DOWN
+    group 'test infra'
+
+    if (file('docker-compose.yml').exists()) {
+        exec {
+            commandLine('docker-compose', 'down', '-v')
         }
     }
 }

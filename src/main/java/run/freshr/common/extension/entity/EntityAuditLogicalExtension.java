@@ -1,18 +1,18 @@
 package run.freshr.common.extension.entity;
 
+import static jakarta.persistence.FetchType.LAZY;
+import static jakarta.persistence.GenerationType.IDENTITY;
 import static java.time.LocalDateTime.now;
-import static javax.persistence.FetchType.LAZY;
-import static javax.persistence.GenerationType.IDENTITY;
 import static run.freshr.common.config.DefaultColumnConfig.FALSE;
 import static run.freshr.common.config.DefaultColumnConfig.TRUE;
 
+import jakarta.persistence.EntityListeners;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.MappedSuperclass;
 import java.time.LocalDateTime;
-import javax.persistence.EntityListeners;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.MappedSuperclass;
 import lombok.Getter;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.Comment;
@@ -21,6 +21,13 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import run.freshr.domain.auth.entity.Sign;
 
+/**
+ * Audit 정보와 논리 삭제 정책을 가진 MappedSuperclass.
+ *
+ * @author FreshR
+ * @apiNote Audit 정보와 논리 삭제 정책을 가진 MappedSuperclass
+ * @since 2023. 1. 12. 오후 6:16:35
+ */
 @Getter
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
@@ -57,17 +64,42 @@ public class EntityAuditLogicalExtension {
   @JoinColumn(name = "updater_id")
   protected Sign updater;
 
+  /**
+   * Remove.
+   *
+   * @param updater updater
+   * @apiNote 논리 삭제에 대한 공통 처리
+   * @author FreshR
+   * @since 2023. 1. 12. 오후 6:17:40
+   */
   protected void remove(Sign updater) {
     this.updater = updater;
     this.useFlag = false;
     this.deleteFlag = true;
   }
 
+  /**
+   * Update.
+   *
+   * @param updater updater
+   * @apiNote 수정에 대한 공통 처리
+   * @author FreshR
+   * @since 2023. 1. 12. 오후 6:17:50
+   */
   protected void update(Sign updater) {
     this.updater = updater;
     this.updateAt = now();
   }
 
+  /**
+   * Check owner boolean.
+   *
+   * @param entity entity
+   * @return boolean
+   * @apiNote 데이터 작성자 본인인지 체크
+   * @author FreshR
+   * @since 2023. 1. 12. 오후 6:18:15
+   */
   public boolean checkOwner(Sign entity) {
     return creator.equals(entity);
   }

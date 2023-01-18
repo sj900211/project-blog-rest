@@ -34,12 +34,11 @@ public class AccountDocs {
       log.info("AccountDocs.Response.getInfo");
 
       return ResponseDocs
-          .Response
           .data()
 
           .prefixDescription("중간 관리자")
           .field(account.id, account.username, account.name, account.useFlag)
-          .linkField(account.privilege)
+          .linkField("account-docs-get-info-privilege", account.privilege)
 
           .prefixOptional()
           .field(account.signAt, account.removeAt, account.createAt, account.updateAt)

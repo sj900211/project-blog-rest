@@ -3,20 +3,19 @@ package run.freshr.domain.common.entity;
 import static lombok.AccessLevel.PROTECTED;
 import static run.freshr.utils.BeanUtil.getBean;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Index;
+import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import java.net.URL;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Index;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
-import javax.persistence.Transient;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.annotations.Comment;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
-import run.freshr.common.annotation.TableComment;
 import run.freshr.common.extension.entity.EntityAuditLogicalExtension;
 import run.freshr.domain.auth.entity.Sign;
 import run.freshr.service.MinioService;
@@ -37,7 +36,7 @@ import run.freshr.service.MinioService;
 @DynamicInsert
 @DynamicUpdate
 @NoArgsConstructor(access = PROTECTED)
-@TableComment(value = "공통 관리 > 파일 관리")
+@Comment(value = "공통 관리 > 파일 관리")
 public class Attach extends EntityAuditLogicalExtension {
 
   @Comment("파일 유형")

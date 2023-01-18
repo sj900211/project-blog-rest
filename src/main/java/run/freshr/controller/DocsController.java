@@ -13,6 +13,13 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+/**
+ * 문서 관리.
+ *
+ * @author FreshR
+ * @apiNote API 문서 View 클래스를 반환하는 기능들이 정의되어 있음.
+ * @since 2023. 1. 13. 오전 10:52:24
+ */
 @Slf4j
 @RestController
 public class DocsController {

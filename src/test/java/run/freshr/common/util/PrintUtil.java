@@ -34,7 +34,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
-import javax.persistence.Column;
+import jakarta.persistence.Column;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.annotations.Comment;
 import org.springframework.restdocs.payload.FieldDescriptor;
@@ -44,19 +44,56 @@ import org.springframework.restdocs.snippet.Attributes;
 import run.freshr.common.snippet.PopupFieldsSnippet;
 import run.freshr.enumeration.ColumnType;
 
+/**
+ * 문서 편의 기능 정의.
+ *
+ * @author FreshR
+ * @apiNote RestDocs 문서 편의 기능 정의
+ * @since 2023. 1. 18. 오후 5:04:38
+ */
 @Slf4j
 public class PrintUtil {
 
-  // Parameter Description 목록
+  /**
+   * {@link ParameterDescriptor} 목록
+   *
+   * @apiNote {@link ParameterDescriptor} 목록
+   * @since 2023. 1. 18. 오후 5:04:38
+   */
   private final List<ParameterDescriptor> parameterList = new ArrayList<>();
-  // Field Description 목록
+  /**
+   * {@link FieldDescriptor} 목록
+   *
+   * @apiNote {@link FieldDescriptor} 목록
+   * @since 2023. 1. 18. 오후 5:04:39
+   */
   private final List<FieldDescriptor> fieldList = new ArrayList<>();
-  // Popup Fields Description 목록
+  /**
+   * {@link PopupFieldsSnippet} 목록
+   *
+   * @apiNote {@link PopupFieldsSnippet} 목록
+   * @since 2023. 1. 18. 오후 5:04:39
+   */
   private final List<PopupFieldsSnippet> popupList = new ArrayList<>();
 
+  /**
+   * 생성자.
+   *
+   * @apiNote 생성자
+   * @author FreshR
+   * @since 2023. 1. 18. 오후 5:04:38
+   */
   public PrintUtil() {
   }
 
+  /**
+   * 생성자.
+   *
+   * @param builder builder
+   * @apiNote {@link Builder} 생성자
+   * @author FreshR
+   * @since 2023. 1. 18. 오후 5:04:38
+   */
   public PrintUtil(Builder builder) {
     log.info("PrintUtil.Constructor");
 
@@ -65,24 +102,56 @@ public class PrintUtil {
     this.popupList.addAll(builder.popupList);
   }
 
+  /**
+   * Builder.
+   *
+   * @return builder
+   * @apiNote builder
+   * @author FreshR
+   * @since 2023. 1. 18. 오후 5:04:38
+   */
   public static Builder builder() {
     log.info("PrintUtil.builder");
 
     return new Builder();
   }
 
+  /**
+   * {@link ParameterDescriptor} 목록 반환.
+   *
+   * @return parameter list
+   * @apiNote {@link ParameterDescriptor} 목록 반환
+   * @author FreshR
+   * @since 2023. 1. 18. 오후 5:04:38
+   */
   public List<ParameterDescriptor> getParameterList() {
     log.info("PrintUtil.getParameterList");
 
     return parameterList;
   }
 
+  /**
+   * {@link FieldDescriptor} 목록 반환
+   *
+   * @return field list
+   * @apiNote {@link FieldDescriptor} 목록 반환
+   * @author FreshR
+   * @since 2023. 1. 18. 오후 5:04:38
+   */
   public List<FieldDescriptor> getFieldList() {
     log.info("PrintUtil.getFieldList");
 
     return fieldList;
   }
 
+  /**
+   * {@link PopupFieldsSnippet} 목록 반환
+   *
+   * @return popup list
+   * @apiNote {@link PopupFieldsSnippet} 목록 반환
+   * @author FreshR
+   * @since 2023. 1. 18. 오후 5:04:38
+   */
   public List<PopupFieldsSnippet> getPopupList() {
     log.info("PrintUtil.getPopupList");
 
@@ -96,28 +165,96 @@ public class PrintUtil {
   // |  |_)  | |  `--'  | |  | |  `----.|  '--'  ||  |____ |  |\  \----.
   // |______/   \______/  |__| |_______||_______/ |_______|| _| `._____|
 
+  /**
+   * Builder.
+   *
+   * @author FreshR
+   * @apiNote Builder
+   * @since 2023. 1. 18. 오후 5:04:38
+   */
   public static class Builder {
 
-    // Parameter Description 목록
+    /**
+     * {@link ParameterDescriptor} 목록
+     *
+     * @apiNote {@link ParameterDescriptor} 목록
+     * @since 2023. 1. 18. 오후 5:04:38
+     */
     private final List<ParameterDescriptor> parameterList = new ArrayList<>();
-    // Field Description 목록
+    /**
+     * {@link FieldDescriptor} 목록
+     *
+     * @apiNote {@link FieldDescriptor} 목록
+     * @since 2023. 1. 18. 오후 5:04:39
+     */
     private final List<FieldDescriptor> fieldList = new ArrayList<>();
-    // Popup Fields Description 목록
+    /**
+     * {@link PopupFieldsSnippet} 목록
+     *
+     * @apiNote {@link PopupFieldsSnippet} 목록
+     * @since 2023. 1. 18. 오후 5:04:39
+     */
     private final List<PopupFieldsSnippet> popupList = new ArrayList<>();
-    private String prefix = ""; // prefix 문자
-    private String prefixDescription = ""; // prefix 설명
-    private Boolean prefixOptional = false; // prefix 필수 여부 설정
+    /**
+     * Prefix
+     *
+     * @apiNote parameter name & field path 의 prefix 설정<br>
+     * 설정한 이후 다시 설정하기 전까지는 모든 항목에 적용된다.
+     * @since 2023. 1. 18. 오후 5:04:43
+     */
+    private String prefix = "";
+    /**
+     * Prefix description
+     *
+     * @apiNote description 의 prefix 설정<br>
+     * 설정한 이후 다시 설정하기 전까지는 모든 항목에 적용된다.
+     * @since 2023. 1. 18. 오후 5:04:43
+     */
+    private String prefixDescription = "";
+    /**
+     * Prefix optional
+     *
+     * @apiNote 필수 항목 설정<br>
+     * 설정한 이후 다시 설정하기 전까지는 모든 항목에 적용된다.
+     * @since 2023. 1. 18. 오후 5:04:43
+     */
+    private Boolean prefixOptional = false;
 
+    /**
+     * 생성자.
+     *
+     * @apiNote 생성자
+     * @author FreshR
+     * @since 2023. 1. 18. 오후 5:04:39
+     */
     public Builder() {
       log.info("PrintUtil.Builder.Constructor");
     }
 
+    /**
+     * 객체 build.
+     *
+     * @return print util
+     * @apiNote 객체 build
+     * @author FreshR
+     * @since 2023. 1. 18. 오후 5:04:39
+     */
     public PrintUtil build() {
       log.info("PrintUtil.Builder.build");
 
       return new PrintUtil(this);
     }
 
+    /**
+     * Prefix.
+     *
+     * @param prefix prefix
+     * @return builder
+     * @apiNote parameter name & field path 의 prefix 설정<br>
+     * 설정한 이후 다시 설정하기 전까지는 모든 항목에 적용된다.
+     * @author FreshR
+     * @since 2023. 1. 18. 오후 5:04:39
+     */
     public Builder prefix(String prefix) {
       log.info("PrintUtil.Builder.prefix");
 
@@ -126,6 +263,16 @@ public class PrintUtil {
       return this;
     }
 
+    /**
+     * Prefix description.
+     *
+     * @param prefixDescription prefix description
+     * @return builder
+     * @apiNote description 의 prefix 설정<br>
+     * 설정한 이후 다시 설정하기 전까지는 모든 항목에 적용된다.
+     * @author FreshR
+     * @since 2023. 1. 18. 오후 5:04:39
+     */
     public Builder prefixDescription(String prefixDescription) {
       log.info("PrintUtil.Builder.prefixDescription");
 
@@ -134,12 +281,31 @@ public class PrintUtil {
       return this;
     }
 
+    /**
+     * Prefix optional.
+     *
+     * @return builder
+     * @apiNote 필수 항목 설정<br>
+     * 설정한 이후 다시 설정하기 전까지는 모든 항목에 적용된다.
+     * @author FreshR
+     * @since 2023. 1. 18. 오후 5:04:39
+     */
     public Builder prefixOptional() {
       log.info("PrintUtil.Builder.prefixOptional");
 
       return prefixOptional(true);
     }
 
+    /**
+     * Prefix optional.
+     *
+     * @param optional optional
+     * @return builder
+     * @apiNote 필수 항목 설정<br>
+     * 설정한 이후 다시 설정하기 전까지는 모든 항목에 적용된다.
+     * @author FreshR
+     * @since 2023. 1. 18. 오후 5:04:39
+     */
     public Builder prefixOptional(Boolean optional) {
       log.info("PrintUtil.Builder.prefixOptional");
 
@@ -148,6 +314,15 @@ public class PrintUtil {
       return this;
     }
 
+    /**
+     * Clear prefix.
+     *
+     * @return builder
+     * @apiNote parameter name & field path 의 prefix 설정 제거<br>
+     * 설정한 이후 다시 설정하기 전까지는 모든 항목에 적용된다.
+     * @author FreshR
+     * @since 2023. 1. 18. 오후 5:04:39
+     */
     public Builder clearPrefix() {
       log.info("PrintUtil.Builder.clearPrefix");
 
@@ -156,6 +331,15 @@ public class PrintUtil {
       return this;
     }
 
+    /**
+     * Clear prefix description.
+     *
+     * @return builder
+     * @apiNote description 의 prefix 설정 제거<br>
+     * 설정한 이후 다시 설정하기 전까지는 모든 항목에 적용된다.
+     * @author FreshR
+     * @since 2023. 1. 18. 오후 5:04:39
+     */
     public Builder clearPrefixDescription() {
       log.info("PrintUtil.Builder.clearPrefixDescription");
 
@@ -164,6 +348,15 @@ public class PrintUtil {
       return this;
     }
 
+    /**
+     * Clear optional.
+     *
+     * @return builder
+     * @apiNote 필수 항목 설정 제거<br>
+     * 설정한 이후 다시 설정하기 전까지는 모든 항목에 적용된다.
+     * @author FreshR
+     * @since 2023. 1. 18. 오후 5:04:39
+     */
     public Builder clearOptional() {
       log.info("PrintUtil.Builder.clearOptional");
 
@@ -172,6 +365,15 @@ public class PrintUtil {
       return this;
     }
 
+    /**
+     * Clear.
+     *
+     * @return builder
+     * @apiNote 모든 Prefix 설정 제거
+     * 설정한 이후 다시 설정하기 전까지는 모든 항목에 적용된다.
+     * @author FreshR
+     * @since 2023. 1. 18. 오후 5:04:39
+     */
     public Builder clear() {
       log.info("PrintUtil.Builder.clear");
 
@@ -189,6 +391,15 @@ public class PrintUtil {
     // |  |     /  _____  \  |  |\  \----./  _____  \  |  |  |  | |  |____     |  |     |  |____ |  |\  \----.
     // | _|    /__/     \__\ | _| `._____/__/     \__\ |__|  |__| |_______|    |__|     |_______|| _| `._____|
 
+    /**
+     * Parameter.
+     *
+     * @param paths paths
+     * @return builder
+     * @apiNote {@link Path} 정보로 {@link ParameterDescriptor} 생성
+     * @author FreshR
+     * @since 2023. 1. 18. 오후 5:04:39
+     */
     public Builder parameter(Path<?>... paths) {
       log.info("PrintUtil.Builder.parameter");
 
@@ -197,24 +408,64 @@ public class PrintUtil {
       return this;
     }
 
+    /**
+     * Parameter.
+     *
+     * @param path path
+     * @return builder
+     * @apiNote {@link Path} 정보로 {@link ParameterDescriptor} 생성
+     * @author FreshR
+     * @since 2023. 1. 18. 오후 5:04:39
+     */
     public Builder parameter(Path<?> path) {
       log.info("PrintUtil.Builder.parameter");
 
       return parameter(path, false, new Attributes.Attribute[0]);
     }
 
+    /**
+     * Parameter.
+     *
+     * @param path     path
+     * @param optional optional
+     * @return builder
+     * @apiNote {@link Path} 정보로 {@link ParameterDescriptor} 생성
+     * @author FreshR
+     * @since 2023. 1. 18. 오후 5:04:39
+     */
     public Builder parameter(Path<?> path, Boolean optional) {
       log.info("PrintUtil.Builder.parameter");
 
       return parameter(path, optional, new Attributes.Attribute[0]);
     }
 
+    /**
+     * Parameter.
+     *
+     * @param path       path
+     * @param attributes attributes
+     * @return builder
+     * @apiNote {@link Path} 정보로 {@link ParameterDescriptor} 생성
+     * @author FreshR
+     * @since 2023. 1. 18. 오후 5:04:39
+     */
     public Builder parameter(Path<?> path, Attributes.Attribute... attributes) {
       log.info("PrintUtil.Builder.parameter");
 
       return parameter(path, false, attributes);
     }
 
+    /**
+     * Parameter.
+     *
+     * @param path       path
+     * @param optional   optional
+     * @param attributes attributes
+     * @return builder
+     * @apiNote {@link Path} 정보로 {@link ParameterDescriptor} 생성
+     * @author FreshR
+     * @since 2023. 1. 18. 오후 5:04:39
+     */
     public Builder parameter(Path<?> path, Boolean optional, Attributes.Attribute... attributes) {
       log.info("PrintUtil.Builder.parameter");
 
@@ -229,24 +480,68 @@ public class PrintUtil {
       );
     }
 
+    /**
+     * Parameter.
+     *
+     * @param name        name
+     * @param description description
+     * @return builder
+     * @apiNote {@link ParameterDescriptor} 생성
+     * @author FreshR
+     * @since 2023. 1. 18. 오후 5:04:39
+     */
     public Builder parameter(String name, String description) {
       log.info("PrintUtil.Builder.parameter");
 
       return parameter(name, description, false, new Attributes.Attribute[0]);
     }
 
+    /**
+     * Parameter.
+     *
+     * @param name        name
+     * @param description description
+     * @param optional    optional
+     * @return builder
+     * @apiNote {@link ParameterDescriptor} 생성
+     * @author FreshR
+     * @since 2023. 1. 18. 오후 5:04:39
+     */
     public Builder parameter(String name, String description, Boolean optional) {
       log.info("PrintUtil.Builder.parameter");
 
       return parameter(name, description, optional, new Attributes.Attribute[0]);
     }
 
+    /**
+     * Parameter.
+     *
+     * @param name        name
+     * @param description description
+     * @param attributes  attributes
+     * @return builder
+     * @apiNote {@link ParameterDescriptor} 생성
+     * @author FreshR
+     * @since 2023. 1. 18. 오후 5:04:39
+     */
     public Builder parameter(String name, String description, Attributes.Attribute... attributes) {
       log.info("PrintUtil.Builder.parameter");
 
       return parameter(name, description, false, attributes);
     }
 
+    /**
+     * Parameter.
+     *
+     * @param maps maps
+     * @return builder
+     * @apiNote {@link HashMap} 정보로 {@link ParameterDescriptor} 생성<br>
+     * 여기서 사용되는 HashMap 데이터는 run.freshr:search-docs 의<br>
+     * SearchClass & SearchComment Annotation 을 사용한 클래스가 재구성되어<br>
+     * compile 시점에 만들어지는 class 의 정보
+     * @author FreshR
+     * @since 2023. 1. 18. 오후 5:04:40
+     */
     public Builder parameter(HashMap<?, ?>... maps) {
       log.info("PrintUtil.Builder.parameter");
 
@@ -255,12 +550,37 @@ public class PrintUtil {
       return this;
     }
 
+    /**
+     * Parameter.
+     *
+     * @param map map
+     * @return builder
+     * @apiNote {@link HashMap} 정보로 {@link ParameterDescriptor} 생성<br>
+     * 여기서 사용되는 HashMap 데이터는 run.freshr:search-docs 의<br>
+     * SearchClass & SearchComment Annotation 을 사용한 클래스가 재구성되어<br>
+     * compile 시점에 만들어지는 class 의 정보
+     * @author FreshR
+     * @since 2023. 1. 18. 오후 5:04:40
+     */
     public Builder parameter(HashMap<?, ?> map) {
       log.info("PrintUtil.Builder.parameter");
 
       return parameter(map, false);
     }
 
+    /**
+     * Parameter.
+     *
+     * @param map      map
+     * @param optional optional
+     * @return builder
+     * @apiNote {@link HashMap} 정보로 {@link ParameterDescriptor} 생성<br>
+     * 여기서 사용되는 HashMap 데이터는 run.freshr:search-docs 의<br>
+     * SearchClass & SearchComment Annotation 을 사용한 클래스가 재구성되어<br>
+     * compile 시점에 만들어지는 class 의 정보
+     * @author FreshR
+     * @since 2023. 1. 18. 오후 5:04:40
+     */
     public Builder parameter(HashMap<?, ?> map, Boolean optional) {
       log.info("PrintUtil.Builder.parameter");
 
@@ -278,6 +598,19 @@ public class PrintUtil {
       );
     }
 
+    /**
+     * Parameter.
+     *
+     * @param map         map
+     * @param description description
+     * @return builder
+     * @apiNote {@link HashMap} 정보로 {@link ParameterDescriptor} 생성<br>
+     * 여기서 사용되는 HashMap 데이터는 run.freshr:search-docs 의<br>
+     * SearchClass & SearchComment Annotation 을 사용한 클래스가 재구성되어<br>
+     * compile 시점에 만들어지는 class 의 정보
+     * @author FreshR
+     * @since 2023. 1. 18. 오후 5:04:40
+     */
     public Builder parameter(HashMap<?, ?> map, String description) {
       log.info("PrintUtil.Builder.parameter");
 
@@ -295,6 +628,18 @@ public class PrintUtil {
       );
     }
 
+    /**
+     * Parameter.
+     *
+     * @param name        name
+     * @param description description
+     * @param optional    optional
+     * @param attributes  attributes
+     * @return builder
+     * @apiNote {@link ParameterDescriptor} 생성
+     * @author FreshR
+     * @since 2023. 1. 18. 오후 5:04:40
+     */
     public Builder parameter(String name, String description, Boolean optional,
         Attributes.Attribute... attributes) {
       log.info("PrintUtil.Builder.parameter");
@@ -307,7 +652,18 @@ public class PrintUtil {
       );
     }
 
-    public Builder linkParameter(String groupName, Path<?>... paths) {
+    /**
+     * Link parameter.
+     *
+     * @param filename filename
+     * @param paths    paths
+     * @return builder
+     * @apiNote {@link Path} 정보로 팝업 {@link ParameterDescriptor} 생성<br>
+     * description 부분에 html a 요소로 링크를 생성해서 popup 링크를 연결
+     * @author FreshR
+     * @since 2023. 1. 18. 오후 5:04:40
+     */
+    public Builder linkParameter(String filename, Path<?>... paths) {
       log.info("PrintUtil.Builder.linkParameter");
 
       List.of(paths).forEach(this::parameter);
@@ -315,26 +671,74 @@ public class PrintUtil {
       return this;
     }
 
-    public Builder linkParameter(String groupName, Path<?> path) {
+    /**
+     * Link parameter.
+     *
+     * @param filename filename
+     * @param path     path
+     * @return builder
+     * @apiNote {@link Path} 정보로 팝업 {@link ParameterDescriptor} 생성<br>
+     * description 부분에 html a 요소로 링크를 생성해서 popup 링크를 연결
+     * @author FreshR
+     * @since 2023. 1. 18. 오후 5:04:40
+     */
+    public Builder linkParameter(String filename, Path<?> path) {
       log.info("PrintUtil.Builder.linkParameter");
 
-      return linkParameter(groupName, path, false, new Attributes.Attribute[0]);
+      return linkParameter(filename, path, false, new Attributes.Attribute[0]);
     }
 
-    public Builder linkParameter(String groupName, Path<?> path, Boolean optional) {
+    /**
+     * Link parameter.
+     *
+     * @param filename filename
+     * @param path     path
+     * @param optional optional
+     * @return builder
+     * @apiNote {@link Path} 정보로 팝업 {@link ParameterDescriptor} 생성<br>
+     * description 부분에 html a 요소로 링크를 생성해서 popup 링크를 연결
+     * @author FreshR
+     * @since 2023. 1. 18. 오후 5:04:40
+     */
+    public Builder linkParameter(String filename, Path<?> path, Boolean optional) {
       log.info("PrintUtil.Builder.linkParameter");
 
-      return linkParameter(groupName, path, optional, new Attributes.Attribute[0]);
+      return linkParameter(filename, path, optional, new Attributes.Attribute[0]);
     }
 
-    public Builder linkParameter(String groupName, Path<?> path,
+    /**
+     * Link parameter.
+     *
+     * @param filename   filename
+     * @param path       path
+     * @param attributes attributes
+     * @return builder
+     * @apiNote {@link Path} 정보로 팝업 {@link ParameterDescriptor} 생성<br>
+     * description 부분에 html a 요소로 링크를 생성해서 popup 링크를 연결
+     * @author FreshR
+     * @since 2023. 1. 18. 오후 5:04:40
+     */
+    public Builder linkParameter(String filename, Path<?> path,
         Attributes.Attribute... attributes) {
       log.info("PrintUtil.Builder.linkParameter");
 
-      return linkParameter(groupName, path, false, attributes);
+      return linkParameter(filename, path, false, attributes);
     }
 
-    public Builder linkParameter(String groupName, Path<?> path, Boolean optional,
+    /**
+     * Link parameter.
+     *
+     * @param filename   filename
+     * @param path       path
+     * @param optional   optional
+     * @param attributes attributes
+     * @return builder
+     * @apiNote {@link Path} 정보로 팝업 {@link ParameterDescriptor} 생성<br>
+     * description 부분에 html a 요소로 링크를 생성해서 popup 링크를 연결
+     * @author FreshR
+     * @since 2023. 1. 18. 오후 5:04:40
+     */
+    public Builder linkParameter(String filename, Path<?> path, Boolean optional,
         Attributes.Attribute... attributes) {
       log.info("PrintUtil.Builder.linkParameter");
 
@@ -342,7 +746,7 @@ public class PrintUtil {
       List<Attributes.Attribute> attributeList = attributeList(pathMap, attributes);
 
       return linkParameter(
-          groupName,
+          filename,
           Optional.of(pathMap.get("name").toString()).orElse(""),
           Optional.of(pathMap.get("description").toString()).orElse(""),
           optional,
@@ -350,27 +754,79 @@ public class PrintUtil {
       );
     }
 
-    public Builder linkParameter(String groupName, String name, String description) {
+    /**
+     * Link parameter.
+     *
+     * @param filename    filename
+     * @param name        name
+     * @param description description
+     * @return builder
+     * @apiNote 팝업 {@link ParameterDescriptor} 생성<br>
+     * description 부분에 html a 요소로 링크를 생성해서 popup 링크를 연결
+     * @author FreshR
+     * @since 2023. 1. 18. 오후 5:04:40
+     */
+    public Builder linkParameter(String filename, String name, String description) {
       log.info("PrintUtil.Builder.linkParameter");
 
-      return linkParameter(groupName, name, description, false, new Attributes.Attribute[0]);
+      return linkParameter(filename, name, description, false, new Attributes.Attribute[0]);
     }
 
-    public Builder linkParameter(String groupName, String name, String description,
+    /**
+     * Link parameter.
+     *
+     * @param filename    filename
+     * @param name        name
+     * @param description description
+     * @param optional    optional
+     * @return builder
+     * @apiNote 팝업 {@link ParameterDescriptor} 생성<br>
+     * description 부분에 html a 요소로 링크를 생성해서 popup 링크를 연결
+     * @author FreshR
+     * @since 2023. 1. 18. 오후 5:04:40
+     */
+    public Builder linkParameter(String filename, String name, String description,
         Boolean optional) {
       log.info("PrintUtil.Builder.linkParameter");
 
-      return linkParameter(groupName, name, description, optional, new Attributes.Attribute[0]);
+      return linkParameter(filename, name, description, optional, new Attributes.Attribute[0]);
     }
 
-    public Builder linkParameter(String groupName, String name, String description,
+    /**
+     * Link parameter.
+     *
+     * @param filename    filename
+     * @param name        name
+     * @param description description
+     * @param attributes  attributes
+     * @return builder
+     * @apiNote 팝업 {@link ParameterDescriptor} 생성<br>
+     * description 부분에 html a 요소로 링크를 생성해서 popup 링크를 연결
+     * @author FreshR
+     * @since 2023. 1. 18. 오후 5:04:40
+     */
+    public Builder linkParameter(String filename, String name, String description,
         Attributes.Attribute... attributes) {
       log.info("PrintUtil.Builder.linkParameter");
 
-      return linkParameter(groupName, name, description, false, attributes);
+      return linkParameter(filename, name, description, false, attributes);
     }
 
-    public Builder linkParameter(String groupName, HashMap<?, ?>... maps) {
+    /**
+     * Link parameter.
+     *
+     * @param filename filename
+     * @param maps     maps
+     * @return builder
+     * @apiNote {@link HashMap} 정보로 팝업 {@link ParameterDescriptor} 생성<br>
+     * description 부분에 html a 요소로 링크를 생성해서 popup 링크를 연결<br>
+     * 여기서 사용되는 HashMap 데이터는 run.freshr:search-docs 의<br>
+     * SearchClass & SearchComment Annotation 을 사용한 클래스가 재구성되어<br>
+     * compile 시점에 만들어지는 class 의 정보
+     * @author FreshR
+     * @since 2023. 1. 18. 오후 5:04:40
+     */
+    public Builder linkParameter(String filename, HashMap<?, ?>... maps) {
       log.info("PrintUtil.Builder.linkParameter");
 
       List.of(maps).forEach(this::parameter);
@@ -378,13 +834,42 @@ public class PrintUtil {
       return this;
     }
 
-    public Builder linkParameter(String groupName, HashMap<?, ?> map) {
+    /**
+     * Link parameter.
+     *
+     * @param filename filename
+     * @param map      map
+     * @return builder
+     * @apiNote {@link HashMap} 정보로 팝업 {@link ParameterDescriptor} 생성<br>
+     * description 부분에 html a 요소로 링크를 생성해서 popup 링크를 연결<br>
+     * 여기서 사용되는 HashMap 데이터는 run.freshr:search-docs 의<br>
+     * SearchClass & SearchComment Annotation 을 사용한 클래스가 재구성되어<br>
+     * compile 시점에 만들어지는 class 의 정보
+     * @author FreshR
+     * @since 2023. 1. 18. 오후 5:04:40
+     */
+    public Builder linkParameter(String filename, HashMap<?, ?> map) {
       log.info("PrintUtil.Builder.linkParameter");
 
-      return linkParameter(groupName, map, false);
+      return linkParameter(filename, map, false);
     }
 
-    public Builder linkParameter(String groupName, HashMap<?, ?> map, Boolean optional) {
+    /**
+     * Link parameter.
+     *
+     * @param filename filename
+     * @param map      map
+     * @param optional optional
+     * @return builder
+     * @apiNote {@link HashMap} 정보로 팝업 {@link ParameterDescriptor} 생성<br>
+     * description 부분에 html a 요소로 링크를 생성해서 popup 링크를 연결<br>
+     * 여기서 사용되는 HashMap 데이터는 run.freshr:search-docs 의<br>
+     * SearchClass & SearchComment Annotation 을 사용한 클래스가 재구성되어<br>
+     * compile 시점에 만들어지는 class 의 정보
+     * @author FreshR
+     * @since 2023. 1. 18. 오후 5:04:40
+     */
+    public Builder linkParameter(String filename, HashMap<?, ?> map, Boolean optional) {
       log.info("PrintUtil.Builder.linkParameter");
 
       List<Attributes.Attribute> attributeList = new ArrayList<>();
@@ -394,7 +879,7 @@ public class PrintUtil {
       }
 
       return linkParameter(
-          groupName,
+          filename,
           Optional.of(map.get("name").toString()).orElse(""),
           Optional.of(map.get("comment").toString()).orElse(""),
           optional,
@@ -402,7 +887,22 @@ public class PrintUtil {
       );
     }
 
-    public Builder linkParameter(String groupName, HashMap<?, ?> map, String description) {
+    /**
+     * Link parameter.
+     *
+     * @param filename    filename
+     * @param map         map
+     * @param description description
+     * @return builder
+     * @apiNote {@link HashMap} 정보로 팝업 {@link ParameterDescriptor} 생성<br>
+     * description 부분에 html a 요소로 링크를 생성해서 popup 링크를 연결<br>
+     * 여기서 사용되는 HashMap 데이터는 run.freshr:search-docs 의<br>
+     * SearchClass & SearchComment Annotation 을 사용한 클래스가 재구성되어<br>
+     * compile 시점에 만들어지는 class 의 정보
+     * @author FreshR
+     * @since 2023. 1. 18. 오후 5:04:41
+     */
+    public Builder linkParameter(String filename, HashMap<?, ?> map, String description) {
       log.info("PrintUtil.Builder.linkParameter");
 
       List<Attributes.Attribute> attributeList = new ArrayList<>();
@@ -412,7 +912,7 @@ public class PrintUtil {
       }
 
       return linkParameter(
-          groupName,
+          filename,
           Optional.of(map.get("name").toString()).orElse(""),
           description,
           prefixOptional,
@@ -420,19 +920,43 @@ public class PrintUtil {
       );
     }
 
-    public Builder linkParameter(String groupName, String name, String description,
+    /**
+     * Link parameter.
+     *
+     * @param filename    filename
+     * @param name        name
+     * @param description description
+     * @param optional    optional
+     * @param attributes  attributes
+     * @return builder
+     * @apiNote 팝업 {@link ParameterDescriptor} 생성<br>
+     * description 부분에 html a 요소로 링크를 생성해서 popup 링크를 연결
+     * @author FreshR
+     * @since 2023. 1. 18. 오후 5:04:41
+     */
+    public Builder linkParameter(String filename, String name, String description,
         Boolean optional, Attributes.Attribute... attributes) {
       log.info("PrintUtil.Builder.linkParameter");
 
       return optional(
           parameterWithName((hasLength(prefix) ? prefix + "." : "") + name)
-              .description("link:popup-" + groupName + "-" + name + "[" + prefixDescription + " "
+              .description("link:popup-" + filename + "[" + prefixDescription + " "
                   + description + ",role=\"popup\"]")
               .attributes(attributes),
           prefixOptional || optional
       );
     }
 
+    /**
+     * Optional.
+     *
+     * @param parameterDescriptor parameter descriptor
+     * @param optional            optional
+     * @return builder
+     * @apiNote {@link ParameterDescriptor} 필수 항목 여부 설정
+     * @author FreshR
+     * @since 2023. 1. 18. 오후 5:04:41
+     */
     private Builder optional(ParameterDescriptor parameterDescriptor, Boolean optional) {
       log.info("PrintUtil.Builder.optional");
 
@@ -448,6 +972,15 @@ public class PrintUtil {
     // |  |     |  | |  |____ |  `----.|  '--'  |
     // |__|     |__| |_______||_______||_______/
 
+    /**
+     * Field.
+     *
+     * @param paths paths
+     * @return builder
+     * @apiNote {@link Path} 정보로 {@link FieldDescriptor} 생성
+     * @author FreshR
+     * @since 2023. 1. 18. 오후 5:04:41
+     */
     public Builder field(Path<?>... paths) {
       log.info("PrintUtil.Builder.field");
 
@@ -456,60 +989,166 @@ public class PrintUtil {
       return this;
     }
 
+    /**
+     * Field.
+     *
+     * @param path path
+     * @return builder
+     * @apiNote {@link Path} 정보로 {@link FieldDescriptor} 생성
+     * @author FreshR
+     * @since 2023. 1. 18. 오후 5:04:41
+     */
     public Builder field(Path<?> path) {
       log.info("PrintUtil.Builder.field");
 
       return field(path, null, null, false);
     }
 
+    /**
+     * Field.
+     *
+     * @param path    path
+     * @param comment comment
+     * @return builder
+     * @apiNote {@link Path} 정보로 {@link FieldDescriptor} 생성
+     * @author FreshR
+     * @since 2023. 1. 18. 오후 5:04:41
+     */
     public Builder field(Path<?> path, String comment) {
       log.info("PrintUtil.Builder.field");
 
       return field(path, comment, null, false);
     }
 
+    /**
+     * Field.
+     *
+     * @param path path
+     * @param type type
+     * @return builder
+     * @apiNote {@link Path} 정보로 {@link FieldDescriptor} 생성
+     * @author FreshR
+     * @since 2023. 1. 18. 오후 5:04:41
+     */
     public Builder field(Path<?> path, JsonFieldType type) {
       log.info("PrintUtil.Builder.field");
 
       return field(path, null, type, false);
     }
 
+    /**
+     * Field.
+     *
+     * @param path     path
+     * @param optional optional
+     * @return builder
+     * @apiNote {@link Path} 정보로 {@link FieldDescriptor} 생성
+     * @author FreshR
+     * @since 2023. 1. 18. 오후 5:04:41
+     */
     public Builder field(Path<?> path, Boolean optional) {
       log.info("PrintUtil.Builder.field");
 
       return field(path, null, null, optional);
     }
 
+    /**
+     * Field.
+     *
+     * @param path     path
+     * @param comment  comment
+     * @param optional optional
+     * @return builder
+     * @apiNote {@link Path} 정보로 {@link FieldDescriptor} 생성
+     * @author FreshR
+     * @since 2023. 1. 18. 오후 5:04:41
+     */
     public Builder field(Path<?> path, String comment, Boolean optional) {
       log.info("PrintUtil.Builder.field");
 
       return field(path, comment, null, optional);
     }
 
+    /**
+     * Field.
+     *
+     * @param path    path
+     * @param comment comment
+     * @param type    type
+     * @return builder
+     * @apiNote {@link Path} 정보로 {@link FieldDescriptor} 생성
+     * @author FreshR
+     * @since 2023. 1. 18. 오후 5:04:41
+     */
     public Builder field(Path<?> path, String comment, JsonFieldType type) {
       log.info("PrintUtil.Builder.field");
 
       return field(path, comment, type, false);
     }
 
+    /**
+     * Field.
+     *
+     * @param path       path
+     * @param attributes attributes
+     * @return builder
+     * @apiNote {@link Path} 정보로 {@link FieldDescriptor} 생성
+     * @author FreshR
+     * @since 2023. 1. 18. 오후 5:04:41
+     */
     public Builder field(Path<?> path, Attributes.Attribute... attributes) {
       log.info("PrintUtil.Builder.field");
 
       return field(path, null, null, false, attributes);
     }
 
+    /**
+     * Field.
+     *
+     * @param path     path
+     * @param type     type
+     * @param optional optional
+     * @return builder
+     * @apiNote {@link Path} 정보로 {@link FieldDescriptor} 생성
+     * @author FreshR
+     * @since 2023. 1. 18. 오후 5:04:41
+     */
     public Builder field(Path<?> path, JsonFieldType type, Boolean optional) {
       log.info("PrintUtil.Builder.field");
 
       return field(path, null, type, optional);
     }
 
+    /**
+     * Field.
+     *
+     * @param path       path
+     * @param type       type
+     * @param attributes attributes
+     * @return builder
+     * @apiNote {@link Path} 정보로 {@link FieldDescriptor} 생성
+     * @author FreshR
+     * @since 2023. 1. 18. 오후 5:04:41
+     */
     public Builder field(Path<?> path, JsonFieldType type, Attributes.Attribute... attributes) {
       log.info("PrintUtil.Builder.field");
 
       return field(path, null, type, false, attributes);
     }
 
+    /**
+     * Field.
+     *
+     * @param path       path
+     * @param comment    comment
+     * @param type       type
+     * @param optional   optional
+     * @param attributes attributes
+     * @return builder
+     * @apiNote {@link Path} 정보로 {@link FieldDescriptor} 생성
+     * @author FreshR
+     * @since 2023. 1. 18. 오후 5:04:41
+     */
     public Builder field(Path<?> path, String comment, JsonFieldType type, Boolean optional,
         Attributes.Attribute... attributes) {
       log.info("PrintUtil.Builder.field");
@@ -528,18 +1167,53 @@ public class PrintUtil {
       );
     }
 
+    /**
+     * Field.
+     *
+     * @param name        name
+     * @param description description
+     * @param type        type
+     * @return builder
+     * @apiNote {@link FieldDescriptor} 생성
+     * @author FreshR
+     * @since 2023. 1. 18. 오후 5:04:41
+     */
     public Builder field(String name, String description, JsonFieldType type) {
       log.info("PrintUtil.Builder.field");
 
       return field(name, description, type, false, new Attributes.Attribute[0]);
     }
 
+    /**
+     * Field.
+     *
+     * @param name        name
+     * @param description description
+     * @param type        type
+     * @param optional    optional
+     * @return builder
+     * @apiNote {@link FieldDescriptor} 생성
+     * @author FreshR
+     * @since 2023. 1. 18. 오후 5:04:41
+     */
     public Builder field(String name, String description, JsonFieldType type, Boolean optional) {
       log.info("PrintUtil.Builder.field");
 
       return field(name, description, type, optional, new Attributes.Attribute[0]);
     }
 
+    /**
+     * Field.
+     *
+     * @param name        name
+     * @param description description
+     * @param type        type
+     * @param attributes  attributes
+     * @return builder
+     * @apiNote {@link FieldDescriptor} 생성
+     * @author FreshR
+     * @since 2023. 1. 18. 오후 5:04:41
+     */
     public Builder field(String name, String description, JsonFieldType type,
         Attributes.Attribute... attributes) {
       log.info("PrintUtil.Builder.field");
@@ -547,6 +1221,19 @@ public class PrintUtil {
       return field(name, description, type, false, attributes);
     }
 
+    /**
+     * Field.
+     *
+     * @param name        name
+     * @param description description
+     * @param type        type
+     * @param optional    optional
+     * @param attributes  attributes
+     * @return builder
+     * @apiNote {@link FieldDescriptor} 생성
+     * @author FreshR
+     * @since 2023. 1. 18. 오후 5:04:42
+     */
     public Builder field(String name, String description, JsonFieldType type, Boolean optional,
         Attributes.Attribute... attributes) {
       log.info("PrintUtil.Builder.field");
@@ -560,6 +1247,16 @@ public class PrintUtil {
       );
     }
 
+    /**
+     * Link field.
+     *
+     * @param paths paths
+     * @return builder
+     * @apiNote {@link Path} 정보로 팝업 {@link FieldDescriptor} 생성<br>
+     * description 부분에 html a 요소로 링크를 생성해서 popup 링크를 연결
+     * @author FreshR
+     * @since 2023. 1. 18. 오후 5:04:42
+     */
     public Builder linkField(Path<?>... paths) {
       log.info("PrintUtil.Builder.linkField");
 
@@ -568,61 +1265,205 @@ public class PrintUtil {
       return this;
     }
 
+    /**
+     * Link field.
+     *
+     * @param path path
+     * @return builder
+     * @apiNote {@link Path} 정보로 팝업 {@link FieldDescriptor} 생성<br>
+     * description 부분에 html a 요소로 링크를 생성해서 popup 링크를 연결
+     * @author FreshR
+     * @since 2023. 1. 18. 오후 5:04:42
+     */
     public Builder linkField(Path<?> path) {
       log.info("PrintUtil.Builder.linkField");
 
-      return linkField(path, null, null, false);
+      return linkField(null, path, null, null, false);
     }
 
-    public Builder linkField(Path<?> path, String comment) {
+    /**
+     * Link field.
+     *
+     * @param name name
+     * @param path path
+     * @return builder
+     * @apiNote {@link Path} 정보로 팝업 {@link FieldDescriptor} 생성<br>
+     * description 부분에 html a 요소로 링크를 생성해서 popup 링크를 연결
+     * @author FreshR
+     * @since 2023. 1. 18. 오후 5:04:42
+     */
+    public Builder linkField(String name, Path<?> path) {
       log.info("PrintUtil.Builder.linkField");
 
-      return linkField(path, comment, null, false);
+      return linkField(name, path, null, null, false);
     }
 
-    public Builder linkField(Path<?> path, JsonFieldType type) {
+    /**
+     * Link field.
+     *
+     * @param name    name
+     * @param path    path
+     * @param comment comment
+     * @return builder
+     * @apiNote {@link Path} 정보로 팝업 {@link FieldDescriptor} 생성<br>
+     * description 부분에 html a 요소로 링크를 생성해서 popup 링크를 연결
+     * @author FreshR
+     * @since 2023. 1. 18. 오후 5:04:42
+     */
+    public Builder linkField(String name, Path<?> path, String comment) {
       log.info("PrintUtil.Builder.linkField");
 
-      return linkField(path, null, type, false);
+      return linkField(name, path, comment, null, false);
     }
 
-    public Builder linkField(Path<?> path, Boolean optional) {
+    /**
+     * Link field.
+     *
+     * @param name name
+     * @param path path
+     * @param type type
+     * @return builder
+     * @apiNote {@link Path} 정보로 팝업 {@link FieldDescriptor} 생성<br>
+     * description 부분에 html a 요소로 링크를 생성해서 popup 링크를 연결
+     * @author FreshR
+     * @since 2023. 1. 18. 오후 5:04:42
+     */
+    public Builder linkField(String name, Path<?> path, JsonFieldType type) {
       log.info("PrintUtil.Builder.linkField");
 
-      return linkField(path, null, null, optional);
+      return linkField(name, path, null, type, false);
     }
 
-    public Builder linkField(Path<?> path, String comment, Boolean optional) {
+    /**
+     * Link field.
+     *
+     * @param name     name
+     * @param path     path
+     * @param optional optional
+     * @return builder
+     * @apiNote {@link Path} 정보로 팝업 {@link FieldDescriptor} 생성<br>
+     * description 부분에 html a 요소로 링크를 생성해서 popup 링크를 연결
+     * @author FreshR
+     * @since 2023. 1. 18. 오후 5:04:42
+     */
+    public Builder linkField(String name, Path<?> path, Boolean optional) {
       log.info("PrintUtil.Builder.linkField");
 
-      return linkField(path, comment, null, optional);
+      return linkField(name, path, null, null, optional);
     }
 
-    public Builder linkField(Path<?> path, String comment, JsonFieldType type) {
+    /**
+     * Link field.
+     *
+     * @param name     name
+     * @param path     path
+     * @param comment  comment
+     * @param optional optional
+     * @return builder
+     * @apiNote {@link Path} 정보로 팝업 {@link FieldDescriptor} 생성<br>
+     * description 부분에 html a 요소로 링크를 생성해서 popup 링크를 연결
+     * @author FreshR
+     * @since 2023. 1. 18. 오후 5:04:42
+     */
+    public Builder linkField(String name, Path<?> path, String comment, Boolean optional) {
       log.info("PrintUtil.Builder.linkField");
 
-      return linkField(path, comment, type, false);
+      return linkField(name, path, comment, null, optional);
     }
 
-    public Builder linkField(Path<?> path, Attributes.Attribute... attributes) {
+    /**
+     * Link field.
+     *
+     * @param name    name
+     * @param path    path
+     * @param comment comment
+     * @param type    type
+     * @return builder
+     * @apiNote {@link Path} 정보로 팝업 {@link FieldDescriptor} 생성<br>
+     * description 부분에 html a 요소로 링크를 생성해서 popup 링크를 연결
+     * @author FreshR
+     * @since 2023. 1. 18. 오후 5:04:42
+     */
+    public Builder linkField(String name, Path<?> path, String comment, JsonFieldType type) {
       log.info("PrintUtil.Builder.linkField");
 
-      return linkField(path, null, null, false, attributes);
+      return linkField(name, path, comment, type, false);
     }
 
-    public Builder linkField(Path<?> path, JsonFieldType type, Boolean optional) {
+    /**
+     * Link field.
+     *
+     * @param name       name
+     * @param path       path
+     * @param attributes attributes
+     * @return builder
+     * @apiNote {@link Path} 정보로 팝업 {@link FieldDescriptor} 생성<br>
+     * description 부분에 html a 요소로 링크를 생성해서 popup 링크를 연결
+     * @author FreshR
+     * @since 2023. 1. 18. 오후 5:04:42
+     */
+    public Builder linkField(String name, Path<?> path, Attributes.Attribute... attributes) {
       log.info("PrintUtil.Builder.linkField");
 
-      return linkField(path, null, type, optional);
+      return linkField(name, path, null, null, false, attributes);
     }
 
-    public Builder linkField(Path<?> path, JsonFieldType type, Attributes.Attribute... attributes) {
+    /**
+     * Link field.
+     *
+     * @param name     name
+     * @param path     path
+     * @param type     type
+     * @param optional optional
+     * @return builder
+     * @apiNote {@link Path} 정보로 팝업 {@link FieldDescriptor} 생성<br>
+     * description 부분에 html a 요소로 링크를 생성해서 popup 링크를 연결
+     * @author FreshR
+     * @since 2023. 1. 18. 오후 5:04:42
+     */
+    public Builder linkField(String name, Path<?> path, JsonFieldType type, Boolean optional) {
       log.info("PrintUtil.Builder.linkField");
 
-      return linkField(path, null, type, false, attributes);
+      return linkField(name, path, null, type, optional);
     }
 
-    public Builder linkField(Path<?> path, String comment, JsonFieldType type, Boolean optional,
+    /**
+     * Link field.
+     *
+     * @param name       name
+     * @param path       path
+     * @param type       type
+     * @param attributes attributes
+     * @return builder
+     * @apiNote {@link Path} 정보로 팝업 {@link FieldDescriptor} 생성<br>
+     * description 부분에 html a 요소로 링크를 생성해서 popup 링크를 연결
+     * @author FreshR
+     * @since 2023. 1. 18. 오후 5:04:42
+     */
+    public Builder linkField(String name, Path<?> path, JsonFieldType type,
+        Attributes.Attribute... attributes) {
+      log.info("PrintUtil.Builder.linkField");
+
+      return linkField(name, path, null, type, false, attributes);
+    }
+
+    /**
+     * Link field.
+     *
+     * @param name       name
+     * @param path       path
+     * @param comment    comment
+     * @param type       type
+     * @param optional   optional
+     * @param attributes attributes
+     * @return builder
+     * @apiNote {@link Path} 정보로 팝업 {@link FieldDescriptor} 생성<br>
+     * description 부분에 html a 요소로 링크를 생성해서 popup 링크를 연결
+     * @author FreshR
+     * @since 2023. 1. 18. 오후 5:04:42
+     */
+    public Builder linkField(String name, Path<?> path, String comment, JsonFieldType type,
+        Boolean optional,
         Attributes.Attribute... attributes) {
       log.info("PrintUtil.Builder.linkField");
 
@@ -632,7 +1473,7 @@ public class PrintUtil {
       String description = ofNullable(comment).orElse(pathMap.get("description").toString());
 
       return linkField(
-          path.getType().getSimpleName(),
+          ofNullable(name).orElse(path.getType().getSimpleName()),
           Optional.of(pathMap.get("name").toString()).orElse(""),
           description,
           jsonFieldType,
@@ -641,6 +1482,21 @@ public class PrintUtil {
       );
     }
 
+    /**
+     * Link field.
+     *
+     * @param className   class name
+     * @param name        name
+     * @param description description
+     * @param type        type
+     * @param optional    optional
+     * @param attributes  attributes
+     * @return builder
+     * @apiNote 팝업 {@link FieldDescriptor} 생성<br>
+     * description 부분에 html a 요소로 링크를 생성해서 popup 링크를 연결
+     * @author FreshR
+     * @since 2023. 1. 18. 오후 5:04:42
+     */
     public Builder linkField(String className, String name, String description, JsonFieldType type,
         Boolean optional, Attributes.Attribute... attributes) {
       log.info("PrintUtil.Builder.linkField");
@@ -656,6 +1512,16 @@ public class PrintUtil {
       );
     }
 
+    /**
+     * Optional.
+     *
+     * @param fieldDescriptor field descriptor
+     * @param optional        optional
+     * @return builder
+     * @apiNote {@link FieldDescriptor} 필수 항목 여부 설정
+     * @author FreshR
+     * @since 2023. 1. 18. 오후 5:04:42
+     */
     private Builder optional(FieldDescriptor fieldDescriptor, Boolean optional) {
       log.info("PrintUtil.Builder.optional");
 
@@ -663,6 +1529,15 @@ public class PrintUtil {
       return this;
     }
 
+    /**
+     * Add field.
+     *
+     * @param fieldDescriptorList field descriptor list
+     * @return builder
+     * @apiNote {@link FieldDescriptor} 목록을 Builder 에 추가
+     * @author FreshR
+     * @since 2023. 1. 18. 오후 5:04:42
+     */
     public Builder addField(List<FieldDescriptor> fieldDescriptorList) {
       log.info("PrintUtil.Builder.addField");
 
@@ -670,6 +1545,16 @@ public class PrintUtil {
       return this;
     }
 
+    /**
+     * Popup.
+     *
+     * @param title               title
+     * @param fieldDescriptorList field descriptor list
+     * @return builder
+     * @apiNote {@link FieldDescriptor} 정보로 {@link PopupFieldsSnippet} 생성
+     * @author FreshR
+     * @since 2023. 1. 18. 오후 5:04:42
+     */
     public Builder popup(String title, List<FieldDescriptor> fieldDescriptorList) {
       log.info("PrintUtil.Builder.popup");
 
@@ -683,6 +1568,16 @@ public class PrintUtil {
       return this;
     }
 
+    /**
+     * Popup data.
+     *
+     * @param title               title
+     * @param fieldDescriptorList field descriptor list
+     * @return builder
+     * @apiNote {@link FieldDescriptor} 정보로 {@link PopupFieldsSnippet} 생성
+     * @author FreshR
+     * @since 2023. 1. 18. 오후 5:04:43
+     */
     public Builder popupData(String title, List<FieldDescriptor> fieldDescriptorList) {
       log.info("PrintUtil.Builder.popupData");
 
@@ -696,6 +1591,16 @@ public class PrintUtil {
       return this;
     }
 
+    /**
+     * Popup list.
+     *
+     * @param title               title
+     * @param fieldDescriptorList field descriptor list
+     * @return builder
+     * @apiNote {@link FieldDescriptor} 정보로 {@link PopupFieldsSnippet} 생성
+     * @author FreshR
+     * @since 2023. 1. 18. 오후 5:04:43
+     */
     public Builder popupList(String title, List<FieldDescriptor> fieldDescriptorList) {
       log.info("PrintUtil.Builder.popupList");
 
@@ -709,6 +1614,16 @@ public class PrintUtil {
       return this;
     }
 
+    /**
+     * Popup page.
+     *
+     * @param title               title
+     * @param fieldDescriptorList field descriptor list
+     * @return builder
+     * @apiNote {@link FieldDescriptor} 정보로 {@link PopupFieldsSnippet} 생성
+     * @author FreshR
+     * @since 2023. 1. 18. 오후 5:04:43
+     */
     public Builder popupPage(String title, List<FieldDescriptor> fieldDescriptorList) {
       log.info("PrintUtil.Builder.popupPage");
 
@@ -729,6 +1644,15 @@ public class PrintUtil {
     // |  `----.|  `--'  | |  |  |  | |  |  |  | |  `--'  | |  |\   |
     //  \______| \______/  |__|  |__| |__|  |__|  \______/  |__| \__|
 
+    /**
+     * Path map.
+     *
+     * @param path path
+     * @return hash map
+     * @apiNote {@link Path} 정보를 {@link HashMap} 으로 변환
+     * @author FreshR
+     * @since 2023. 1. 18. 오후 5:04:43
+     */
     public HashMap<String, Object> pathMap(Path<?> path) {
       log.info("PrintUtil.Builder.pathMap");
 
@@ -764,6 +1688,16 @@ public class PrintUtil {
       return map;
     }
 
+    /**
+     * Attribute list.
+     *
+     * @param pathMap    path map
+     * @param attributes attributes
+     * @return list
+     * @apiNote {@link HashMap} 정보를 기준으로 추가 속성을 설정
+     * @author FreshR
+     * @since 2023. 1. 18. 오후 5:04:43
+     */
     private List<Attributes.Attribute> attributeList(HashMap<String, Object> pathMap,
         Attributes.Attribute... attributes) {
       log.info("PrintUtil.Builder.attributeList");
@@ -784,6 +1718,15 @@ public class PrintUtil {
       return attributeList;
     }
 
+    /**
+     * 컬럼 유형 조회.
+     *
+     * @param type type
+     * @return column type
+     * @apiNote 데이터 유형으로 Database 데이터 유형 조회
+     * @author FreshR
+     * @since 2023. 1. 18. 오후 5:04:43
+     */
     private ColumnType getColumnType(String type) {
       log.info("PrintUtil.Builder.getColumnType");
 
@@ -850,6 +1793,15 @@ public class PrintUtil {
       return columnType;
     }
 
+    /**
+     * Json 유형 조회.
+     *
+     * @param columnType column type
+     * @return json type
+     * @apiNote 데이터 유형으로 Json 데이터 유형 조회
+     * @author FreshR
+     * @since 2023. 1. 18. 오후 5:04:43
+     */
     private JsonFieldType getJsonType(ColumnType columnType) {
       log.info("PrintUtil.Builder.getJsonType");
 

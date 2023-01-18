@@ -1,5 +1,6 @@
 package run.freshr.service;
 
+import static java.util.Objects.requireNonNull;
 import static run.freshr.common.utils.RestUtil.error;
 import static run.freshr.common.utils.RestUtil.getConfig;
 import static run.freshr.common.utils.RestUtil.getExceptions;
@@ -23,7 +24,6 @@ import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.time.Duration;
 import java.time.LocalDateTime;
-import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +33,7 @@ import org.springframework.transaction.annotation.Transactional;
 import run.freshr.common.data.ResponseData;
 import run.freshr.common.data.ResponseData.ResponseDataBuilder;
 import run.freshr.common.dto.response.KeyResponse;
-import run.freshr.common.security.JwtTokenProvider;
+import run.freshr.common.security.TokenProvider;
 import run.freshr.domain.auth.dto.request.EncryptRequest;
 import run.freshr.domain.auth.dto.request.RefreshTokenRequest;
 import run.freshr.domain.auth.dto.request.SignChangePasswordRequest;
@@ -68,7 +68,7 @@ public class AuthServiceImpl implements AuthService {
   private final RefreshRedisUnit authRefreshUnit;
   private final RsaPairUnit rsaPairUnit;
 
-  private final JwtTokenProvider provider;
+  private final TokenProvider provider;
   private final PasswordEncoder passwordEncoder;
 
   @Override
@@ -152,13 +152,15 @@ public class AuthServiceImpl implements AuthService {
 
   @Override
   @Transactional
-  public ResponseEntity<?> signOut(HttpServletRequest request) {
+  public ResponseEntity<?> signOut() {
     log.info("AuthService.signOut");
 
-    String token = provider.resolve(request);
+    Long signedId = getSignedId();
 
-    authRefreshUnit.delete(authAccessUnit.get(token));
-    authAccessUnit.delete(token);
+    AccessRedis accessRedis = authAccessUnit.get(signedId);
+
+    authRefreshUnit.delete(accessRedis);
+    authAccessUnit.delete(signedId);
 
     return ok();
   }
@@ -227,15 +229,15 @@ public class AuthServiceImpl implements AuthService {
     String encodePrivateKey = redis.getPrivateKey();
 
     if (signedRole.equals(ROLE_USER)) {
-      getSignedAccount().updateEntity(decryptRsa(dto.getName(), encodePrivateKey));
+      requireNonNull(getSignedAccount()).updateEntity(decryptRsa(dto.getName(), encodePrivateKey));
     }
 
     if (!(!signedRole.equals(ROLE_DELTA) && !signedRole.equals(ROLE_GAMMA))) {
-      getSignedStaff().updateEntity(decryptRsa(dto.getName(), encodePrivateKey));
+      requireNonNull(getSignedStaff()).updateEntity(decryptRsa(dto.getName(), encodePrivateKey));
     }
 
     if (!(!signedRole.equals(ROLE_BETA) && !signedRole.equals(ROLE_ALPHA))) {
-      getSignedManager().updateEntity(decryptRsa(dto.getName(), encodePrivateKey));
+      requireNonNull(getSignedManager()).updateEntity(decryptRsa(dto.getName(), encodePrivateKey));
     }
 
     return ok();
@@ -250,15 +252,15 @@ public class AuthServiceImpl implements AuthService {
     Long id = getSignedId();
 
     if (signedRole.equals(ROLE_USER)) {
-      getSignedAccount().removeEntity();
+      requireNonNull(getSignedAccount()).removeEntity();
     }
 
     if (!(!signedRole.equals(ROLE_DELTA) && !signedRole.equals(ROLE_GAMMA))) {
-      getSignedStaff().removeEntity();
+      requireNonNull(getSignedStaff()).removeEntity();
     }
 
     if (!(!signedRole.equals(ROLE_BETA) && !signedRole.equals(ROLE_ALPHA))) {
-      getSignedManager().removeEntity();
+      requireNonNull(getSignedManager()).removeEntity();
     }
 
     authRefreshUnit.delete(authAccessUnit.get(id));

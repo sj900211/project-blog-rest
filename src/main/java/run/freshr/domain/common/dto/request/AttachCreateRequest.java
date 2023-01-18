@@ -1,7 +1,7 @@
 package run.freshr.domain.common.dto.request;
 
+import jakarta.validation.constraints.NotEmpty;
 import java.util.List;
-import javax.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,7 +18,6 @@ public class AttachCreateRequest {
 
   private String title;
 
-  @NotEmpty
   private String directory;
 
   @NotEmpty

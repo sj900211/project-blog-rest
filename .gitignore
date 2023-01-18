@@ -38,6 +38,7 @@ out/
 
 ### Fresh ###
 .log
+.files
 .http
 **/src/docs
 **/src/main/resources/templates/docs

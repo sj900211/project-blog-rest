@@ -1,31 +1,50 @@
 package run.freshr.common.security;
 
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
-import static run.freshr.common.security.JwtTokenProvider.signedId;
-import static run.freshr.common.security.JwtTokenProvider.signedRole;
+import static run.freshr.common.security.TokenProvider.signedId;
+import static run.freshr.common.security.TokenProvider.signedRole;
 
 import io.jsonwebtoken.ExpiredJwtException;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Arrays;
-import javax.servlet.FilterChain;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+/**
+ * 권한 Filter.
+ *
+ * @author FreshR
+ * @apiNote 권한 Filter
+ * @since 2023. 1. 12. 오후 6:54:32
+ */
 @Slf4j
 @RequiredArgsConstructor
-public class JwtAuthenticationFilter extends OncePerRequestFilter {
+public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
-  private JwtTokenProvider provider;
+  private TokenProvider provider;
 
-  public JwtAuthenticationFilter(JwtTokenProvider provider) {
+  public TokenAuthenticationFilter(TokenProvider provider) {
     this.provider = provider;
   }
 
+  /**
+   * filter 프로세스.
+   *
+   * @param request     request
+   * @param response    response
+   * @param filterChain filter chain
+   * @apiNote {@link TokenProvider} 를 사용해서<br>
+   * 요청 정보에서 토큰을 조회, 검증하는 단계를 거쳐<br>
+   * 인증 처리
+   * @author FreshR
+   * @since 2023. 1. 12. 오후 6:54:32
+   */
   @Override
   protected void doFilterInternal(@NotNull HttpServletRequest request,
       @NotNull HttpServletResponse response, @NotNull FilterChain filterChain) {

@@ -30,7 +30,6 @@ public class CryptoDocs {
       log.info("CryptoDocs.Request.getPublicKey");
 
       return ResponseDocs
-          .Response
           .data()
 
           .field("key", "BASE64 로 인코딩된 RSA 공개키", STRING)
@@ -43,7 +42,6 @@ public class CryptoDocs {
       log.info("CryptoDocs.Response.getEncryptRsa");
 
       return ResponseDocs
-          .Response
           .data()
 
           .field("encrypt", "RSA 암호화 문자", STRING)

@@ -10,6 +10,13 @@ import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactor
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
 
+/**
+ * Redis 연결 설정.
+ *
+ * @author FreshR
+ * @apiNote 설정한 Redis 정보로 연결 설정
+ * @since 2023. 1. 12. 오후 5:51:46
+ */
 @Configuration
 @EnableRedisRepositories
 @RequiredArgsConstructor

@@ -1,17 +1,24 @@
 package run.freshr.common.extension.entity;
 
-import static javax.persistence.GenerationType.IDENTITY;
+import static jakarta.persistence.GenerationType.IDENTITY;
 
+import jakarta.persistence.EntityListeners;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.MappedSuperclass;
 import java.time.LocalDateTime;
-import javax.persistence.EntityListeners;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
 import lombok.Getter;
 import org.hibernate.annotations.Comment;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+/**
+ * 물리 삭제 정책을 가진 MappedSuperclass.
+ *
+ * @author FreshR
+ * @apiNote api note
+ * @since 2023. 1. 12. 오후 6:19:22
+ */
 @Getter
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)

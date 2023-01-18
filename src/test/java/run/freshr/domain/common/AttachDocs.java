@@ -31,13 +31,10 @@ public class AttachDocs {
 
           .prefixDescription("첨부 파일")
 
-          .parameter("directory", "파일이 저장될 디렉토리 이름")
-
           .prefixOptional()
 
+          .parameter("directory", "저장될 디렉토리 이름")
           .parameter(attach.alt, attach.title)
-          .parameter("limit", "파일 용량 제한. 입력한 값이 없으면 10MB로 기본설정. 단위 : MB")
-          .parameter("sort", "정렬 순서 기준")
 
           .build()
           .getParameterList();
@@ -91,7 +88,6 @@ public class AttachDocs {
       log.info("AttachDocs.Response.createAttach");
 
       return ResponseDocs
-          .Response
           .list()
 
           .prefixDescription("첨부 파일")
@@ -106,7 +102,6 @@ public class AttachDocs {
       log.info("AttachDocs.Response.existAttach");
 
       return ResponseDocs
-          .Response
           .data()
 
           .prefixDescription("첨부 파일")
@@ -121,7 +116,6 @@ public class AttachDocs {
       log.info("AttachDocs.Response.getAttach");
 
       return ResponseDocs
-          .Response
           .data()
 
           .prefixDescription("첨부 파일")

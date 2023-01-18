@@ -5,13 +5,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import run.freshr.common.extension.response.ResponseExtension;
+import run.freshr.common.extension.response.ResponseLogicalExtension;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class AttachResponse extends ResponseExtension<Long> {
+public class AttachResponse extends ResponseLogicalExtension<Long> {
 
   private String contentType;
 

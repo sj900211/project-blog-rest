@@ -23,8 +23,8 @@ import static run.freshr.TestRunner.betaId;
 import static run.freshr.TestRunner.deltaId;
 import static run.freshr.TestRunner.gammaId;
 import static run.freshr.TestRunner.userId;
-import static run.freshr.common.security.JwtTokenProvider.signedId;
-import static run.freshr.common.security.JwtTokenProvider.signedRole;
+import static run.freshr.common.security.TokenProvider.signedId;
+import static run.freshr.common.security.TokenProvider.signedRole;
 import static run.freshr.domain.auth.enumeration.Role.ROLE_ALPHA;
 import static run.freshr.domain.auth.enumeration.Role.ROLE_ANONYMOUS;
 import static run.freshr.domain.auth.enumeration.Role.ROLE_BETA;
@@ -34,7 +34,7 @@ import static run.freshr.domain.auth.enumeration.Role.ROLE_USER;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
-import javax.persistence.EntityManager;
+import jakarta.persistence.EntityManager;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestInstance;
@@ -61,10 +61,17 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import run.freshr.common.extension.request.SearchExtension;
-import run.freshr.common.security.JwtTokenProvider;
+import run.freshr.common.security.TokenProvider;
 import run.freshr.domain.auth.enumeration.Role;
 import run.freshr.service.TestService;
 
+/**
+ * 공통 테스트 설정 및 기능을 정의.
+ *
+ * @author FreshR
+ * @apiNote 공통 테스트 설정 및 기능을 정의
+ * @since 2023. 1. 13. 오전 11:02:06
+ */
 @Slf4j
 @ExtendWith({RestDocumentationExtension.class, SpringExtension.class})
 @SpringBootTest
@@ -72,12 +79,12 @@ import run.freshr.service.TestService;
 @AutoConfigureMockMvc
 @Transactional
 @TestInstance(PER_CLASS)
-public class TestExtension {
+public abstract class TestExtension {
 
   @Autowired
   protected ObjectMapper objectMapper;
   @Autowired
-  protected JwtTokenProvider provider;
+  protected TokenProvider provider;
   @Autowired
   protected TestService service;
   @Autowired
@@ -85,17 +92,22 @@ public class TestExtension {
   private MockMvc mockMvc;
   private RestDocumentationResultHandler document;
 
+  private final String SCHEME = "https";
+  private final String HOST = "rest.freshr.run";
+  private final String DOCS_PATH = "{class-name}/{method-name}";
+  private final String POPUP_DOCS_PATH = DOCS_PATH + "/popup";
+
   @BeforeEach
   public void beforeEach(WebApplicationContext webApplicationContext,
       RestDocumentationContextProvider restDocumentation) {
     log.info("TestExtension.beforeEach");
 
     this.document = document(
-        "{class-name}/{method-name}", // 문서 경로 설정
+        DOCS_PATH, // 문서 경로 설정
         preprocessRequest( // Request 설정
             modifyUris()
-                .scheme("http")
-                .host("localhost"), // 문서에 노출되는 도메인 설정
+                .scheme(SCHEME)
+                .host(HOST), // 문서에 노출되는 도메인 설정
             prettyPrint() // 정리해서 출력
         ),
         preprocessResponse(prettyPrint()) // Response 설정. 정리해서 출력
@@ -109,6 +121,13 @@ public class TestExtension {
         .build();
   }
 
+  /**
+   * 데이터 반영.
+   *
+   * @apiNote 지금까지의 영속성 컨텍스트 내용을 DB 에 반영
+   * @author FreshR
+   * @since 2023. 1. 13. 오전 11:02:06
+   */
   protected void apply() {
     log.info("TestExtension.apply");
 
@@ -116,6 +135,15 @@ public class TestExtension {
     entityManager.clear(); // 영속성 컨텍스트 초기화
   }
 
+  /**
+   * Request Header 설정.
+   *
+   * @param mockHttpServletRequestBuilder mock http servlet request builder
+   * @return header
+   * @apiNote 기본적인 Request Header 설정
+   * @author FreshR
+   * @since 2023. 1. 13. 오전 11:02:07
+   */
   private MockHttpServletRequestBuilder setHeader(
       MockHttpServletRequestBuilder mockHttpServletRequestBuilder) {
     log.info("TestExtension.setHeader");
@@ -125,6 +153,15 @@ public class TestExtension {
         .accept(APPLICATION_JSON);
   }
 
+  /**
+   * Request Header 설정.
+   *
+   * @param mockHttpServletRequestBuilder mock http servlet request builder
+   * @return multipart
+   * @apiNote multipart/form-data 설정
+   * @author FreshR
+   * @since 2023. 1. 13. 오전 11:02:07
+   */
   private MockHttpServletRequestBuilder setMultipart(
       MockHttpServletRequestBuilder mockHttpServletRequestBuilder) {
     log.info("TestExtension.setMultipart");
@@ -134,12 +171,35 @@ public class TestExtension {
         .accept(APPLICATION_JSON);
   }
 
+  /**
+   * POST 통신.
+   *
+   * @param uri           uri
+   * @param pathVariables path variables
+   * @return result actions
+   * @throws Exception exception
+   * @apiNote Path Parameter 외에 설정한 정보가 없는 통신
+   * @author FreshR
+   * @since 2023. 1. 13. 오전 11:02:07
+   */
   public ResultActions POST(String uri, Object... pathVariables) throws Exception {
     log.info("TestExtension.POST");
 
     return mockMvc.perform(setHeader(post(uri, pathVariables)));
   }
 
+  /**
+   * POST 통신.
+   *
+   * @param uri           uri
+   * @param token         token
+   * @param pathVariables path variables
+   * @return result actions
+   * @throws Exception exception
+   * @apiNote Authorization 에 JWT 토큰을 따로 설정
+   * @author FreshR
+   * @since 2023. 1. 13. 오전 11:02:07
+   */
   public ResultActions POST_TOKEN(String uri, String token, Object... pathVariables)
       throws Exception {
     log.info("TestExtension.POST_TOKEN");
@@ -149,6 +209,19 @@ public class TestExtension {
             .header("Authorization", "Bearer " + token));
   }
 
+  /**
+   * POST 통신.
+   *
+   * @param <T>           type parameter
+   * @param uri           uri
+   * @param content       content
+   * @param pathVariables path variables
+   * @return result actions
+   * @throws Exception exception
+   * @apiNote Request Body 를 설정
+   * @author FreshR
+   * @since 2023. 1. 13. 오전 11:02:07
+   */
   public <T> ResultActions POST_BODY(String uri, T content, Object... pathVariables)
       throws Exception {
     log.info("TestExtension.POST_BODY");
@@ -158,6 +231,19 @@ public class TestExtension {
             .content(objectMapper.writeValueAsString(content)));
   }
 
+  /**
+   * POST 통신.
+   *
+   * @param uri               uri
+   * @param directory         directory
+   * @param mockMultipartFile mock multipart file
+   * @param pathVariables     path variables
+   * @return result actions
+   * @throws Exception exception
+   * @apiNote Multipart 설정
+   * @author FreshR
+   * @since 2023. 1. 13. 오전 11:02:07
+   */
   public ResultActions POST_MULTIPART(String uri, String directory,
       MockMultipartFile mockMultipartFile, Object... pathVariables) throws Exception {
     log.info("TestExtension.POST_MULTIPART");
@@ -172,12 +258,36 @@ public class TestExtension {
     return mockMvc.perform(setMultipart(file));
   }
 
+  /**
+   * GET 통신.
+   *
+   * @param uri           uri
+   * @param pathVariables path variables
+   * @return result actions
+   * @throws Exception exception
+   * @apiNote Path Parameter 외에 설정한 정보가 없는 통신
+   * @author FreshR
+   * @since 2023. 1. 13. 오전 11:02:07
+   */
   public ResultActions GET(String uri, Object... pathVariables) throws Exception {
     log.info("TestExtension.GET");
 
     return mockMvc.perform(setHeader(get(uri, pathVariables)));
   }
 
+  /**
+   * GET 통신.
+   *
+   * @param <T>           type parameter
+   * @param uri           uri
+   * @param search        search
+   * @param pathVariables path variables
+   * @return result actions
+   * @throws Exception exception
+   * @apiNote Request Parameter 설정
+   * @author FreshR
+   * @since 2023. 1. 13. 오전 11:02:07
+   */
   public <T extends SearchExtension> ResultActions GET_PARAM(String uri, T search,
       Object... pathVariables) throws Exception {
     log.info("TestExtension.GET_PARAM");
@@ -241,12 +351,36 @@ public class TestExtension {
     return mockMvc.perform(setHeader(mockHttpServletRequestBuilder));
   }
 
+  /**
+   * PUT 통신.
+   *
+   * @param uri           uri
+   * @param pathVariables path variables
+   * @return result actions
+   * @throws Exception exception
+   * @apiNote Path Parameter 외에 설정한 정보가 없는 통신
+   * @author FreshR
+   * @since 2023. 1. 13. 오전 11:02:07
+   */
   public ResultActions PUT(String uri, Object... pathVariables) throws Exception {
     log.info("TestExtension.PUT");
 
     return mockMvc.perform(setHeader(put(uri, pathVariables)));
   }
 
+  /**
+   * PUT 통신.
+   *
+   * @param <T>           type parameter
+   * @param uri           uri
+   * @param content       content
+   * @param pathVariables path variables
+   * @return result actions
+   * @throws Exception exception
+   * @apiNote Request Body 설정
+   * @author FreshR
+   * @since 2023. 1. 13. 오전 11:02:07
+   */
   public <T> ResultActions PUT_BODY(String uri, T content, Object... pathVariables)
       throws Exception {
     log.info("TestExtension.PUT_BODY");
@@ -255,27 +389,56 @@ public class TestExtension {
         setHeader(put(uri, pathVariables)).content(objectMapper.writeValueAsString(content)));
   }
 
+  /**
+   * DELETE 통신.
+   *
+   * @param uri           uri
+   * @param pathVariables path variables
+   * @return result actions
+   * @throws Exception exception
+   * @apiNote Path Parameter 외에 설정한 정보가 없는 통신
+   * @author FreshR
+   * @since 2023. 1. 13. 오전 11:02:07
+   */
   public ResultActions DELETE(String uri, Object... pathVariables) throws Exception {
     log.info("TestExtension.DELETE");
 
     return mockMvc.perform(setHeader(delete(uri, pathVariables)));
   }
 
+  /**
+   * Document 작성.
+   *
+   * @param snippets snippets
+   * @return rest documentation result handler
+   * @apiNote 코드를 조금이라도 짧게 만들고 싶어서 만든 기능...⭐
+   * @author FreshR
+   * @since 2023. 1. 13. 오전 11:02:07
+   */
   protected RestDocumentationResultHandler docs(Snippet... snippets) {
     log.info("TestExtension.docs");
 
     return document.document(snippets);
   }
 
+  /**
+   * 팝업 문서 설정.
+   *
+   * @param snippets snippets
+   * @return rest documentation result handler
+   * @apiNote 팝업 문서 설정
+   * @author FreshR
+   * @since 2023. 1. 13. 오전 11:02:07
+   */
   protected RestDocumentationResultHandler docsPopup(Snippet... snippets) {
     log.info("TestExtension.docsPopup");
 
     this.document = document(
-        "{class-name}/{method-name}/popup", // 문서 경로 설정
+        POPUP_DOCS_PATH, // 문서 경로 설정
         preprocessRequest( // Request 설정
             modifyUris()
-                .scheme("http")
-                .host("localhost"), // 문서에 노출되는 도메인 설정
+                .scheme(SCHEME)
+                .host(HOST), // 문서에 노출되는 도메인 설정
             prettyPrint() // 정리해서 출력
         ),
         preprocessResponse(prettyPrint()) // Response 설정. 정리해서 출력
@@ -284,6 +447,15 @@ public class TestExtension {
     return document.document(snippets);
   }
 
+  /**
+   * 인증 정보 설정.
+   *
+   * @param id   id
+   * @param role role
+   * @apiNote 인증 정보 설정
+   * @author FreshR
+   * @since 2023. 1. 13. 오전 11:02:07
+   */
   private void authentication(Long id, Role role) {
     log.info("TestExtension.authentication");
 
@@ -305,54 +477,119 @@ public class TestExtension {
         ));
   }
 
+  /**
+   * 인증 정보 생성.
+   *
+   * @apiNote ROLE_ALPHA 권한으로 인증 정보 생성
+   * @author FreshR
+   * @since 2023. 1. 13. 오전 11:02:07
+   */
   protected void setSignedAlpha() {
     log.info("TestExtension.setSignedAlpha");
 
     authentication(alphaId, ROLE_ALPHA);
   }
 
+  /**
+   * 인증 정보 생성.
+   *
+   * @apiNote ROLE_BETA 권한으로 인증 정보 생성
+   * @author FreshR
+   * @since 2023. 1. 13. 오전 11:02:07
+   */
   protected void setSignedBeta() {
     log.info("TestExtension.setSignedBeta");
 
     authentication(betaId, ROLE_BETA);
   }
 
+  /**
+   * 인증 정보 생성.
+   *
+   * @apiNote ROLE_GAMMA 권한으로 인증 정보 생성
+   * @author FreshR
+   * @since 2023. 1. 13. 오전 11:02:07
+   */
   protected void setSignedGamma() {
     log.info("TestExtension.setSignedGamma");
 
     authentication(gammaId, ROLE_GAMMA);
   }
 
+  /**
+   * 인증 정보 생성.
+   *
+   * @apiNote ROLE_DELTA 권한으로 인증 정보 생성
+   * @author FreshR
+   * @since 2023. 1. 13. 오전 11:02:07
+   */
   protected void setSignedDelta() {
     log.info("TestExtension.setSignedDelta");
 
     authentication(deltaId, ROLE_DELTA);
   }
 
+  /**
+   * 인증 정보 생성.
+   *
+   * @apiNote ROLE_USER 권한으로 인증 정보 생성
+   * @author FreshR
+   * @since 2023. 1. 13. 오전 11:02:07
+   */
   protected void setSignedUser() {
     log.info("TestExtension.setSignedUser");
 
     authentication(userId, ROLE_USER);
   }
 
+  /**
+   * 인증 정보 생성.
+   *
+   * @apiNote ROLE_ANONYMOUS 권한으로 인증 정보 생성
+   * @author FreshR
+   * @since 2023. 1. 13. 오전 11:02:07
+   */
   protected void setAnonymous() {
     log.info("TestExtension.setAnonymous");
 
     authentication(0L, ROLE_ANONYMOUS);
   }
 
+  /**
+   * 계정 일련 번호 조회.
+   *
+   * @return signed id
+   * @apiNote 통신중인 계정의 일련 번호 조회
+   * @author FreshR
+   * @since 2023. 1. 13. 오전 11:02:07
+   */
   protected Long getSignedId() {
     log.info("TestExtension.getSignedId");
 
     return signedId.get();
   }
 
+  /**
+   * 권한 조회.
+   *
+   * @return signed role
+   * @apiNote 통신중인 계정의 권한 조회
+   * @author FreshR
+   * @since 2023. 1. 13. 오전 11:02:07
+   */
   protected Role getSignedRole() {
     log.info("TestExtension.getSignedRole");
 
     return signedRole.get();
   }
 
+  /**
+   * 인증 정보 제거.
+   *
+   * @apiNote 통신중인 인증 정보 제거
+   * @author FreshR
+   * @since 2023. 1. 13. 오전 11:02:07
+   */
   protected void removeSigned() {
     log.info("TestExtension.removeSigned");
 
@@ -360,6 +597,13 @@ public class TestExtension {
     signedId.remove();
   }
 
+  /**
+   * RSA 정보 생성.
+   *
+   * @apiNote RSA 정보 생성
+   * @author FreshR
+   * @since 2023. 1. 13. 오전 11:02:07
+   */
   protected void setRsa() {
     log.info("TestExtension.setRsa");
 

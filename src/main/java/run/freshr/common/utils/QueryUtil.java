@@ -22,10 +22,27 @@ import run.freshr.common.functional.PagingFunctional;
 import run.freshr.common.functional.SearchEnumFunctional;
 import run.freshr.common.functional.SearchKeywordFunctional;
 
+/**
+ * QueryDsl 공통 기능 정의.
+ *
+ * @author FreshR
+ * @apiNote QueryDsl 공통 기능 정의
+ * @since 2023. 1. 12. 오후 7:14:00
+ */
 @Slf4j
 @Component
 public class QueryUtil {
 
+  /**
+   * 자연어 검색.
+   *
+   * @param word  word
+   * @param paths paths
+   * @return boolean builder
+   * @apiNote 자연어 검색
+   * @author FreshR
+   * @since 2023. 1. 12. 오후 7:14:00
+   */
   public static BooleanBuilder searchKeyword(String word, List<StringPath> paths) {
     log.info("QueryUtil.searchKeyword");
 
@@ -40,6 +57,17 @@ public class QueryUtil {
     return SEARCH_KEYWORD_FUNCTIONAL.search(word, paths);
   }
 
+  /**
+   * Enum 자연어 검색.
+   *
+   * @param <E>         type parameter
+   * @param word        word
+   * @param enumeration enumeration
+   * @return boolean builder
+   * @apiNote api note
+   * @author FreshR
+   * @since 2023. 1. 12. 오후 7:14:00
+   */
   public static <E extends SearchEnumExtension> BooleanBuilder searchEnum
       (String word, E enumeration) {
     log.info("QueryUtil.searchEnum");
@@ -50,6 +78,20 @@ public class QueryUtil {
     return SEARCH_ENUM_FUNCTIONAL.search(word, enumeration);
   }
 
+  /**
+   * 페이징 처리.
+   *
+   * @param <E>    type parameter
+   * @param <Q>    type parameter
+   * @param <S>    type parameter
+   * @param query  query
+   * @param path   path
+   * @param search search
+   * @return page
+   * @apiNote 페이징 처리
+   * @author FreshR
+   * @since 2023. 1. 12. 오후 7:14:00
+   */
   public static <E, Q extends EntityPathBase<E>, S extends SearchExtension<?>> Page<E> paging
       (JPAQuery<E> query, Q path, S search) {
     log.info("GlobalFunctional.paging");

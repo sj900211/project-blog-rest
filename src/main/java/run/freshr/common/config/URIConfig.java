@@ -1,5 +1,12 @@
 package run.freshr.common.config;
 
+/**
+ * URI 설정.
+ *
+ * @author FreshR
+ * @apiNote URI 를 한 곳에서 관리하기 위한 클래스
+ * @since 2023. 1. 12. 오후 5:59:42
+ */
 public class URIConfig {
 
   public static final String uriH2All = "/h2/**"; // 로컬에서 H2 DB 를 확인하는 URI
@@ -17,7 +24,7 @@ public class URIConfig {
   public static final String uriCommonAttach = "/file";
   public static final String uriCommonAttachId = "/file/{id}";
   public static final String uriCommonAttachIdDownload = "/file/{id}/download";
-  public static final String uriCommonAttachExist = "/file/exist/{id}";
+  public static final String uriCommonAttachExist = "/file/{id}/exist";
 
   public static final String uriAuthCrypto = "/auth/crypto";
   public static final String uriAuthToken = "/auth/token";

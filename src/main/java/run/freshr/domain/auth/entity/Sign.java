@@ -1,28 +1,27 @@
 package run.freshr.domain.auth.entity;
 
+import static jakarta.persistence.EnumType.STRING;
+import static jakarta.persistence.InheritanceType.JOINED;
 import static java.time.LocalDateTime.now;
 import static java.time.format.DateTimeFormatter.ofPattern;
-import static javax.persistence.EnumType.STRING;
-import static javax.persistence.InheritanceType.JOINED;
 import static lombok.AccessLevel.PROTECTED;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.DiscriminatorColumn;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.Index;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import java.time.LocalDateTime;
-import javax.persistence.Column;
-import javax.persistence.DiscriminatorColumn;
-import javax.persistence.Entity;
-import javax.persistence.Enumerated;
-import javax.persistence.Index;
-import javax.persistence.Inheritance;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.annotations.Comment;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
-import run.freshr.common.annotation.TableComment;
 import run.freshr.common.extension.entity.EntityLogicalExtension;
 import run.freshr.domain.auth.enumeration.Privilege;
 
@@ -46,7 +45,7 @@ import run.freshr.domain.auth.enumeration.Privilege;
 @Inheritance(strategy = JOINED)
 @DiscriminatorColumn
 @NoArgsConstructor(access = PROTECTED)
-@TableComment(value = "권한 관리 > 계정 관리")
+@Comment(value = "권한 관리 > 계정 관리")
 public class Sign extends EntityLogicalExtension {
 
     @Enumerated(STRING)

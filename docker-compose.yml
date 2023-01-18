@@ -10,21 +10,6 @@ services:
     networks:
       - infra-test
 
-  elasticsearch:
-    container_name: ${ELASTICSEARCH_NAME}
-    image: docker.elastic.co/elasticsearch/elasticsearch:${ELASTICSEARCH_VERSION}
-    ports:
-      - ${ELASTICSEARCH_9200_PORT}:9200
-      - ${ELASTICSEARCH_9300_PORT}:9300
-    environment:
-      node.name: elasticsearch
-      ES_JAVA_OPTS: -Xms512m -Xmx512m
-      ELASTIC_USERNAME: ${ELASTICSEARCH_USERNAME:-}
-      ELASTIC_PASSWORD: ${ELASTICSEARCH_PASSWORD:-}
-      discovery.type: single-node
-    networks:
-      - infra-test
-
   minio:
     container_name: ${MINIO_NAME}
     image: minio/minio
@@ -41,10 +26,6 @@ services:
   minio-mc:
     container_name: ${MINIO_MC_NAME}
     image: minio/mc
-    volumes:
-      - type: bind
-        source: ${WAIT_FOR_IT}
-        target: /wait-for-it.sh
     depends_on:
       - minio
     entrypoint: >

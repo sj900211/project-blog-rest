@@ -13,8 +13,7 @@ import static run.freshr.domain.auth.enumeration.Role.Secured.DELTA;
 import static run.freshr.domain.auth.enumeration.Role.Secured.GAMMA;
 import static run.freshr.domain.auth.enumeration.Role.Secured.USER;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -65,10 +64,10 @@ public class AuthController {
 
   @Secured({ALPHA, BETA, GAMMA, DELTA, USER})
   @PostMapping(uriAuthSignOut)
-  public ResponseEntity<?> signOut(HttpServletRequest request) {
+  public ResponseEntity<?> signOut() {
     log.info("AuthController.signOut");
 
-    return service.signOut(request);
+    return service.signOut();
   }
 
   @Secured({ALPHA, BETA, GAMMA, DELTA, USER})
