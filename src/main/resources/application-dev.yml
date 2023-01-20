@@ -1,0 +1,94 @@
+spring:
+  config:
+    import: optional:file:.docker/dev/.env[.properties]
+
+  jpa:
+    show-sql: true
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        show-sql: true
+        SQL: debug
+        format_sql: true
+        use_sql_comments: true
+        type:
+          descriptor:
+            sql: debug
+
+  datasource:
+    main:
+      hikari:
+        driver-class-name: org.postgresql.Driver
+        jdbc-url: jdbc:postgresql://${INFRA_HOST}:${POSTGRES_MAIN_PORT}/postgres
+        username: ${POSTGRES_MAIN_USERNAME}
+        password: ${POSTGRES_MAIN_PASSWORD}
+        minimumIdle: 200
+        maximumPoolSize: 200
+        poolName: SpringBootJPAHikariCP
+        idleTimeout: 10000
+        connection-timeout: 10000
+        validation-timeout: 10000
+        maxLifetime: 580000
+        data-source-properties:
+          cachePrepStmts: true
+          prepStmtCacheSize: 250
+          prepStmtCacheSqlLimit: 2048
+          useServerPrepStmts: true
+          useLocalSessionState: true
+          useLocalTransactionState: true
+          rewriteBatchedStatements: true
+          cacheResultSetMetadata: true
+          cacheServerConfiguration: true
+          elideSetAutoCommits: true
+          maintainTimeStats: false
+    replica:
+      hikari:
+        driver-class-name: org.h2.Driver
+        jdbc-url: jdbc:h2:mem:testdb
+        username: ${POSTGRES_REPLICA_USERNAME}
+        password: ${POSTGRES_REPLICA_PASSWORD}
+        minimumIdle: 200
+        maximumPoolSize: 200
+        poolName: SpringBootJPAHikariCP
+        idleTimeout: 10000
+        connection-timeout: 10000
+        validation-timeout: 10000
+        maxLifetime: 580000
+        data-source-properties:
+          cachePrepStmts: true
+          prepStmtCacheSize: 250
+          prepStmtCacheSqlLimit: 2048
+          useServerPrepStmts: true
+          useLocalSessionState: true
+          useLocalTransactionState: true
+          rewriteBatchedStatements: true
+          cacheResultSetMetadata: true
+          cacheServerConfiguration: true
+          elideSetAutoCommits: true
+          maintainTimeStats: false
+
+  data:
+    redis:
+      host: ${INFRA_PROTOCOL}
+      port: ${REDIS_PORT}
+      password: ${REDIS_PASSWORD}
+
+logging:
+  level:
+    root: warn
+
+
+freshr:
+  logstash:
+    url: ${INFRA_HOST}
+    port: ${ELK_LOGSTASH_TCP_PORT}
+
+  minio:
+    bucket: ${MINIO_BUCKET_NAME}
+    access: ${MINIO_USERNAME}
+    secret: ${MINIO_PASSWORD}
+    host: ${INFRA_PROTOCOL}://${INFRA_HOST}:${MINIO_API_PORT}
+    default-minute: 1

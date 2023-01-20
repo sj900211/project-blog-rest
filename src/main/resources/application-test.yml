@@ -1,4 +1,7 @@
 spring:
+  config:
+    import: optional:file:.docker/test/.env[.properties]
+
   jpa:
     show-sql: true
     database: h2
@@ -28,12 +31,9 @@ spring:
 
   data:
     redis:
-      host: localhost
+      host: ${INFRA_PROTOCOL}
       port: ${REDIS_PORT}
       password: ${REDIS_PASSWORD}
-
-  config:
-    import: optional:file:.env[.properties]
 
 logging:
   level:
@@ -45,4 +45,5 @@ freshr:
     bucket: ${MINIO_BUCKET_NAME}
     access: ${MINIO_USERNAME}
     secret: ${MINIO_PASSWORD}
-    host: http://localhost:${MINIO_API_PORT}
+    host: ${INFRA_PROTOCOL}://${INFRA_HOST}:${MINIO_API_PORT}
+    default-minute: 1

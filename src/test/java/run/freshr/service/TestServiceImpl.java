@@ -78,8 +78,8 @@ public class TestServiceImpl implements TestService {
   public long createAttach(String filename, String path, Sign creator) {
     return attachUnit.create(Attach.createEntity(
         "image/png",
-        filename + ".png",
-        path + "/" + filename + ".png",
+        filename,
+        path + "/" + filename,
         2048L,
         "alt",
         "title",

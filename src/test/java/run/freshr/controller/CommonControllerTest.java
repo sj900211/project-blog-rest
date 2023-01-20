@@ -9,7 +9,7 @@ import static org.springframework.restdocs.request.RequestDocumentation.pathPara
 import static org.springframework.restdocs.request.RequestDocumentation.requestParts;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static run.freshr.TestRunner.attachId;
+import static run.freshr.TestRunner.attachIdList;
 import static run.freshr.common.config.URIConfig.uriCommonAttach;
 import static run.freshr.common.config.URIConfig.uriCommonAttachExist;
 import static run.freshr.common.config.URIConfig.uriCommonAttachId;
@@ -109,7 +109,7 @@ class CommonControllerTest extends TestExtension {
 
     apply();
 
-    GET(uriCommonAttachExist, attachId)
+    GET(uriCommonAttachExist, attachIdList.get(0))
         .andDo(print())
         .andDo(docs(
             pathParameters(AttachDocs.Request.existAttach()),
@@ -128,7 +128,7 @@ class CommonControllerTest extends TestExtension {
 
     apply();
 
-    GET(uriCommonAttachId, attachId)
+    GET(uriCommonAttachId, attachIdList.get(0))
         .andDo(print())
         .andDo(docs(
             pathParameters(AttachDocs.Request.getAttach()),
@@ -147,7 +147,7 @@ class CommonControllerTest extends TestExtension {
 
     apply();
 
-    GET(uriCommonAttachIdDownload, attachId)
+    GET(uriCommonAttachIdDownload, attachIdList.get(0))
         .andDo(print())
         .andDo(docs(pathParameters(AttachDocs.Request.getAttach())))
         .andExpect(status().isOk());
@@ -163,7 +163,7 @@ class CommonControllerTest extends TestExtension {
 
     apply();
 
-    DELETE(uriCommonAttachId, attachId)
+    DELETE(uriCommonAttachId, attachIdList.get(0))
         .andDo(print())
         .andDo(docs(pathParameters(AttachDocs.Request.removeAttach())))
         .andExpect(status().isOk());

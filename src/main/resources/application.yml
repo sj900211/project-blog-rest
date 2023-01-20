@@ -23,7 +23,11 @@ spring:
     cache: false
     check-template-location: true
 
+  jackson:
+    default-property-inclusion: non_null
+
   jpa:
+    open-in-view: false
     show-sql: false
     generate-ddl: false
     hibernate:

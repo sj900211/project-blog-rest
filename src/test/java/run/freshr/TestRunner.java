@@ -1,17 +1,32 @@
 package run.freshr;
 
+import static org.springframework.util.MimeTypeUtils.IMAGE_PNG_VALUE;
 import static run.freshr.domain.auth.enumeration.Privilege.ALPHA;
 import static run.freshr.domain.auth.enumeration.Privilege.BETA;
 import static run.freshr.domain.auth.enumeration.Privilege.DELTA;
 import static run.freshr.domain.auth.enumeration.Privilege.GAMMA;
 import static run.freshr.domain.auth.enumeration.Privilege.USER;
 
+import io.minio.errors.ErrorResponseException;
+import io.minio.errors.InsufficientDataException;
+import io.minio.errors.InternalException;
+import io.minio.errors.InvalidResponseException;
+import io.minio.errors.ServerException;
+import io.minio.errors.XmlParserException;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.Base64;
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
+import run.freshr.service.MinioService;
 import run.freshr.service.TestService;
 
 /**
@@ -32,10 +47,12 @@ public class TestRunner implements ApplicationRunner {
   public static long gammaId;
   public static long deltaId;
   public static long userId;
-  public static long attachId;
+  public static List<Long> attachIdList = new ArrayList<>();
 
   @Autowired
   private TestService service;
+  @Autowired
+  private MinioService minioService;
 
   /**
    * Run.
@@ -90,7 +107,22 @@ public class TestRunner implements ApplicationRunner {
    * @since 2023. 1. 13. 오전 11:34:15
    */
   private void setCommon() {
-    attachId = service.createAttach("test.png", "temp", service.getSign(userId));
+    String dummy = "iVBORw0KGgoAAAANSUhEUgAAAGQAAABkBAMAAACCzIhnAAAAG1BMVEX///8AAAB/f38/Pz9fX18fHx+/v7/f39+fn585bAfnAAAACXBIWXMAAA7EAAAOxAGVKw4bAAABD0lEQVRYhe2UO0/DMBCAjxASRpwHMAYqpK5JEDNR+wNIyqNjJKR2TSmiaweG/uzasVPSQtS7Dh3QfUN8ufjz+RTLAAzDMAzDaBYdeSttiAB6JlQfPnMRJiX8JNPEKLZoeATIXjRqKfF8O8hD6WTNhKBdSpgxKzepm7F8OHeRfju52N3db8UVVT1WeOV8axcoxbomKzZdsTyy4vhkBeIlWZltNYNSnPwBp+jz8qriuSgqjDKqz59e/10EJUIp29mPPGjqYBXZzxtVATskKxBHZGX2RFbOrsjK6eUxlAM2Rmnf1f89i/CK4ynHDvffMPfDGlkl9vuTb4E4MOZeVGVUXECn8idfqylqHsMwDMP8Z9YwyTX+cM1Q2gAAAABJRU5ErkJggg==";
+    byte[] bytes = Base64.getDecoder().decode(dummy);
+    ByteArrayInputStream inputStream = new ByteArrayInputStream(bytes);
+
+    try {
+      minioService.put(IMAGE_PNG_VALUE, ".temp/dummy.png", inputStream);
+    } catch (IOException | ServerException | InsufficientDataException | ErrorResponseException |
+             NoSuchAlgorithmException | InvalidKeyException | InvalidResponseException |
+             XmlParserException | InternalException e) {
+      e.printStackTrace();
+    }
+
+    for (int i = 0; i < 45; i++) {
+      attachIdList.add(service
+          .createAttach("dummy.png", ".temp", service.getSign(userId)));
+    }
   }
 
 }

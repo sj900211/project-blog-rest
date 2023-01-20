@@ -7,8 +7,10 @@ services:
     ports:
       - ${REDIS_PORT}:6379
     command: redis-server --bind ${REDIS_BIND} --maxmemory ${REDIS_MAX_MEMORY} --requirepass ${REDIS_PASSWORD}
+    volumes:
+      - minio:/data
     networks:
-      - infra-test
+      - bridge
 
   minio:
     container_name: ${MINIO_NAME}
@@ -21,7 +23,7 @@ services:
       MINIO_ROOT_PASSWORD: ${MINIO_PASSWORD:-}
     command: server /data --console-address :9090
     networks:
-      - infra-test
+      - bridge
 
   minio-mc:
     container_name: ${MINIO_MC_NAME}
@@ -35,13 +37,15 @@ services:
       exit 0;
       "
     networks:
-      - infra-test
+      - bridge
 
 networks:
-  infra-test:
+  bridge:
     name: ${NETWORK_NAME}
     driver: bridge
 
 volumes:
-  infra-test:
-    name: ${VOLUME_NAME}
+  redis:
+    name: ${REDIS_VOLUME_NAME}
+  minio:
+    name: ${MINIO_VOLUME_NAME}

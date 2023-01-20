@@ -55,6 +55,9 @@ dependencies {
     runtimeOnly 'com.h2database:h2'
     compileOnly 'com.h2database:h2' // DB 툴에서 접속하기 위해 설정
 
+    // Postgres
+    implementation 'org.postgresql:postgresql'
+
     // JPA
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation "com.querydsl:querydsl-jpa:${dependencyManagement.importedProperties['querydsl.version']}:jakarta" // QueryDsl Jpa
@@ -77,12 +80,16 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
 
+    // Logback
+    implementation 'net.logstash.logback:logstash-logback-encoder:7.2'
+
     implementation 'run.freshr:utils:1.0.0.RELEASE'
+    implementation 'org.modelmapper:modelmapper:3.1.1'
+    implementation 'org.jsoup:jsoup:1.15.3'
+
     implementation 'run.freshr:unit:1.0.0.RELEASE'
     implementation 'run.freshr:enumeration-mapper:1.0.0.RELEASE'
     implementation 'run.freshr:exceptions:1.0.0.RELEASE'
-
-    implementation 'org.modelmapper:modelmapper:3.1.1'
 
     implementation 'io.minio:minio:8.4.6'
     implementation 'run.freshr:minio:1.0.0.RELEASE'
@@ -164,35 +171,81 @@ jib { // Docker 플러그인 설정
 }
 
 tasks.register('testInfraUp') { // TEST 환경 Docker Compose UP
-    group 'test infra'
+    group 'infra test'
 
     dependsOn testInfraBuild
 
-    if (file('docker-compose.yml').exists()) {
+    if (file("${projectDir}/.docker/test/docker-compose.yml").exists()) {
         exec {
-            commandLine('docker-compose', 'up', '-d')
+            commandLine('docker-compose',
+                    '-f', "${projectDir}/.docker/test/docker-compose.yml",
+                    'up', '-d')
         }
     }
 }
 
 tasks.register('testInfraBuild') { // TEST 환경 Docker Compose Build
-    group 'test infra'
+    group 'infra test'
 
     dependsOn testInfraDown
 
-    if (file('docker-compose.yml').exists()) {
+    if (file("${projectDir}/.docker/test/docker-compose.yml").exists()) {
         exec {
-            commandLine('docker-compose', 'build')
+            commandLine('docker-compose',
+                    '-f', "${projectDir}/.docker/test/docker-compose.yml",
+                    'build')
         }
     }
 }
 
 tasks.register('testInfraDown') { // TEST 환경 Docker Compose DOWN
-    group 'test infra'
+    group 'infra test'
 
-    if (file('docker-compose.yml').exists()) {
+    if (file("${projectDir}/.docker/test/docker-compose.yml").exists()) {
         exec {
-            commandLine('docker-compose', 'down', '-v')
+            commandLine('docker-compose',
+                    '-f', "${projectDir}/.docker/test/docker-compose.yml",
+                    'down', '-v')
+        }
+    }
+}
+
+tasks.register('devInfraUp') { // DEV 환경 Docker Compose UP
+    group 'infra develop'
+
+    dependsOn devInfraBuild
+
+    if (file("${projectDir}/.docker/dev/docker-compose.yml").exists()) {
+        exec {
+            commandLine('docker-compose',
+                    '-f', "${projectDir}/.docker/dev/docker-compose.yml",
+                    'up', '-d')
+        }
+    }
+}
+
+tasks.register('devInfraBuild') { // DEV 환경 Docker Compose Build
+    group 'infra develop'
+
+    dependsOn devInfraDown
+
+    if (file("${projectDir}/.docker/dev/docker-compose.yml").exists()) {
+        exec {
+            commandLine('docker-compose',
+                    '-f', "${projectDir}/.docker/dev/docker-compose.yml",
+                    'build')
+        }
+    }
+}
+
+tasks.register('devInfraDown') { // DEV 환경 Docker Compose DOWN
+    group 'infra develop'
+
+    if (file("${projectDir}/.docker/dev/docker-compose.yml").exists()) {
+        exec {
+            commandLine('docker-compose',
+                    '-f', "${projectDir}/.docker/dev/docker-compose.yml",
+                    'down', '-v')
         }
     }
 }
