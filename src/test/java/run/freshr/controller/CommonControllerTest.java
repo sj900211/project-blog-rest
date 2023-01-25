@@ -82,7 +82,7 @@ class CommonControllerTest extends TestExtension {
   public void createAttach() throws Exception {
     log.info("CommonControllerTest.createAttach");
 
-    setSignedUser();
+    setSignedManagerMajor();
 
     apply();
 
@@ -106,7 +106,7 @@ class CommonControllerTest extends TestExtension {
   public void existAttach() throws Exception {
     log.info("CommonControllerTest.existAttach");
 
-    setSignedUser();
+    setSignedManagerMajor();
 
     apply();
 
@@ -125,7 +125,7 @@ class CommonControllerTest extends TestExtension {
   public void getAttach() throws Exception {
     log.info("CommonControllerTest.getAttach");
 
-    setSignedUser();
+    setSignedManagerMajor();
 
     apply();
 
@@ -144,7 +144,7 @@ class CommonControllerTest extends TestExtension {
   public void getAttachDownload() throws Exception {
     log.info("CommonControllerTest.getAttachDownload");
 
-    setSignedUser();
+    setSignedManagerMajor();
 
     apply();
 
@@ -160,7 +160,7 @@ class CommonControllerTest extends TestExtension {
   public void removeAttach() throws Exception {
     log.info("CommonControllerTest.removeAttach");
 
-    setSignedUser();
+    setSignedManagerMajor();
 
     apply();
 

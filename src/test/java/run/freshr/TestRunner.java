@@ -26,6 +26,7 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
+import run.freshr.common.security.TokenProvider;
 import run.freshr.domain.auth.entity.Manager;
 import run.freshr.domain.community.enumeration.BoardNoticeExpose;
 import run.freshr.service.MinioService;
@@ -107,6 +108,8 @@ public class TestRunner implements ApplicationRunner {
         .createStaff(STAFF_MINOR, STAFF_MINOR.name().toLowerCase(), STAFF_MINOR.name());
     userId = service
         .createAccount(USER.name().toLowerCase(), USER.name());
+
+    TokenProvider.signedId.set(managerMajorId);
   }
 
   /**
@@ -131,7 +134,7 @@ public class TestRunner implements ApplicationRunner {
 
     for (int i = 0; i < 45; i++) {
       attachIdList.add(service
-          .createAttach("dummy.png", ".temp", service.getSign(userId)));
+          .createAttach("dummy.png", ".temp"));
     }
   }
 

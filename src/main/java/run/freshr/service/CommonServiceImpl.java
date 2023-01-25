@@ -3,9 +3,6 @@ package run.freshr.service;
 import static java.util.Optional.ofNullable;
 import static run.freshr.common.utils.RestUtil.buildId;
 import static run.freshr.common.utils.RestUtil.checkProfile;
-import static run.freshr.common.utils.RestUtil.error;
-import static run.freshr.common.utils.RestUtil.getExceptions;
-import static run.freshr.common.utils.RestUtil.getSigned;
 import static run.freshr.common.utils.RestUtil.ok;
 import static run.freshr.utils.MapperUtil.map;
 
@@ -57,8 +54,7 @@ public class CommonServiceImpl implements CommonService {
               uploadResult.getPhysical(),
               file.getSize(),
               dto.getAlt(),
-              dto.getTitle(),
-              getSigned()
+              dto.getTitle()
           )
       );
 
@@ -106,11 +102,7 @@ public class CommonServiceImpl implements CommonService {
 
     Attach entity = attachUnit.get(id);
 
-    if (!entity.checkOwner(getSigned())) {
-      return error(getExceptions().getAccessDenied());
-    }
-
-    entity.removeEntity(getSigned());
+    entity.removeEntity();
 
     return ok();
   }

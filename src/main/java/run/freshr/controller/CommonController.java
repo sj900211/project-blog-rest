@@ -26,6 +26,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -118,6 +119,7 @@ public class CommonController {
   }
 
   @Secured({MANAGER_MAJOR, MANAGER_MINOR, STAFF_MAJOR, STAFF_MINOR, USER})
+  @PreAuthorize("@commonAccess.removeAttach(#id)")
   @DeleteMapping(uriCommonAttachId)
   public ResponseEntity<?> removeAttach(@PathVariable Long id) {
     log.info("CommonController.removeAttach");

@@ -7,7 +7,6 @@ import com.zaxxer.hikari.HikariDataSource;
 import java.util.HashMap;
 import java.util.Map;
 import javax.sql.DataSource;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
@@ -29,7 +28,6 @@ import run.freshr.common.routing.ReplicationRoutingDataSource;
  * @since 2023. 1. 12. 오후 5:52:51
  */
 @Profile({"dev", "staging", "prod"})
-@Slf4j
 @Configuration
 @EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class})
 @EnableTransactionManagement

@@ -5,6 +5,8 @@ import static run.freshr.domain.auth.enumeration.Privilege.USER;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.ForeignKey;
+import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,6 +18,7 @@ import org.hibernate.annotations.DynamicUpdate;
 @Slf4j
 @Entity
 @Table(name = "TB_AUTH_ACCOUNT")
+@PrimaryKeyJoinColumn(foreignKey = @ForeignKey(name = "FK_AUTH_SIGN_ACCOUNT"))
 @Getter
 @DynamicInsert
 @DynamicUpdate

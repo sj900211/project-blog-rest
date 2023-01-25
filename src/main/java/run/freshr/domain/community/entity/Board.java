@@ -1,12 +1,15 @@
 package run.freshr.domain.community.entity;
 
 import static jakarta.persistence.EnumType.STRING;
+import static jakarta.persistence.GenerationType.SEQUENCE;
 import static jakarta.persistence.InheritanceType.JOINED;
 import static lombok.AccessLevel.PROTECTED;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
 import jakarta.persistence.Index;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.Lob;
@@ -31,7 +34,7 @@ import run.freshr.domain.community.enumeration.BoardType;
     }
 )
 @SequenceGenerator(
-    name = "SEQUENCE_GENERATOR",
+    name = "SEQUENCE_GENERATOR_COMMUNITY_BOARD",
     sequenceName = "SEQ_COMMUNITY_BOARD"
 )
 @Getter
@@ -41,6 +44,11 @@ import run.freshr.domain.community.enumeration.BoardType;
 @NoArgsConstructor(access = PROTECTED)
 @Comment(value = "커뮤니티 관리 > 게시글 관리")
 public class Board extends EntityLogicalExtension {
+
+  @Id
+  @GeneratedValue(strategy = SEQUENCE, generator = "SEQUENCE_GENERATOR_COMMUNITY_BOARD")
+  @Comment("일련 번호")
+  protected Long id;
 
   @Enumerated(STRING)
   @Column(nullable = false)

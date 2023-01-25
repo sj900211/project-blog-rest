@@ -1,10 +1,13 @@
 package run.freshr.domain.common.entity;
 
+import static jakarta.persistence.GenerationType.SEQUENCE;
 import static lombok.AccessLevel.PROTECTED;
 import static run.freshr.utils.BeanUtil.getBean;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
 import jakarta.persistence.Index;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
@@ -17,7 +20,6 @@ import org.hibernate.annotations.Comment;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import run.freshr.common.extension.entity.EntityAuditLogicalExtension;
-import run.freshr.domain.auth.entity.Sign;
 import run.freshr.service.MinioService;
 
 @Slf4j
@@ -29,7 +31,7 @@ import run.freshr.service.MinioService;
     }
 )
 @SequenceGenerator(
-    name = "SEQUENCE_GENERATOR",
+    name = "SEQUENCE_GENERATOR_COMMON_ATTACH",
     sequenceName = "SEQ_COMMON_ATTACH"
 )
 @Getter
@@ -38,6 +40,11 @@ import run.freshr.service.MinioService;
 @NoArgsConstructor(access = PROTECTED)
 @Comment(value = "공통 관리 > 파일 관리")
 public class Attach extends EntityAuditLogicalExtension {
+
+  @Id
+  @GeneratedValue(strategy = SEQUENCE, generator = "SEQUENCE_GENERATOR_COMMON_ATTACH")
+  @Comment("일련 번호")
+  private Long id;
 
   @Comment("파일 유형")
   private String contentType;
@@ -64,7 +71,7 @@ public class Attach extends EntityAuditLogicalExtension {
   private URL url;
 
   private Attach(String contentType, String filename, String path, Long size,
-      String alt, String title, Sign creator) {
+      String alt, String title) {
     log.info("Attach.Constructor");
 
     this.contentType = contentType;
@@ -73,15 +80,13 @@ public class Attach extends EntityAuditLogicalExtension {
     this.size = size;
     this.alt = alt;
     this.title = title;
-    this.creator = creator;
-    this.updater = creator;
   }
 
   public static Attach createEntity(String contentType, String filename, String path, Long size,
-      String alt, String title, Sign creator) {
+      String alt, String title) {
     log.info("Attach.createEntity");
 
-    return new Attach(contentType, filename, path, size, alt, title, creator);
+    return new Attach(contentType, filename, path, size, alt, title);
   }
 
   public URL getUrl() throws Exception {
@@ -92,10 +97,10 @@ public class Attach extends EntityAuditLogicalExtension {
     return service.getUrl(this.path);
   }
 
-  public void removeEntity(Sign updater) {
+  public void removeEntity() {
     log.info("Attach.removeEntity");
 
-    remove(updater);
+    remove();
   }
 
 }

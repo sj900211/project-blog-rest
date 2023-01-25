@@ -41,7 +41,7 @@ public interface TestService {
   //   /  /_\  \    |  |        |  |      /  /_\  \  |  |     |   __   |
   //  /  _____  \   |  |        |  |     /  _____  \ |  `----.|  |  |  |
   // /__/     \__\  |__|        |__|    /__/     \__\ \______||__|  |__|
-  long createAttach(String filename, String path, Sign creator);
+  long createAttach(String filename, String path);
 
   Attach getAttach(long id);
 

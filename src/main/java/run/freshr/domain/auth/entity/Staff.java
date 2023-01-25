@@ -6,6 +6,8 @@ import static run.freshr.domain.auth.enumeration.Privilege.STAFF_MINOR;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.ForeignKey;
+import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,6 +20,7 @@ import run.freshr.domain.auth.enumeration.Privilege;
 @Slf4j
 @Entity
 @Table(name = "TB_AUTH_STAFF")
+@PrimaryKeyJoinColumn(foreignKey = @ForeignKey(name = "FK_AUTH_SIGN_STAFF"))
 @Getter
 @DynamicInsert
 @DynamicUpdate

@@ -9,11 +9,12 @@ import static run.freshr.domain.community.enumeration.BoardType.NOTICE;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.ForeignKey;
 import jakarta.persistence.Index;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
 import java.util.List;
 import lombok.Getter;
@@ -37,10 +38,7 @@ import run.freshr.utils.XssUtil;
         @Index(name = "IDX_COMMUNITY_BOARD_NOTICE_EXPOSE", columnList = "expose")
     }
 )
-@SequenceGenerator(
-    name = "SEQUENCE_GENERATOR",
-    sequenceName = "SEQ_COMMUNITY_BOARD"
-)
+@PrimaryKeyJoinColumn(foreignKey = @ForeignKey(name = "FK_COMMUNITY_BOARD_NOTICE"))
 @Getter
 @DynamicInsert
 @DynamicUpdate

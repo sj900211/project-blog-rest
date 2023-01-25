@@ -80,15 +80,14 @@ public class TestServiceImpl implements TestService {
   private final AttachUnit attachUnit;
 
   @Override
-  public long createAttach(String filename, String path, Sign creator) {
+  public long createAttach(String filename, String path) {
     return attachUnit.create(Attach.createEntity(
         "image/png",
         filename,
         path + "/" + filename,
         2048L,
         "alt",
-        "title",
-        creator
+        "title"
     ));
   }
 

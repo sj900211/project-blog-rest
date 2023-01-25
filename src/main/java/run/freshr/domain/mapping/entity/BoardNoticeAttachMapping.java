@@ -11,7 +11,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MapsId;
 import jakarta.persistence.OneToOne;
-import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,10 +26,6 @@ import run.freshr.domain.mapping.embedded.BoardNoticeAttachMappingEmbeddedId;
 @Slf4j
 @Entity
 @Table(name = "TB_MAP_BOARD_NOTICE_ATTACH")
-@SequenceGenerator(
-    name = "SEQUENCE_GENERATOR",
-    sequenceName = "SEQ_MAP_BOARD_NOTICE_ATTACH"
-)
 @Getter
 @DynamicInsert
 @DynamicUpdate

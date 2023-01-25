@@ -1,6 +1,7 @@
 package run.freshr.domain.auth.entity;
 
 import static jakarta.persistence.EnumType.STRING;
+import static jakarta.persistence.GenerationType.SEQUENCE;
 import static jakarta.persistence.InheritanceType.JOINED;
 import static java.time.LocalDateTime.now;
 import static java.time.format.DateTimeFormatter.ofPattern;
@@ -10,6 +11,8 @@ import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorColumn;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
 import jakarta.persistence.Index;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.SequenceGenerator;
@@ -29,15 +32,15 @@ import run.freshr.domain.auth.enumeration.Privilege;
 @Entity
 @Table(
     name = "TB_AUTH_SIGN",
-    uniqueConstraints = @UniqueConstraint(name = "UK_ACCOUNT_USERNAME", columnNames = {"username"}),
+    uniqueConstraints = @UniqueConstraint(name = "UK_SIGN_USERNAME", columnNames = {"username"}),
     indexes = {
-        @Index(name = "IDX_AUTH_ACCOUNT_PRIVILEGE", columnList = "privilege"),
-        @Index(name = "IDX_AUTH_ACCOUNT_FLAG", columnList = "useFlag, deleteFlag")
+        @Index(name = "IDX_AUTH_SIGN_PRIVILEGE", columnList = "privilege"),
+        @Index(name = "IDX_AUTH_SIGN_FLAG", columnList = "useFlag, deleteFlag")
     }
 )
 @SequenceGenerator(
-    name="SEQUENCE_GENERATOR",
-    sequenceName="SEQ_AUTH_ACCOUNT"
+    name="SEQUENCE_GENERATOR_AUTH_SIGN",
+    sequenceName="SEQ_AUTH_SIGN"
 )
 @Getter
 @DynamicInsert
@@ -47,6 +50,11 @@ import run.freshr.domain.auth.enumeration.Privilege;
 @NoArgsConstructor(access = PROTECTED)
 @Comment(value = "권한 관리 > 계정 관리")
 public class Sign extends EntityLogicalExtension {
+
+    @Id
+    @GeneratedValue(strategy = SEQUENCE, generator = "SEQUENCE_GENERATOR_AUTH_SIGN")
+    @Comment("일련 번호")
+    protected Long id;
 
     @Enumerated(STRING)
     @Column(nullable = false)

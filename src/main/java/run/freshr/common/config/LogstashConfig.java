@@ -49,9 +49,6 @@ public class LogstashConfig {
 
     logstashEncoder.setCustomFields(objectMapper.writeValueAsString(map));
 
-//    logstashEncoder.setCustomFields("{\"name\": \"" + logName + "\","
-//        + "\"profile\": \"" + activeProfile + "\"}");
-
     logstashTcpSocketAppender.addDestination(logstashUrl + ":" + logstashPort);
     logstashTcpSocketAppender.setEncoder(logstashEncoder);
     logstashTcpSocketAppender.setContext(context);
