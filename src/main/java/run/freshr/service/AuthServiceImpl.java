@@ -1,20 +1,17 @@
 package run.freshr.service;
 
 import static java.util.Objects.requireNonNull;
+import static run.freshr.common.utils.RestUtil.checkManager;
+import static run.freshr.common.utils.RestUtil.checkStaff;
+import static run.freshr.common.utils.RestUtil.checkUser;
 import static run.freshr.common.utils.RestUtil.error;
 import static run.freshr.common.utils.RestUtil.getConfig;
 import static run.freshr.common.utils.RestUtil.getExceptions;
 import static run.freshr.common.utils.RestUtil.getSignedAccount;
 import static run.freshr.common.utils.RestUtil.getSignedId;
 import static run.freshr.common.utils.RestUtil.getSignedManager;
-import static run.freshr.common.utils.RestUtil.getSignedRole;
 import static run.freshr.common.utils.RestUtil.getSignedStaff;
 import static run.freshr.common.utils.RestUtil.ok;
-import static run.freshr.domain.auth.enumeration.Role.ROLE_ALPHA;
-import static run.freshr.domain.auth.enumeration.Role.ROLE_BETA;
-import static run.freshr.domain.auth.enumeration.Role.ROLE_DELTA;
-import static run.freshr.domain.auth.enumeration.Role.ROLE_GAMMA;
-import static run.freshr.domain.auth.enumeration.Role.ROLE_USER;
 import static run.freshr.utils.CryptoUtil.decryptRsa;
 import static run.freshr.utils.CryptoUtil.encryptRsa;
 import static run.freshr.utils.MapperUtil.map;
@@ -147,6 +144,8 @@ public class AuthServiceImpl implements AuthService {
         .refreshToken(refreshToken)
         .build();
 
+    rsaPairUnit.delete(encodePublicKey);
+
     return ok(response);
   }
 
@@ -170,17 +169,16 @@ public class AuthServiceImpl implements AuthService {
     log.info("AuthService.getInfo");
 
     ResponseDataBuilder builder = ResponseData.builder();
-    Role signedRole = getSignedRole();
 
-    if (signedRole.equals(ROLE_USER)) {
+    if (checkUser()) {
       builder.data(map(getSignedAccount(), AccountResponse.class));
     }
 
-    if (!(!signedRole.equals(ROLE_DELTA) && !signedRole.equals(ROLE_GAMMA))) {
+    if (checkStaff()) {
       builder.data(map(getSignedStaff(), StaffResponse.class));
     }
 
-    if (!(!signedRole.equals(ROLE_BETA) && !signedRole.equals(ROLE_ALPHA))) {
+    if (checkManager()) {
       builder.data(map(getSignedManager(), ManagerResponse.class));
     }
 
@@ -224,19 +222,18 @@ public class AuthServiceImpl implements AuthService {
       return error(getExceptions().getAccessDenied());
     }
 
-    Role signedRole = getSignedRole();
     RsaPair redis = rsaPairUnit.get(encodePublicKey);
     String encodePrivateKey = redis.getPrivateKey();
 
-    if (signedRole.equals(ROLE_USER)) {
+    if (checkUser()) {
       requireNonNull(getSignedAccount()).updateEntity(decryptRsa(dto.getName(), encodePrivateKey));
     }
 
-    if (!(!signedRole.equals(ROLE_DELTA) && !signedRole.equals(ROLE_GAMMA))) {
+    if (checkStaff()) {
       requireNonNull(getSignedStaff()).updateEntity(decryptRsa(dto.getName(), encodePrivateKey));
     }
 
-    if (!(!signedRole.equals(ROLE_BETA) && !signedRole.equals(ROLE_ALPHA))) {
+    if (checkManager()) {
       requireNonNull(getSignedManager()).updateEntity(decryptRsa(dto.getName(), encodePrivateKey));
     }
 
@@ -248,18 +245,17 @@ public class AuthServiceImpl implements AuthService {
   public ResponseEntity<?> removeInfo() {
     log.info("AuthService.removeInfo");
 
-    Role signedRole = getSignedRole();
     Long id = getSignedId();
 
-    if (signedRole.equals(ROLE_USER)) {
+    if (checkUser()) {
       requireNonNull(getSignedAccount()).removeEntity();
     }
 
-    if (!(!signedRole.equals(ROLE_DELTA) && !signedRole.equals(ROLE_GAMMA))) {
+    if (checkStaff()) {
       requireNonNull(getSignedStaff()).removeEntity();
     }
 
-    if (!(!signedRole.equals(ROLE_BETA) && !signedRole.equals(ROLE_ALPHA))) {
+    if (checkManager()) {
       requireNonNull(getSignedManager()).removeEntity();
     }
 

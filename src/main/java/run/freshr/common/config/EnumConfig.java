@@ -1,17 +1,18 @@
 package run.freshr.common.config;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import run.freshr.domain.auth.enumeration.*;
-import run.freshr.mappers.EnumMapper;
-import run.freshr.mappers.EnumModel;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import static com.google.common.base.CaseFormat.LOWER_HYPHEN;
 import static com.google.common.base.CaseFormat.UPPER_CAMEL;
 import static java.util.List.of;
+
+import java.util.ArrayList;
+import java.util.List;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import run.freshr.domain.auth.enumeration.AccountSearchKeys;
+import run.freshr.domain.auth.enumeration.Privilege;
+import run.freshr.domain.auth.enumeration.PrivilegeStaff;
+import run.freshr.mappers.EnumMapper;
+import run.freshr.mappers.EnumModel;
 
 /**
  * Enum 설정.
@@ -31,9 +32,7 @@ public class EnumConfig {
    */
   private final List<Class<? extends EnumModel>> enums = new ArrayList<>(of(
       Privilege.class,
-      PrivilegeBeta.class,
-      PrivilegeDelta.class,
-      PrivilegeGamma.class,
+      PrivilegeStaff.class,
       AccountSearchKeys.class
   ));
 

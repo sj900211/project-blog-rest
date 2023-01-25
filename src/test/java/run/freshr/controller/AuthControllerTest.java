@@ -34,7 +34,8 @@ import run.freshr.domain.auth.dto.request.SignInRequest;
 import run.freshr.domain.auth.dto.request.SignUpdateRequest;
 
 @Slf4j
-@DocsGroup(name = "auth", description = "권한 관리")
+@DisplayName("권한 관리")
+@DocsGroup(name = "auth")
 public class AuthControllerTest extends TestExtension {
 
   @Test
@@ -122,7 +123,7 @@ public class AuthControllerTest extends TestExtension {
   public void getInfoForManager() throws Exception {
     log.info("AuthControllerTest.getInfoForManager");
 
-    setSignedBeta();
+    setSignedManagerMinor();
 
     apply();
 
@@ -138,7 +139,7 @@ public class AuthControllerTest extends TestExtension {
   public void getInfoForStaff() throws Exception {
     log.info("AuthControllerTest.getInfoForStaff");
 
-    setSignedDelta();
+    setSignedStaffMinor();
 
     apply();
 
@@ -192,12 +193,12 @@ public class AuthControllerTest extends TestExtension {
   @DisplayName("로그인 계정 정보 수정 - MANAGER")
   @Docs(existsRequestFields = true, popup = {
       @DocsPopup(name = "manager-docs-get-info-privilege",
-          include = "common-controller-test/get-enum-list/popup/popup-fields-privilege-beta.adoc")
+          include = "common-controller-test/get-enum-list/popup/popup-fields-privilege.adoc")
   })
   public void updateInfoForManager() throws Exception {
     log.info("AuthControllerTest.updateInfoForManager");
 
-    setSignedBeta();
+    setSignedManagerMinor();
     setRsa();
 
     apply();
@@ -218,12 +219,12 @@ public class AuthControllerTest extends TestExtension {
   @DisplayName("로그인 계정 정보 수정 - STAFF")
   @Docs(existsRequestFields = true, popup = {
       @DocsPopup(name = "staff-docs-get-info-privilege",
-          include = "common-controller-test/get-enum-list/popup/popup-fields-privilege-gamma.adoc")
+          include = "common-controller-test/get-enum-list/popup/popup-fields-privilege.adoc")
   })
   public void updateInfoForStaff() throws Exception {
     log.info("AuthControllerTest.updateInfoForStaff");
 
-    setSignedDelta();
+    setSignedStaffMinor();
     setRsa();
 
     apply();
@@ -244,7 +245,7 @@ public class AuthControllerTest extends TestExtension {
   @DisplayName("로그인한 계정 정보 수정 - USER")
   @Docs(existsRequestFields = true, popup = {
       @DocsPopup(name = "user-docs-get-info-privilege",
-          include = "common-controller-test/get-enum-list/popup/popup-fields-privilege-delta.adoc")
+          include = "common-controller-test/get-enum-list/popup/popup-fields-privilege.adoc")
   })
   public void updateInfoForUser() throws Exception {
     log.info("AuthControllerTest.updateInfoForUser");
@@ -272,7 +273,7 @@ public class AuthControllerTest extends TestExtension {
   public void removeInfoForManager() throws Exception {
     log.info("AuthControllerTest.removeInfoForManager");
 
-    setSignedBeta();
+    setSignedManagerMinor();
 
     apply();
 
@@ -287,7 +288,7 @@ public class AuthControllerTest extends TestExtension {
   public void removeInfoForStaff() throws Exception {
     log.info("AuthControllerTest.removeInfoForStaff");
 
-    setSignedDelta();
+    setSignedStaffMinor();
 
     apply();
 
@@ -317,7 +318,7 @@ public class AuthControllerTest extends TestExtension {
   public void refreshToken() throws Exception {
     log.info("AuthControllerTest.refreshToken");
 
-    setSignedAlpha();
+    setSignedManagerMajor();
 
     apply();
 

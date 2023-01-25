@@ -33,6 +33,11 @@ import run.freshr.domain.auth.unit.SignUnit;
 import run.freshr.domain.auth.unit.StaffUnit;
 import run.freshr.domain.common.entity.Attach;
 import run.freshr.domain.common.unit.AttachUnit;
+import run.freshr.domain.community.entity.BoardNotice;
+import run.freshr.domain.community.enumeration.BoardNoticeExpose;
+import run.freshr.domain.community.unit.BoardNoticeUnit;
+import run.freshr.domain.mapping.entity.BoardNoticeAttachMapping;
+import run.freshr.domain.mapping.unit.BoardNoticeAttachMappingUnit;
 import run.freshr.mappers.EnumGetter;
 import run.freshr.mappers.EnumMapper;
 import run.freshr.utils.CryptoUtil;
@@ -85,6 +90,11 @@ public class TestServiceImpl implements TestService {
         "title",
         creator
     ));
+  }
+
+  @Override
+  public Attach getAttach(long id) {
+    return attachUnit.get(id);
   }
 
   //      ___      __    __  .___________. __    __
@@ -180,6 +190,34 @@ public class TestServiceImpl implements TestService {
 
   public Sign getSign(long id) {
     return signUnit.get(id);
+  }
+
+  // .__   __.   ______   .___________. __    ______  _______
+  // |  \ |  |  /  __  \  |           ||  |  /      ||   ____|
+  // |   \|  | |  |  |  | `---|  |----`|  | |  ,----'|  |__
+  // |  . `  | |  |  |  |     |  |     |  | |  |     |   __|
+  // |  |\   | |  `--'  |     |  |     |  | |  `----.|  |____
+  // |__| \__|  \______/      |__|     |__|  \______||_______|
+
+  private final BoardNoticeUnit boardNoticeUnit;
+  private final BoardNoticeAttachMappingUnit boardNoticeAttachMappingUnit;
+
+  @Override
+  public long createBoardNotice(String title, String contents, Boolean fixed,
+      BoardNoticeExpose expose, Manager creator) {
+    return boardNoticeUnit
+        .create(BoardNotice.createEntity(title, contents, fixed, expose, creator));
+  }
+
+  @Override
+  public BoardNotice getBoardNotice(long id) {
+    return boardNoticeUnit.get(id);
+  }
+
+  @Override
+  public void createBoardNoticeAttachMapping(long noticeId, long attachId, int sort) {
+    boardNoticeAttachMappingUnit.create(BoardNoticeAttachMapping
+        .createEntity(getBoardNotice(noticeId), getAttach(attachId), sort));
   }
 
 }

@@ -2,7 +2,7 @@ package run.freshr.domain.auth.entity;
 
 import static java.util.Optional.ofNullable;
 import static lombok.AccessLevel.PROTECTED;
-import static run.freshr.domain.auth.enumeration.Privilege.DELTA;
+import static run.freshr.domain.auth.enumeration.Privilege.STAFF_MINOR;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -32,7 +32,7 @@ public class Staff extends Sign {
   private Staff(Privilege privilege, String username, String password, String name) {
     log.info("Staff.Constructor");
 
-    this.privilege = ofNullable(privilege).orElse(DELTA);
+    this.privilege = ofNullable(privilege).orElse(STAFF_MINOR);
     this.username = username;
     this.password = password;
     this.name = name;

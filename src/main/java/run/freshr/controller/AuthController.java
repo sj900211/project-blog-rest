@@ -6,12 +6,12 @@ import static run.freshr.common.config.URIConfig.uriAuthPassword;
 import static run.freshr.common.config.URIConfig.uriAuthSignIn;
 import static run.freshr.common.config.URIConfig.uriAuthSignOut;
 import static run.freshr.common.config.URIConfig.uriAuthToken;
-import static run.freshr.domain.auth.enumeration.Role.Secured.ALPHA;
-import static run.freshr.domain.auth.enumeration.Role.Secured.ANONYMOUS;
-import static run.freshr.domain.auth.enumeration.Role.Secured.BETA;
-import static run.freshr.domain.auth.enumeration.Role.Secured.DELTA;
-import static run.freshr.domain.auth.enumeration.Role.Secured.GAMMA;
+import static run.freshr.domain.auth.enumeration.Role.Secured.MANAGER_MAJOR;
+import static run.freshr.domain.auth.enumeration.Role.Secured.MANAGER_MINOR;
+import static run.freshr.domain.auth.enumeration.Role.Secured.STAFF_MAJOR;
+import static run.freshr.domain.auth.enumeration.Role.Secured.STAFF_MINOR;
 import static run.freshr.domain.auth.enumeration.Role.Secured.USER;
+import static run.freshr.domain.auth.enumeration.Role.Secured.ANONYMOUS;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -38,7 +38,7 @@ public class AuthController {
 
   private final AuthService service;
 
-  @Secured({ALPHA, BETA, GAMMA, DELTA, USER, ANONYMOUS})
+  @Secured({MANAGER_MAJOR, MANAGER_MINOR, STAFF_MAJOR, STAFF_MINOR, USER, ANONYMOUS})
   @GetMapping(uriAuthCrypto)
   public ResponseEntity<?> getPublicKey() {
     log.info("AuthController.getPublicKey");
@@ -46,7 +46,7 @@ public class AuthController {
     return service.getPublicKey();
   }
 
-  @Secured({ALPHA, BETA, GAMMA, DELTA, USER, ANONYMOUS})
+  @Secured({MANAGER_MAJOR, MANAGER_MINOR, STAFF_MAJOR, STAFF_MINOR, USER, ANONYMOUS})
   @PostMapping(uriAuthCrypto)
   public ResponseEntity<?> getEncryptRsa(@RequestBody @Valid EncryptRequest dto) {
     log.info("AuthController.getPublicKey");
@@ -62,7 +62,7 @@ public class AuthController {
     return service.signIn(dto);
   }
 
-  @Secured({ALPHA, BETA, GAMMA, DELTA, USER})
+  @Secured({MANAGER_MAJOR, MANAGER_MINOR, STAFF_MAJOR, STAFF_MINOR, USER})
   @PostMapping(uriAuthSignOut)
   public ResponseEntity<?> signOut() {
     log.info("AuthController.signOut");
@@ -70,7 +70,7 @@ public class AuthController {
     return service.signOut();
   }
 
-  @Secured({ALPHA, BETA, GAMMA, DELTA, USER})
+  @Secured({MANAGER_MAJOR, MANAGER_MINOR, STAFF_MAJOR, STAFF_MINOR, USER})
   @GetMapping(uriAuthInfo)
   public ResponseEntity<?> getInfo() {
     log.info("AuthController.getInfo");
@@ -78,7 +78,7 @@ public class AuthController {
     return service.getInfo();
   }
 
-  @Secured({ALPHA, BETA, GAMMA, DELTA, USER})
+  @Secured({MANAGER_MAJOR, MANAGER_MINOR, STAFF_MAJOR, STAFF_MINOR, USER})
   @PutMapping(uriAuthPassword)
   public ResponseEntity<?> updatePassword(@RequestBody @Valid SignChangePasswordRequest dto) {
     log.info("AuthController.updatePassword");
@@ -86,7 +86,7 @@ public class AuthController {
     return service.updatePassword(dto);
   }
 
-  @Secured({ALPHA, BETA, GAMMA, DELTA, USER})
+  @Secured({MANAGER_MAJOR, MANAGER_MINOR, STAFF_MAJOR, STAFF_MINOR, USER})
   @PutMapping(uriAuthInfo)
   public ResponseEntity<?> updateInfo(@RequestBody @Valid SignUpdateRequest dto) {
     log.info("AuthController.updateInfo");
@@ -94,7 +94,7 @@ public class AuthController {
     return service.updateInfo(dto);
   }
 
-  @Secured({ALPHA, BETA, GAMMA, DELTA, USER})
+  @Secured({MANAGER_MAJOR, MANAGER_MINOR, STAFF_MAJOR, STAFF_MINOR, USER})
   @DeleteMapping(uriAuthInfo)
   public ResponseEntity<?> removeInfo() {
     log.info("AuthController.removeInfo");

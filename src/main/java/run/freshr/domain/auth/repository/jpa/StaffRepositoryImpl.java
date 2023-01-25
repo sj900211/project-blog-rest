@@ -3,8 +3,8 @@ package run.freshr.domain.auth.repository.jpa;
 import static org.springframework.util.StringUtils.hasLength;
 import static run.freshr.common.utils.RestUtil.checkRole;
 import static run.freshr.domain.auth.entity.QStaff.staff;
-import static run.freshr.domain.auth.enumeration.Privilege.DELTA;
-import static run.freshr.domain.auth.enumeration.Role.ROLE_DELTA;
+import static run.freshr.domain.auth.enumeration.Privilege.STAFF_MINOR;
+import static run.freshr.domain.auth.enumeration.Role.ROLE_STAFF_MINOR;
 
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -26,12 +26,10 @@ public class StaffRepositoryImpl implements StaffRepositoryCustom {
     LocalDateTime cursorAt = search.getCursorAt();
 
     JPAQuery<Staff> query = queryFactory.selectFrom(staff)
-        .where(staff.deleteFlag.isFalse(),
-            staff.useFlag.isTrue(),
-            staff.createAt.before(cursorAt));
+        .where(staff.deleteFlag.isFalse(), staff.useFlag.isTrue(), staff.createAt.before(cursorAt));
 
-    if (checkRole(ROLE_DELTA)) {
-      query.where(staff.privilege.eq(DELTA));
+    if (checkRole(ROLE_STAFF_MINOR)) {
+      query.where(staff.privilege.eq(STAFF_MINOR));
     }
 
     String word = search.getWord();

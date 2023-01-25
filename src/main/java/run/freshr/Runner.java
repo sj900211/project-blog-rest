@@ -1,9 +1,15 @@
 package run.freshr;
 
+import static run.freshr.domain.auth.enumeration.Privilege.MANAGER_MAJOR;
+
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import run.freshr.domain.auth.entity.Manager;
+import run.freshr.domain.auth.unit.ManagerUnit;
 
 /**
  * Runner.
@@ -14,7 +20,11 @@ import org.springframework.stereotype.Component;
  */
 @Slf4j
 @Component
+@RequiredArgsConstructor
 public class Runner implements ApplicationRunner {
+
+  private final ManagerUnit managerUnit;
+  private final PasswordEncoder passwordEncoder;
 
   /**
    * Application Run 마지막에 동작하는 Method
@@ -34,6 +44,9 @@ public class Runner implements ApplicationRunner {
     log.info("|  |     |  |\\  \\----.|  |____.----)   |   |  |  |  | |  |\\  \\----.");
     log.info("|__|     | _| `._____||_______|_______/    |__|  |__| | _| `._____|");
     log.info("-------------------------------------------------------------------");
+
+    managerUnit.create(Manager.createEntity(MANAGER_MAJOR, "mighty",
+        passwordEncoder.encode("1234"), "MIGHTY"));
   }
 
 }

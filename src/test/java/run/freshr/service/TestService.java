@@ -10,6 +10,9 @@ import run.freshr.domain.auth.entity.Staff;
 import run.freshr.domain.auth.enumeration.Privilege;
 import run.freshr.domain.auth.enumeration.Role;
 import run.freshr.domain.auth.redis.AccessRedis;
+import run.freshr.domain.common.entity.Attach;
+import run.freshr.domain.community.entity.BoardNotice;
+import run.freshr.domain.community.enumeration.BoardNoticeExpose;
 import run.freshr.mappers.EnumGetter;
 
 /**
@@ -39,6 +42,8 @@ public interface TestService {
   //  /  _____  \   |  |        |  |     /  _____  \ |  `----.|  |  |  |
   // /__/     \__\  |__|        |__|    /__/     \__\ \______||__|  |__|
   long createAttach(String filename, String path, Sign creator);
+
+  Attach getAttach(long id);
 
   //      ___      __    __  .___________. __    __
   //     /   \    |  |  |  | |           ||  |  |  |
@@ -70,5 +75,19 @@ public interface TestService {
   Account getAccount(long id);
 
   Sign getSign(long id);
+
+  // .__   __.   ______   .___________. __    ______  _______
+  // |  \ |  |  /  __  \  |           ||  |  /      ||   ____|
+  // |   \|  | |  |  |  | `---|  |----`|  | |  ,----'|  |__
+  // |  . `  | |  |  |  |     |  |     |  | |  |     |   __|
+  // |  |\   | |  `--'  |     |  |     |  | |  `----.|  |____
+  // |__| \__|  \______/      |__|     |__|  \______||_______|
+
+  long createBoardNotice(String title, String contents, Boolean fixed, BoardNoticeExpose expose,
+      Manager creator);
+
+  BoardNotice getBoardNotice(long id);
+
+  void createBoardNoticeAttachMapping(long noticeId, long attachId, int sort);
 
 }

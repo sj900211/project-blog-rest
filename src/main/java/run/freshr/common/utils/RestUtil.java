@@ -8,10 +8,10 @@ import static java.util.Arrays.stream;
 import static java.util.Optional.ofNullable;
 import static run.freshr.common.security.TokenProvider.signedId;
 import static run.freshr.common.security.TokenProvider.signedRole;
-import static run.freshr.domain.auth.enumeration.Role.ROLE_ALPHA;
-import static run.freshr.domain.auth.enumeration.Role.ROLE_BETA;
-import static run.freshr.domain.auth.enumeration.Role.ROLE_DELTA;
-import static run.freshr.domain.auth.enumeration.Role.ROLE_GAMMA;
+import static run.freshr.domain.auth.enumeration.Role.ROLE_MANAGER_MAJOR;
+import static run.freshr.domain.auth.enumeration.Role.ROLE_MANAGER_MINOR;
+import static run.freshr.domain.auth.enumeration.Role.ROLE_STAFF_MAJOR;
+import static run.freshr.domain.auth.enumeration.Role.ROLE_STAFF_MINOR;
 import static run.freshr.domain.auth.enumeration.Role.ROLE_USER;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -668,6 +668,48 @@ public class RestUtil {
   }
 
   /**
+   * Manager 권한 체크.
+   *
+   * @return boolean
+   * @apiNote 통신중인 계정의 권한이 ROLE_MANAGER_* 인지 체크
+   * @author FreshR
+   * @since 2023. 1. 23. 오전 1:29:20
+   */
+  public static boolean checkManager() {
+    log.info("RestUtil.checkManager");
+
+    return getSignedRole().check(ROLE_MANAGER_MAJOR, ROLE_MANAGER_MINOR);
+  }
+
+  /**
+   * Staff 권한 체크.
+   *
+   * @return boolean
+   * @apiNote 통신중인 계정의 권한이 ROLE_STAFF_* 인지 체크
+   * @author FreshR
+   * @since 2023. 1. 23. 오전 1:29:20
+   */
+  public static boolean checkStaff() {
+    log.info("RestUtil.checkStaff");
+
+    return getSignedRole().check(ROLE_STAFF_MAJOR, ROLE_STAFF_MINOR);
+  }
+
+  /**
+   * User 권한 체크.
+   *
+   * @return boolean
+   * @apiNote 통신중인 계정의 권한이 ROLE_USER 인지 체크
+   * @author FreshR
+   * @since 2023. 1. 23. 오전 1:29:20
+   */
+  public static boolean checkUser() {
+    log.info("RestUtil.checkUser");
+
+    return getSignedRole().check(ROLE_USER);
+  }
+
+  /**
    * 계정 정보 조회.
    *
    * @return signed
@@ -692,7 +734,7 @@ public class RestUtil {
   public static Manager getSignedManager() {
     log.info("RestUtil.getSignedManager");
 
-    if (!getSignedRole().check(ROLE_ALPHA, ROLE_BETA)) {
+    if (!checkManager()) {
       return null;
     }
 
@@ -710,7 +752,7 @@ public class RestUtil {
   public static Staff getSignedStaff() {
     log.info("RestUtil.getSignedStaff");
 
-    if (!getSignedRole().check(ROLE_GAMMA, ROLE_DELTA)) {
+    if (!checkStaff()) {
       return null;
     }
 
@@ -728,7 +770,7 @@ public class RestUtil {
   public static Account getSignedAccount() {
     log.info("RestUtil.getSignedAccount");
 
-    if (!getSignedRole().check(ROLE_USER)) {
+    if (!checkUser()) {
       return null;
     }
 

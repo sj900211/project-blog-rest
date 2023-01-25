@@ -29,7 +29,8 @@ import run.freshr.domain.common.AttachDocs;
 import run.freshr.domain.common.EnumDocs;
 
 @Slf4j
-@DocsGroup(name = "common", description = "공통 관리")
+@DisplayName("공통 관리")
+@DocsGroup(name = "common")
 class CommonControllerTest extends TestExtension {
 
   //  _______ .__   __.  __    __  .___  ___.

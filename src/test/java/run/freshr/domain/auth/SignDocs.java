@@ -1,5 +1,6 @@
 package run.freshr.domain.auth;
 
+import static io.jsonwebtoken.lang.Strings.hasLength;
 import static org.springframework.restdocs.payload.JsonFieldType.STRING;
 import static run.freshr.domain.auth.entity.QSign.sign;
 
@@ -8,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.restdocs.payload.FieldDescriptor;
 import run.freshr.common.docs.ResponseDocs;
 import run.freshr.common.util.PrintUtil;
+import run.freshr.common.util.PrintUtil.Builder;
 
 @Slf4j
 public class SignDocs {
@@ -86,6 +88,28 @@ public class SignDocs {
   }
 
   public static class Docs {
+    public static List<FieldDescriptor> setAuditor(String prefix, String description,
+        Boolean optional) {
+      log.info("ResponseDocs.setAuditor");
+
+      Builder builder = PrintUtil.builder();
+
+      if (hasLength(prefix)) {
+        builder.prefix(prefix);
+      }
+
+      if (hasLength(description)) {
+        builder.prefixDescription(prefix);
+      }
+
+      builder.prefixOptional(optional);
+
+      return builder
+          .field(sign.id, sign.privilege, sign.username)
+          .field("name", "이름", STRING)
+          .build()
+          .getFieldList();
+    }
   }
 
 }

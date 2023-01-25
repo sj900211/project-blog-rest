@@ -1,10 +1,10 @@
 package run.freshr.domain.auth.enumeration;
 
+import static java.util.Arrays.stream;
+import static run.freshr.domain.auth.enumeration.Role.ROLE_STAFF_MINOR;
+
 import lombok.extern.slf4j.Slf4j;
 import run.freshr.mappers.EnumModel;
-
-import static java.util.Arrays.stream;
-import static run.freshr.domain.auth.enumeration.Role.ROLE_DELTA;
 
 /**
  * Privilege.
@@ -14,9 +14,9 @@ import static run.freshr.domain.auth.enumeration.Role.ROLE_DELTA;
  * @since 2022. 12. 23. 오후 4:23:59
  */
 @Slf4j
-public enum PrivilegeDelta implements EnumModel {
+public enum PrivilegeStaff implements EnumModel {
 
-  DELTA("관리자", ROLE_DELTA);
+  STAFF_MINOR("관리자", ROLE_STAFF_MINOR);
 
   private final String value;
   private final Role role;
@@ -29,15 +29,15 @@ public enum PrivilegeDelta implements EnumModel {
    * @author FreshR
    * @since 2022. 12. 23. 오후 4:23:59
    */
-  PrivilegeDelta(String value, Role role) {
+  PrivilegeStaff(String value, Role role) {
     this.value = value;
     this.role = role;
   }
 
-  public static PrivilegeDelta find(String key) {
+  public static PrivilegeStaff find(String key) {
     log.info("Privilege.find");
 
-    return stream(PrivilegeDelta.values())
+    return stream(PrivilegeStaff.values())
         .filter(item -> item.getKey().equalsIgnoreCase(key))
         .findAny()
         .orElse(null);

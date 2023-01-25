@@ -1,10 +1,10 @@
 package run.freshr;
 
 import static org.springframework.util.MimeTypeUtils.IMAGE_PNG_VALUE;
-import static run.freshr.domain.auth.enumeration.Privilege.ALPHA;
-import static run.freshr.domain.auth.enumeration.Privilege.BETA;
-import static run.freshr.domain.auth.enumeration.Privilege.DELTA;
-import static run.freshr.domain.auth.enumeration.Privilege.GAMMA;
+import static run.freshr.domain.auth.enumeration.Privilege.MANAGER_MAJOR;
+import static run.freshr.domain.auth.enumeration.Privilege.MANAGER_MINOR;
+import static run.freshr.domain.auth.enumeration.Privilege.STAFF_MAJOR;
+import static run.freshr.domain.auth.enumeration.Privilege.STAFF_MINOR;
 import static run.freshr.domain.auth.enumeration.Privilege.USER;
 
 import io.minio.errors.ErrorResponseException;
@@ -26,8 +26,11 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
+import run.freshr.domain.auth.entity.Manager;
+import run.freshr.domain.community.enumeration.BoardNoticeExpose;
 import run.freshr.service.MinioService;
 import run.freshr.service.TestService;
+import run.freshr.utils.StringUtil;
 
 /**
  * Test runner.
@@ -42,12 +45,13 @@ import run.freshr.service.TestService;
 @Profile("test")
 public class TestRunner implements ApplicationRunner {
 
-  public static long alphaId;
-  public static long betaId;
-  public static long gammaId;
-  public static long deltaId;
+  public static long managerMajorId;
+  public static long managerMinorId;
+  public static long staffMajorId;
+  public static long staffMinorId;
   public static long userId;
   public static List<Long> attachIdList = new ArrayList<>();
+  public static List<Long> noticeIdList = new ArrayList<>();
 
   @Autowired
   private TestService service;
@@ -82,6 +86,7 @@ public class TestRunner implements ApplicationRunner {
 
     setAuth();
     setCommon();
+    setCommunity();
   }
 
   /**
@@ -92,11 +97,16 @@ public class TestRunner implements ApplicationRunner {
    * @since 2023. 1. 13. 오전 11:33:50
    */
   private void setAuth() {
-    alphaId = service.createManager(ALPHA, ALPHA.name().toLowerCase(), ALPHA.name());
-    betaId = service.createManager(BETA, BETA.name().toLowerCase(), BETA.name());
-    gammaId = service.createStaff(GAMMA, GAMMA.name().toLowerCase(), GAMMA.name());
-    deltaId = service.createStaff(DELTA, DELTA.name().toLowerCase(), DELTA.name());
-    userId = service.createAccount(USER.name().toLowerCase(), USER.name());
+    managerMajorId = service
+        .createManager(MANAGER_MAJOR, MANAGER_MAJOR.name().toLowerCase(), MANAGER_MAJOR.name());
+    managerMinorId = service
+        .createManager(MANAGER_MINOR, MANAGER_MINOR.name().toLowerCase(), MANAGER_MINOR.name());
+    staffMajorId = service
+        .createStaff(STAFF_MAJOR, STAFF_MAJOR.name().toLowerCase(), STAFF_MAJOR.name());
+    staffMinorId = service
+        .createStaff(STAFF_MINOR, STAFF_MINOR.name().toLowerCase(), STAFF_MINOR.name());
+    userId = service
+        .createAccount(USER.name().toLowerCase(), USER.name());
   }
 
   /**
@@ -122,6 +132,22 @@ public class TestRunner implements ApplicationRunner {
     for (int i = 0; i < 45; i++) {
       attachIdList.add(service
           .createAttach("dummy.png", ".temp", service.getSign(userId)));
+    }
+  }
+
+  private void setCommunity() {
+    Manager creator = service.getManager(managerMajorId);
+
+    for (int i = 0; i < 15; i++) {
+      String padding = StringUtil.padding(i + 1, 3);
+      long id = service.createBoardNotice("title " + padding,
+          "contents " + padding, false, BoardNoticeExpose.ALL, creator);
+
+      for (int j = 0; j < 3; j++) {
+        service.createBoardNoticeAttachMapping(id, attachIdList.get((i * 3) + j), i);
+      }
+
+      noticeIdList.add(id);
     }
   }
 

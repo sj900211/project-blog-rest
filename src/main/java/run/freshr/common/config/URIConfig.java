@@ -33,4 +33,7 @@ public class URIConfig {
   public static final String uriAuthPassword = "/auth/password";
   public static final String uriAuthInfo = "/auth/info";
 
+  public static final String uriCommunityNotice = "/community/notice";
+  public static final String uriCommunityNoticeId = "/community/notice/{id}";
+
 }

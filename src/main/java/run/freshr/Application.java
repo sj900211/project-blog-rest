@@ -3,8 +3,6 @@ package run.freshr;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;
-import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 
 /**
@@ -16,8 +14,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
  */
 @SpringBootApplication
 @EnableCaching
-@EnableJpaAuditing
-@EnableJpaRepositories("**.**.domain.**.repository.jpa")
 public class Application {
 
   /**

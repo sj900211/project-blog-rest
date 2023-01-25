@@ -50,14 +50,14 @@ public class EntityAuditLogicalExtension {
   @Comment("등록 날짜")
   protected LocalDateTime createAt;
 
+  @LastModifiedDate
+  @Comment("마지막 수정 날짜")
+  protected LocalDateTime updateAt;
+
   @ManyToOne(fetch = LAZY)
   @Comment("등록자 일련 번호")
   @JoinColumn(name = "creator_id")
   protected Sign creator;
-
-  @LastModifiedDate
-  @Comment("마지막 수정 날짜")
-  protected LocalDateTime updateAt;
 
   @ManyToOne(fetch = LAZY)
   @Comment("수정자 일련 번호")
@@ -73,7 +73,6 @@ public class EntityAuditLogicalExtension {
    * @since 2023. 1. 12. 오후 6:17:40
    */
   protected void remove(Sign updater) {
-    this.updater = updater;
     this.useFlag = false;
     this.deleteFlag = true;
   }

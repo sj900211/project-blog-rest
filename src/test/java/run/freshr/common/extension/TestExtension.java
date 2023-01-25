@@ -18,23 +18,23 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.pr
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.util.StringUtils.hasLength;
-import static run.freshr.TestRunner.alphaId;
-import static run.freshr.TestRunner.betaId;
-import static run.freshr.TestRunner.deltaId;
-import static run.freshr.TestRunner.gammaId;
+import static run.freshr.TestRunner.managerMajorId;
+import static run.freshr.TestRunner.managerMinorId;
+import static run.freshr.TestRunner.staffMajorId;
+import static run.freshr.TestRunner.staffMinorId;
 import static run.freshr.TestRunner.userId;
 import static run.freshr.common.security.TokenProvider.signedId;
 import static run.freshr.common.security.TokenProvider.signedRole;
-import static run.freshr.domain.auth.enumeration.Role.ROLE_ALPHA;
 import static run.freshr.domain.auth.enumeration.Role.ROLE_ANONYMOUS;
-import static run.freshr.domain.auth.enumeration.Role.ROLE_BETA;
-import static run.freshr.domain.auth.enumeration.Role.ROLE_DELTA;
-import static run.freshr.domain.auth.enumeration.Role.ROLE_GAMMA;
+import static run.freshr.domain.auth.enumeration.Role.ROLE_MANAGER_MAJOR;
+import static run.freshr.domain.auth.enumeration.Role.ROLE_MANAGER_MINOR;
+import static run.freshr.domain.auth.enumeration.Role.ROLE_STAFF_MAJOR;
+import static run.freshr.domain.auth.enumeration.Role.ROLE_STAFF_MINOR;
 import static run.freshr.domain.auth.enumeration.Role.ROLE_USER;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.util.List;
 import jakarta.persistence.EntityManager;
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestInstance;
@@ -480,53 +480,53 @@ public abstract class TestExtension {
   /**
    * 인증 정보 생성.
    *
-   * @apiNote ROLE_ALPHA 권한으로 인증 정보 생성
+   * @apiNote ROLE_MANAGER_MAJOR 권한으로 인증 정보 생성
    * @author FreshR
    * @since 2023. 1. 13. 오전 11:02:07
    */
-  protected void setSignedAlpha() {
-    log.info("TestExtension.setSignedAlpha");
+  protected void setSignedManagerMajor() {
+    log.info("TestExtension.setSignedManagerMajor");
 
-    authentication(alphaId, ROLE_ALPHA);
+    authentication(managerMajorId, ROLE_MANAGER_MAJOR);
   }
 
   /**
    * 인증 정보 생성.
    *
-   * @apiNote ROLE_BETA 권한으로 인증 정보 생성
+   * @apiNote ROLE_MANAGER_MINOR 권한으로 인증 정보 생성
    * @author FreshR
    * @since 2023. 1. 13. 오전 11:02:07
    */
-  protected void setSignedBeta() {
-    log.info("TestExtension.setSignedBeta");
+  protected void setSignedManagerMinor() {
+    log.info("TestExtension.setSignedManagerMinor");
 
-    authentication(betaId, ROLE_BETA);
+    authentication(managerMinorId, ROLE_MANAGER_MINOR);
   }
 
   /**
    * 인증 정보 생성.
    *
-   * @apiNote ROLE_GAMMA 권한으로 인증 정보 생성
+   * @apiNote ROLE_STAFF_MAJOR 권한으로 인증 정보 생성
    * @author FreshR
    * @since 2023. 1. 13. 오전 11:02:07
    */
-  protected void setSignedGamma() {
-    log.info("TestExtension.setSignedGamma");
+  protected void setSignedStaffMajor() {
+    log.info("TestExtension.setSignedStaffMajor");
 
-    authentication(gammaId, ROLE_GAMMA);
+    authentication(staffMajorId, ROLE_STAFF_MAJOR);
   }
 
   /**
    * 인증 정보 생성.
    *
-   * @apiNote ROLE_DELTA 권한으로 인증 정보 생성
+   * @apiNote ROLE_STAFF_MINOR 권한으로 인증 정보 생성
    * @author FreshR
    * @since 2023. 1. 13. 오전 11:02:07
    */
-  protected void setSignedDelta() {
-    log.info("TestExtension.setSignedDelta");
+  protected void setSignedStaffMinor() {
+    log.info("TestExtension.setSignedStaffMinor");
 
-    authentication(deltaId, ROLE_DELTA);
+    authentication(staffMinorId, ROLE_STAFF_MINOR);
   }
 
   /**

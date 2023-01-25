@@ -2,7 +2,7 @@ package run.freshr.domain.auth.entity;
 
 import static java.util.Optional.ofNullable;
 import static lombok.AccessLevel.PROTECTED;
-import static run.freshr.domain.auth.enumeration.Privilege.BETA;
+import static run.freshr.domain.auth.enumeration.Privilege.MANAGER_MINOR;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -32,7 +32,7 @@ public class Manager extends Sign {
   private Manager(Privilege privilege, String username, String password, String name) {
     log.info("Manager.Constructor");
 
-    this.privilege = ofNullable(privilege).orElse(BETA);
+    this.privilege = ofNullable(privilege).orElse(MANAGER_MINOR);
     this.username = username;
     this.password = password;
     this.name = name;

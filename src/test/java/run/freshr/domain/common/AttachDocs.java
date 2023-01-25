@@ -1,5 +1,6 @@
 package run.freshr.domain.common;
 
+import static io.jsonwebtoken.lang.Strings.hasLength;
 import static org.springframework.restdocs.payload.JsonFieldType.BOOLEAN;
 import static org.springframework.restdocs.payload.JsonFieldType.STRING;
 import static org.springframework.restdocs.request.RequestDocumentation.partWithName;
@@ -12,6 +13,7 @@ import org.springframework.restdocs.request.ParameterDescriptor;
 import org.springframework.restdocs.request.RequestPartDescriptor;
 import run.freshr.common.docs.ResponseDocs;
 import run.freshr.common.util.PrintUtil;
+import run.freshr.common.util.PrintUtil.Builder;
 
 @Slf4j
 public class AttachDocs {
@@ -138,6 +140,29 @@ public class AttachDocs {
   }
 
   public static class Docs {
+    public static List<FieldDescriptor> setAttach(String prefix, String description,
+        Boolean optional) {
+      log.info("ResponseDocs.setAttach");
+
+      Builder builder = PrintUtil.builder();
+
+      if (hasLength(prefix)) {
+        builder.prefix(prefix);
+      }
+
+      if (hasLength(description)) {
+        builder.prefixDescription(prefix);
+      }
+
+      builder.prefixOptional(optional);
+
+      return builder
+          .field(attach.id, attach.contentType, attach.filename, attach.size, attach.alt,
+              attach.title, attach.createAt, attach.updateAt)
+          .field("url", "리소스 URL", STRING)
+          .build()
+          .getFieldList();
+    }
   }
 
 }

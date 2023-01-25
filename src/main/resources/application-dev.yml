@@ -72,7 +72,7 @@ spring:
 
   data:
     redis:
-      host: ${INFRA_PROTOCOL}
+      host: ${INFRA_HOST}
       port: ${REDIS_PORT}
       password: ${REDIS_PASSWORD}
 

@@ -4,8 +4,8 @@ import static org.springframework.util.StringUtils.hasLength;
 import static run.freshr.common.utils.RestUtil.checkRole;
 import static run.freshr.domain.auth.entity.QManager.manager;
 import static run.freshr.domain.auth.entity.QStaff.staff;
-import static run.freshr.domain.auth.enumeration.Privilege.BETA;
-import static run.freshr.domain.auth.enumeration.Role.ROLE_BETA;
+import static run.freshr.domain.auth.enumeration.Privilege.MANAGER_MINOR;
+import static run.freshr.domain.auth.enumeration.Role.ROLE_MANAGER_MINOR;
 
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -31,8 +31,8 @@ public class ManagerRepositoryImpl implements ManagerRepositoryCustom {
             manager.useFlag.isTrue(),
             manager.createAt.before(cursorAt));
 
-    if (checkRole(ROLE_BETA)) {
-      query.where(staff.privilege.eq(BETA));
+    if (checkRole(ROLE_MANAGER_MINOR)) {
+      query.where(staff.privilege.eq(MANAGER_MINOR));
     }
 
     String word = search.getWord();
