@@ -30,11 +30,11 @@ import static run.freshr.enumeration.ColumnType.UNKNOWN;
 import static run.freshr.enumeration.ColumnType.VARCHAR;
 
 import com.querydsl.core.types.Path;
+import jakarta.persistence.Column;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
-import jakarta.persistence.Column;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.annotations.Comment;
 import org.springframework.restdocs.payload.FieldDescriptor;
@@ -198,24 +198,21 @@ public class PrintUtil {
     /**
      * Prefix
      *
-     * @apiNote parameter name & field path 의 prefix 설정<br>
-     * 설정한 이후 다시 설정하기 전까지는 모든 항목에 적용된다.
+     * @apiNote parameter name & field path 의 prefix 설정<br> 설정한 이후 다시 설정하기 전까지는 모든 항목에 적용된다.
      * @since 2023. 1. 18. 오후 5:04:43
      */
     private String prefix = "";
     /**
      * Prefix description
      *
-     * @apiNote description 의 prefix 설정<br>
-     * 설정한 이후 다시 설정하기 전까지는 모든 항목에 적용된다.
+     * @apiNote description 의 prefix 설정<br> 설정한 이후 다시 설정하기 전까지는 모든 항목에 적용된다.
      * @since 2023. 1. 18. 오후 5:04:43
      */
     private String prefixDescription = "";
     /**
      * Prefix optional
      *
-     * @apiNote 필수 항목 설정<br>
-     * 설정한 이후 다시 설정하기 전까지는 모든 항목에 적용된다.
+     * @apiNote 필수 항목 설정<br> 설정한 이후 다시 설정하기 전까지는 모든 항목에 적용된다.
      * @since 2023. 1. 18. 오후 5:04:43
      */
     private Boolean prefixOptional = false;
@@ -250,8 +247,7 @@ public class PrintUtil {
      *
      * @param prefix prefix
      * @return builder
-     * @apiNote parameter name & field path 의 prefix 설정<br>
-     * 설정한 이후 다시 설정하기 전까지는 모든 항목에 적용된다.
+     * @apiNote parameter name & field path 의 prefix 설정<br> 설정한 이후 다시 설정하기 전까지는 모든 항목에 적용된다.
      * @author FreshR
      * @since 2023. 1. 18. 오후 5:04:39
      */
@@ -268,8 +264,7 @@ public class PrintUtil {
      *
      * @param prefixDescription prefix description
      * @return builder
-     * @apiNote description 의 prefix 설정<br>
-     * 설정한 이후 다시 설정하기 전까지는 모든 항목에 적용된다.
+     * @apiNote description 의 prefix 설정<br> 설정한 이후 다시 설정하기 전까지는 모든 항목에 적용된다.
      * @author FreshR
      * @since 2023. 1. 18. 오후 5:04:39
      */
@@ -285,8 +280,7 @@ public class PrintUtil {
      * Prefix optional.
      *
      * @return builder
-     * @apiNote 필수 항목 설정<br>
-     * 설정한 이후 다시 설정하기 전까지는 모든 항목에 적용된다.
+     * @apiNote 필수 항목 설정<br> 설정한 이후 다시 설정하기 전까지는 모든 항목에 적용된다.
      * @author FreshR
      * @since 2023. 1. 18. 오후 5:04:39
      */
@@ -301,8 +295,7 @@ public class PrintUtil {
      *
      * @param optional optional
      * @return builder
-     * @apiNote 필수 항목 설정<br>
-     * 설정한 이후 다시 설정하기 전까지는 모든 항목에 적용된다.
+     * @apiNote 필수 항목 설정<br> 설정한 이후 다시 설정하기 전까지는 모든 항목에 적용된다.
      * @author FreshR
      * @since 2023. 1. 18. 오후 5:04:39
      */
@@ -318,8 +311,7 @@ public class PrintUtil {
      * Clear prefix.
      *
      * @return builder
-     * @apiNote parameter name & field path 의 prefix 설정 제거<br>
-     * 설정한 이후 다시 설정하기 전까지는 모든 항목에 적용된다.
+     * @apiNote parameter name & field path 의 prefix 설정 제거<br> 설정한 이후 다시 설정하기 전까지는 모든 항목에 적용된다.
      * @author FreshR
      * @since 2023. 1. 18. 오후 5:04:39
      */
@@ -335,8 +327,7 @@ public class PrintUtil {
      * Clear prefix description.
      *
      * @return builder
-     * @apiNote description 의 prefix 설정 제거<br>
-     * 설정한 이후 다시 설정하기 전까지는 모든 항목에 적용된다.
+     * @apiNote description 의 prefix 설정 제거<br> 설정한 이후 다시 설정하기 전까지는 모든 항목에 적용된다.
      * @author FreshR
      * @since 2023. 1. 18. 오후 5:04:39
      */
@@ -352,8 +343,7 @@ public class PrintUtil {
      * Clear optional.
      *
      * @return builder
-     * @apiNote 필수 항목 설정 제거<br>
-     * 설정한 이후 다시 설정하기 전까지는 모든 항목에 적용된다.
+     * @apiNote 필수 항목 설정 제거<br> 설정한 이후 다시 설정하기 전까지는 모든 항목에 적용된다.
      * @author FreshR
      * @since 2023. 1. 18. 오후 5:04:39
      */
@@ -369,8 +359,7 @@ public class PrintUtil {
      * Clear.
      *
      * @return builder
-     * @apiNote 모든 Prefix 설정 제거
-     * 설정한 이후 다시 설정하기 전까지는 모든 항목에 적용된다.
+     * @apiNote 모든 Prefix 설정 제거 설정한 이후 다시 설정하기 전까지는 모든 항목에 적용된다.
      * @author FreshR
      * @since 2023. 1. 18. 오후 5:04:39
      */
@@ -535,9 +524,8 @@ public class PrintUtil {
      *
      * @param maps maps
      * @return builder
-     * @apiNote {@link HashMap} 정보로 {@link ParameterDescriptor} 생성<br>
-     * 여기서 사용되는 HashMap 데이터는 run.freshr:search-docs 의<br>
-     * SearchClass & SearchComment Annotation 을 사용한 클래스가 재구성되어<br>
+     * @apiNote {@link HashMap} 정보로 {@link ParameterDescriptor} 생성<br> 여기서 사용되는 HashMap 데이터는
+     * run.freshr:search-docs 의<br> SearchClass & SearchComment Annotation 을 사용한 클래스가 재구성되어<br>
      * compile 시점에 만들어지는 class 의 정보
      * @author FreshR
      * @since 2023. 1. 18. 오후 5:04:40
@@ -555,9 +543,8 @@ public class PrintUtil {
      *
      * @param map map
      * @return builder
-     * @apiNote {@link HashMap} 정보로 {@link ParameterDescriptor} 생성<br>
-     * 여기서 사용되는 HashMap 데이터는 run.freshr:search-docs 의<br>
-     * SearchClass & SearchComment Annotation 을 사용한 클래스가 재구성되어<br>
+     * @apiNote {@link HashMap} 정보로 {@link ParameterDescriptor} 생성<br> 여기서 사용되는 HashMap 데이터는
+     * run.freshr:search-docs 의<br> SearchClass & SearchComment Annotation 을 사용한 클래스가 재구성되어<br>
      * compile 시점에 만들어지는 class 의 정보
      * @author FreshR
      * @since 2023. 1. 18. 오후 5:04:40
@@ -574,9 +561,8 @@ public class PrintUtil {
      * @param map      map
      * @param optional optional
      * @return builder
-     * @apiNote {@link HashMap} 정보로 {@link ParameterDescriptor} 생성<br>
-     * 여기서 사용되는 HashMap 데이터는 run.freshr:search-docs 의<br>
-     * SearchClass & SearchComment Annotation 을 사용한 클래스가 재구성되어<br>
+     * @apiNote {@link HashMap} 정보로 {@link ParameterDescriptor} 생성<br> 여기서 사용되는 HashMap 데이터는
+     * run.freshr:search-docs 의<br> SearchClass & SearchComment Annotation 을 사용한 클래스가 재구성되어<br>
      * compile 시점에 만들어지는 class 의 정보
      * @author FreshR
      * @since 2023. 1. 18. 오후 5:04:40
@@ -604,9 +590,8 @@ public class PrintUtil {
      * @param map         map
      * @param description description
      * @return builder
-     * @apiNote {@link HashMap} 정보로 {@link ParameterDescriptor} 생성<br>
-     * 여기서 사용되는 HashMap 데이터는 run.freshr:search-docs 의<br>
-     * SearchClass & SearchComment Annotation 을 사용한 클래스가 재구성되어<br>
+     * @apiNote {@link HashMap} 정보로 {@link ParameterDescriptor} 생성<br> 여기서 사용되는 HashMap 데이터는
+     * run.freshr:search-docs 의<br> SearchClass & SearchComment Annotation 을 사용한 클래스가 재구성되어<br>
      * compile 시점에 만들어지는 class 의 정보
      * @author FreshR
      * @since 2023. 1. 18. 오후 5:04:40
@@ -658,8 +643,8 @@ public class PrintUtil {
      * @param filename filename
      * @param paths    paths
      * @return builder
-     * @apiNote {@link Path} 정보로 팝업 {@link ParameterDescriptor} 생성<br>
-     * description 부분에 html a 요소로 링크를 생성해서 popup 링크를 연결
+     * @apiNote {@link Path} 정보로 팝업 {@link ParameterDescriptor} 생성<br> description 부분에 html a 요소로
+     * 링크를 생성해서 popup 링크를 연결
      * @author FreshR
      * @since 2023. 1. 18. 오후 5:04:40
      */
@@ -677,8 +662,8 @@ public class PrintUtil {
      * @param filename filename
      * @param path     path
      * @return builder
-     * @apiNote {@link Path} 정보로 팝업 {@link ParameterDescriptor} 생성<br>
-     * description 부분에 html a 요소로 링크를 생성해서 popup 링크를 연결
+     * @apiNote {@link Path} 정보로 팝업 {@link ParameterDescriptor} 생성<br> description 부분에 html a 요소로
+     * 링크를 생성해서 popup 링크를 연결
      * @author FreshR
      * @since 2023. 1. 18. 오후 5:04:40
      */
@@ -695,8 +680,8 @@ public class PrintUtil {
      * @param path     path
      * @param optional optional
      * @return builder
-     * @apiNote {@link Path} 정보로 팝업 {@link ParameterDescriptor} 생성<br>
-     * description 부분에 html a 요소로 링크를 생성해서 popup 링크를 연결
+     * @apiNote {@link Path} 정보로 팝업 {@link ParameterDescriptor} 생성<br> description 부분에 html a 요소로
+     * 링크를 생성해서 popup 링크를 연결
      * @author FreshR
      * @since 2023. 1. 18. 오후 5:04:40
      */
@@ -713,8 +698,8 @@ public class PrintUtil {
      * @param path       path
      * @param attributes attributes
      * @return builder
-     * @apiNote {@link Path} 정보로 팝업 {@link ParameterDescriptor} 생성<br>
-     * description 부분에 html a 요소로 링크를 생성해서 popup 링크를 연결
+     * @apiNote {@link Path} 정보로 팝업 {@link ParameterDescriptor} 생성<br> description 부분에 html a 요소로
+     * 링크를 생성해서 popup 링크를 연결
      * @author FreshR
      * @since 2023. 1. 18. 오후 5:04:40
      */
@@ -733,8 +718,8 @@ public class PrintUtil {
      * @param optional   optional
      * @param attributes attributes
      * @return builder
-     * @apiNote {@link Path} 정보로 팝업 {@link ParameterDescriptor} 생성<br>
-     * description 부분에 html a 요소로 링크를 생성해서 popup 링크를 연결
+     * @apiNote {@link Path} 정보로 팝업 {@link ParameterDescriptor} 생성<br> description 부분에 html a 요소로
+     * 링크를 생성해서 popup 링크를 연결
      * @author FreshR
      * @since 2023. 1. 18. 오후 5:04:40
      */
@@ -761,8 +746,8 @@ public class PrintUtil {
      * @param name        name
      * @param description description
      * @return builder
-     * @apiNote 팝업 {@link ParameterDescriptor} 생성<br>
-     * description 부분에 html a 요소로 링크를 생성해서 popup 링크를 연결
+     * @apiNote 팝업 {@link ParameterDescriptor} 생성<br> description 부분에 html a 요소로 링크를 생성해서 popup 링크를
+     * 연결
      * @author FreshR
      * @since 2023. 1. 18. 오후 5:04:40
      */
@@ -780,8 +765,8 @@ public class PrintUtil {
      * @param description description
      * @param optional    optional
      * @return builder
-     * @apiNote 팝업 {@link ParameterDescriptor} 생성<br>
-     * description 부분에 html a 요소로 링크를 생성해서 popup 링크를 연결
+     * @apiNote 팝업 {@link ParameterDescriptor} 생성<br> description 부분에 html a 요소로 링크를 생성해서 popup 링크를
+     * 연결
      * @author FreshR
      * @since 2023. 1. 18. 오후 5:04:40
      */
@@ -800,8 +785,8 @@ public class PrintUtil {
      * @param description description
      * @param attributes  attributes
      * @return builder
-     * @apiNote 팝업 {@link ParameterDescriptor} 생성<br>
-     * description 부분에 html a 요소로 링크를 생성해서 popup 링크를 연결
+     * @apiNote 팝업 {@link ParameterDescriptor} 생성<br> description 부분에 html a 요소로 링크를 생성해서 popup 링크를
+     * 연결
      * @author FreshR
      * @since 2023. 1. 18. 오후 5:04:40
      */
@@ -818,11 +803,9 @@ public class PrintUtil {
      * @param filename filename
      * @param maps     maps
      * @return builder
-     * @apiNote {@link HashMap} 정보로 팝업 {@link ParameterDescriptor} 생성<br>
-     * description 부분에 html a 요소로 링크를 생성해서 popup 링크를 연결<br>
-     * 여기서 사용되는 HashMap 데이터는 run.freshr:search-docs 의<br>
-     * SearchClass & SearchComment Annotation 을 사용한 클래스가 재구성되어<br>
-     * compile 시점에 만들어지는 class 의 정보
+     * @apiNote {@link HashMap} 정보로 팝업 {@link ParameterDescriptor} 생성<br> description 부분에 html a 요소로
+     * 링크를 생성해서 popup 링크를 연결<br> 여기서 사용되는 HashMap 데이터는 run.freshr:search-docs 의<br> SearchClass &
+     * SearchComment Annotation 을 사용한 클래스가 재구성되어<br> compile 시점에 만들어지는 class 의 정보
      * @author FreshR
      * @since 2023. 1. 18. 오후 5:04:40
      */
@@ -840,11 +823,9 @@ public class PrintUtil {
      * @param filename filename
      * @param map      map
      * @return builder
-     * @apiNote {@link HashMap} 정보로 팝업 {@link ParameterDescriptor} 생성<br>
-     * description 부분에 html a 요소로 링크를 생성해서 popup 링크를 연결<br>
-     * 여기서 사용되는 HashMap 데이터는 run.freshr:search-docs 의<br>
-     * SearchClass & SearchComment Annotation 을 사용한 클래스가 재구성되어<br>
-     * compile 시점에 만들어지는 class 의 정보
+     * @apiNote {@link HashMap} 정보로 팝업 {@link ParameterDescriptor} 생성<br> description 부분에 html a 요소로
+     * 링크를 생성해서 popup 링크를 연결<br> 여기서 사용되는 HashMap 데이터는 run.freshr:search-docs 의<br> SearchClass &
+     * SearchComment Annotation 을 사용한 클래스가 재구성되어<br> compile 시점에 만들어지는 class 의 정보
      * @author FreshR
      * @since 2023. 1. 18. 오후 5:04:40
      */
@@ -861,11 +842,9 @@ public class PrintUtil {
      * @param map      map
      * @param optional optional
      * @return builder
-     * @apiNote {@link HashMap} 정보로 팝업 {@link ParameterDescriptor} 생성<br>
-     * description 부분에 html a 요소로 링크를 생성해서 popup 링크를 연결<br>
-     * 여기서 사용되는 HashMap 데이터는 run.freshr:search-docs 의<br>
-     * SearchClass & SearchComment Annotation 을 사용한 클래스가 재구성되어<br>
-     * compile 시점에 만들어지는 class 의 정보
+     * @apiNote {@link HashMap} 정보로 팝업 {@link ParameterDescriptor} 생성<br> description 부분에 html a 요소로
+     * 링크를 생성해서 popup 링크를 연결<br> 여기서 사용되는 HashMap 데이터는 run.freshr:search-docs 의<br> SearchClass &
+     * SearchComment Annotation 을 사용한 클래스가 재구성되어<br> compile 시점에 만들어지는 class 의 정보
      * @author FreshR
      * @since 2023. 1. 18. 오후 5:04:40
      */
@@ -894,11 +873,9 @@ public class PrintUtil {
      * @param map         map
      * @param description description
      * @return builder
-     * @apiNote {@link HashMap} 정보로 팝업 {@link ParameterDescriptor} 생성<br>
-     * description 부분에 html a 요소로 링크를 생성해서 popup 링크를 연결<br>
-     * 여기서 사용되는 HashMap 데이터는 run.freshr:search-docs 의<br>
-     * SearchClass & SearchComment Annotation 을 사용한 클래스가 재구성되어<br>
-     * compile 시점에 만들어지는 class 의 정보
+     * @apiNote {@link HashMap} 정보로 팝업 {@link ParameterDescriptor} 생성<br> description 부분에 html a 요소로
+     * 링크를 생성해서 popup 링크를 연결<br> 여기서 사용되는 HashMap 데이터는 run.freshr:search-docs 의<br> SearchClass &
+     * SearchComment Annotation 을 사용한 클래스가 재구성되어<br> compile 시점에 만들어지는 class 의 정보
      * @author FreshR
      * @since 2023. 1. 18. 오후 5:04:41
      */
@@ -929,8 +906,8 @@ public class PrintUtil {
      * @param optional    optional
      * @param attributes  attributes
      * @return builder
-     * @apiNote 팝업 {@link ParameterDescriptor} 생성<br>
-     * description 부분에 html a 요소로 링크를 생성해서 popup 링크를 연결
+     * @apiNote 팝업 {@link ParameterDescriptor} 생성<br> description 부분에 html a 요소로 링크를 생성해서 popup 링크를
+     * 연결
      * @author FreshR
      * @since 2023. 1. 18. 오후 5:04:41
      */
@@ -1252,8 +1229,8 @@ public class PrintUtil {
      *
      * @param paths paths
      * @return builder
-     * @apiNote {@link Path} 정보로 팝업 {@link FieldDescriptor} 생성<br>
-     * description 부분에 html a 요소로 링크를 생성해서 popup 링크를 연결
+     * @apiNote {@link Path} 정보로 팝업 {@link FieldDescriptor} 생성<br> description 부분에 html a 요소로 링크를
+     * 생성해서 popup 링크를 연결
      * @author FreshR
      * @since 2023. 1. 18. 오후 5:04:42
      */
@@ -1270,8 +1247,8 @@ public class PrintUtil {
      *
      * @param path path
      * @return builder
-     * @apiNote {@link Path} 정보로 팝업 {@link FieldDescriptor} 생성<br>
-     * description 부분에 html a 요소로 링크를 생성해서 popup 링크를 연결
+     * @apiNote {@link Path} 정보로 팝업 {@link FieldDescriptor} 생성<br> description 부분에 html a 요소로 링크를
+     * 생성해서 popup 링크를 연결
      * @author FreshR
      * @since 2023. 1. 18. 오후 5:04:42
      */
@@ -1287,8 +1264,8 @@ public class PrintUtil {
      * @param name name
      * @param path path
      * @return builder
-     * @apiNote {@link Path} 정보로 팝업 {@link FieldDescriptor} 생성<br>
-     * description 부분에 html a 요소로 링크를 생성해서 popup 링크를 연결
+     * @apiNote {@link Path} 정보로 팝업 {@link FieldDescriptor} 생성<br> description 부분에 html a 요소로 링크를
+     * 생성해서 popup 링크를 연결
      * @author FreshR
      * @since 2023. 1. 18. 오후 5:04:42
      */
@@ -1305,8 +1282,8 @@ public class PrintUtil {
      * @param path    path
      * @param comment comment
      * @return builder
-     * @apiNote {@link Path} 정보로 팝업 {@link FieldDescriptor} 생성<br>
-     * description 부분에 html a 요소로 링크를 생성해서 popup 링크를 연결
+     * @apiNote {@link Path} 정보로 팝업 {@link FieldDescriptor} 생성<br> description 부분에 html a 요소로 링크를
+     * 생성해서 popup 링크를 연결
      * @author FreshR
      * @since 2023. 1. 18. 오후 5:04:42
      */
@@ -1323,8 +1300,8 @@ public class PrintUtil {
      * @param path path
      * @param type type
      * @return builder
-     * @apiNote {@link Path} 정보로 팝업 {@link FieldDescriptor} 생성<br>
-     * description 부분에 html a 요소로 링크를 생성해서 popup 링크를 연결
+     * @apiNote {@link Path} 정보로 팝업 {@link FieldDescriptor} 생성<br> description 부분에 html a 요소로 링크를
+     * 생성해서 popup 링크를 연결
      * @author FreshR
      * @since 2023. 1. 18. 오후 5:04:42
      */
@@ -1341,8 +1318,8 @@ public class PrintUtil {
      * @param path     path
      * @param optional optional
      * @return builder
-     * @apiNote {@link Path} 정보로 팝업 {@link FieldDescriptor} 생성<br>
-     * description 부분에 html a 요소로 링크를 생성해서 popup 링크를 연결
+     * @apiNote {@link Path} 정보로 팝업 {@link FieldDescriptor} 생성<br> description 부분에 html a 요소로 링크를
+     * 생성해서 popup 링크를 연결
      * @author FreshR
      * @since 2023. 1. 18. 오후 5:04:42
      */
@@ -1360,8 +1337,8 @@ public class PrintUtil {
      * @param comment  comment
      * @param optional optional
      * @return builder
-     * @apiNote {@link Path} 정보로 팝업 {@link FieldDescriptor} 생성<br>
-     * description 부분에 html a 요소로 링크를 생성해서 popup 링크를 연결
+     * @apiNote {@link Path} 정보로 팝업 {@link FieldDescriptor} 생성<br> description 부분에 html a 요소로 링크를
+     * 생성해서 popup 링크를 연결
      * @author FreshR
      * @since 2023. 1. 18. 오후 5:04:42
      */
@@ -1379,8 +1356,8 @@ public class PrintUtil {
      * @param comment comment
      * @param type    type
      * @return builder
-     * @apiNote {@link Path} 정보로 팝업 {@link FieldDescriptor} 생성<br>
-     * description 부분에 html a 요소로 링크를 생성해서 popup 링크를 연결
+     * @apiNote {@link Path} 정보로 팝업 {@link FieldDescriptor} 생성<br> description 부분에 html a 요소로 링크를
+     * 생성해서 popup 링크를 연결
      * @author FreshR
      * @since 2023. 1. 18. 오후 5:04:42
      */
@@ -1397,8 +1374,8 @@ public class PrintUtil {
      * @param path       path
      * @param attributes attributes
      * @return builder
-     * @apiNote {@link Path} 정보로 팝업 {@link FieldDescriptor} 생성<br>
-     * description 부분에 html a 요소로 링크를 생성해서 popup 링크를 연결
+     * @apiNote {@link Path} 정보로 팝업 {@link FieldDescriptor} 생성<br> description 부분에 html a 요소로 링크를
+     * 생성해서 popup 링크를 연결
      * @author FreshR
      * @since 2023. 1. 18. 오후 5:04:42
      */
@@ -1416,8 +1393,8 @@ public class PrintUtil {
      * @param type     type
      * @param optional optional
      * @return builder
-     * @apiNote {@link Path} 정보로 팝업 {@link FieldDescriptor} 생성<br>
-     * description 부분에 html a 요소로 링크를 생성해서 popup 링크를 연결
+     * @apiNote {@link Path} 정보로 팝업 {@link FieldDescriptor} 생성<br> description 부분에 html a 요소로 링크를
+     * 생성해서 popup 링크를 연결
      * @author FreshR
      * @since 2023. 1. 18. 오후 5:04:42
      */
@@ -1435,8 +1412,8 @@ public class PrintUtil {
      * @param type       type
      * @param attributes attributes
      * @return builder
-     * @apiNote {@link Path} 정보로 팝업 {@link FieldDescriptor} 생성<br>
-     * description 부분에 html a 요소로 링크를 생성해서 popup 링크를 연결
+     * @apiNote {@link Path} 정보로 팝업 {@link FieldDescriptor} 생성<br> description 부분에 html a 요소로 링크를
+     * 생성해서 popup 링크를 연결
      * @author FreshR
      * @since 2023. 1. 18. 오후 5:04:42
      */
@@ -1457,8 +1434,8 @@ public class PrintUtil {
      * @param optional   optional
      * @param attributes attributes
      * @return builder
-     * @apiNote {@link Path} 정보로 팝업 {@link FieldDescriptor} 생성<br>
-     * description 부분에 html a 요소로 링크를 생성해서 popup 링크를 연결
+     * @apiNote {@link Path} 정보로 팝업 {@link FieldDescriptor} 생성<br> description 부분에 html a 요소로 링크를
+     * 생성해서 popup 링크를 연결
      * @author FreshR
      * @since 2023. 1. 18. 오후 5:04:42
      */
@@ -1492,8 +1469,7 @@ public class PrintUtil {
      * @param optional    optional
      * @param attributes  attributes
      * @return builder
-     * @apiNote 팝업 {@link FieldDescriptor} 생성<br>
-     * description 부분에 html a 요소로 링크를 생성해서 popup 링크를 연결
+     * @apiNote 팝업 {@link FieldDescriptor} 생성<br> description 부분에 html a 요소로 링크를 생성해서 popup 링크를 연결
      * @author FreshR
      * @since 2023. 1. 18. 오후 5:04:42
      */

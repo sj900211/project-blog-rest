@@ -12,10 +12,12 @@ import java.time.LocalDateTime;
 import lombok.Getter;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.Comment;
+import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import run.freshr.domain.auth.entity.Sign;
+import run.freshr.domain.auth.entity.Account;
 
 /**
  * Audit 정보와 논리 삭제 정책을 가진 MappedSuperclass.
@@ -45,15 +47,17 @@ public class EntityAuditLogicalExtension {
   @Comment("마지막 수정 날짜")
   protected LocalDateTime updateAt;
 
+  @CreatedBy
   @ManyToOne(fetch = LAZY)
   @Comment("등록자 일련 번호")
-  @JoinColumn(name = "creator_id")
-  protected Sign creator;
+  @JoinColumn(name = "creator_by")
+  protected Account creator;
 
+  @LastModifiedBy
   @ManyToOne(fetch = LAZY)
   @Comment("수정자 일련 번호")
-  @JoinColumn(name = "updater_id")
-  protected Sign updater;
+  @JoinColumn(name = "updater_by")
+  protected Account updater;
 
   /**
    * Remove.

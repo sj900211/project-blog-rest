@@ -31,6 +31,7 @@ public enum BoardType implements EnumModel {
   }
 
   public static class Discriminator {
+
     public static final String NOTICE = "NOTICE";
   }
 

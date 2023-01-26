@@ -1,12 +1,13 @@
 package run.freshr.service;
 
+import static java.util.Optional.ofNullable;
 import static run.freshr.common.utils.RestUtil.buildId;
 import static run.freshr.common.utils.RestUtil.error;
 import static run.freshr.common.utils.RestUtil.getExceptions;
-import static run.freshr.common.utils.RestUtil.getSignedManager;
 import static run.freshr.common.utils.RestUtil.ok;
 import static run.freshr.utils.MapperUtil.map;
 
+import java.util.ArrayList;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -41,10 +42,10 @@ public class CommunityServiceImpl implements CommunityService {
     log.info("CommunityService.createBoardNotice");
 
     BoardNotice entity = BoardNotice.createEntity(dto.getTitle(), dto.getContents(),
-        dto.getFixed(), dto.getExpose(), getSignedManager());
+        dto.getFixed(), dto.getExpose());
     Long id = boardNoticeUnit.create(entity);
 
-    dto.getAttachList().forEach(item -> {
+    ofNullable(dto.getAttachList()).orElse(new ArrayList<>()).forEach(item -> {
       Attach attach = attachUnit.get(item.getAttach().getId());
 
       boardAttachMappingUnit
@@ -59,7 +60,8 @@ public class CommunityServiceImpl implements CommunityService {
     log.info("CommunityService.getBoardNoticePage");
 
     Page<BoardNotice> entityPage = boardNoticeUnit.getPage(search);
-    Page<BoardNoticeListResponse> page = entityPage.map(item -> map(item, BoardNoticeListResponse.class));
+    Page<BoardNoticeListResponse> page = entityPage.map(
+        item -> map(item, BoardNoticeListResponse.class));
 
     return ok(page);
   }
@@ -109,12 +111,11 @@ public class CommunityServiceImpl implements CommunityService {
       return error(getExceptions().getEntityNotFound());
     }
 
-    entity.updateEntity(dto.getTitle(), dto.getContents(),
-        dto.getFixed(), dto.getExpose(), getSignedManager());
+    entity.updateEntity(dto.getTitle(), dto.getContents(), dto.getFixed(), dto.getExpose());
 
     boardAttachMappingUnit.delete(entity);
 
-    dto.getAttachList().forEach(item -> {
+    ofNullable(dto.getAttachList()).orElse(new ArrayList<>()).forEach(item -> {
       Attach attach = attachUnit.get(item.getAttach().getId());
 
       boardAttachMappingUnit
@@ -143,7 +144,7 @@ public class CommunityServiceImpl implements CommunityService {
       return error(getExceptions().getEntityNotFound());
     }
 
-    entity.removeEntity(getSignedManager());
+    entity.removeEntity();
 
     return ok();
   }

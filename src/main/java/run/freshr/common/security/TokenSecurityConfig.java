@@ -14,7 +14,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
  * @since 2023. 1. 12. 오후 6:57:46
  */
 @RequiredArgsConstructor
-public class TokenSecurityConfig extends SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity> {
+public class TokenSecurityConfig extends
+    SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity> {
 
   private final TokenProvider tokenProvider;
 

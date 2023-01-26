@@ -34,9 +34,8 @@ public class ResponseData {
   /**
    * Code
    *
-   * @apiNote 에러가 발생한 경우 Status 외에 에러 상태를 알 수 있는 코드<br>
-   * 대부분의 경우 사용하지 않을 정보지만<br>
-   * 같은 Status 의 에러에서 분기처리가 필요한 경우 값을 다르게 설정해서 반환
+   * @apiNote 에러가 발생한 경우 Status 외에 에러 상태를 알 수 있는 코드<br> 대부분의 경우 사용하지 않을 정보지만<br> 같은 Status 의 에러에서
+   * 분기처리가 필요한 경우 값을 다르게 설정해서 반환
    * @since 2023. 1. 12. 오후 6:03:56
    */
   private String code;

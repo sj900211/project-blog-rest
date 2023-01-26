@@ -5,15 +5,15 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import run.freshr.domain.auth.entity.Sign;
+import run.freshr.domain.auth.entity.Account;
 
 @Configuration
-@EnableJpaAuditing(auditorAwareRef="auditorProvider")
+@EnableJpaAuditing(auditorAwareRef = "auditorProvider")
 @EnableJpaRepositories("**.**.domain.**.repository.jpa")
 public class PersistenceConfig {
 
   @Bean
-  public AuditorAware<Sign> auditorProvider() {
+  public AuditorAware<Account> auditorProvider() {
     return new AuditorAwareImpl();
   }
 

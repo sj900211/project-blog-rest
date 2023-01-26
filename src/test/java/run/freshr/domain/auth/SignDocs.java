@@ -2,7 +2,7 @@ package run.freshr.domain.auth;
 
 import static io.jsonwebtoken.lang.Strings.hasLength;
 import static org.springframework.restdocs.payload.JsonFieldType.STRING;
-import static run.freshr.domain.auth.entity.QSign.sign;
+import static run.freshr.domain.auth.entity.QAccount.account;
 
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +15,7 @@ import run.freshr.common.util.PrintUtil.Builder;
 public class SignDocs {
 
   public static class Request {
+
     public static List<FieldDescriptor> signIn() {
       log.info("SignDocs.Request.signIn");
 
@@ -25,8 +26,8 @@ public class SignDocs {
 
           .prefixDescription("계정")
 
-          .field(sign.username, "고유 아이디 [RSA 암호화]")
-          .field(sign.password, "비밀번호 [RSA 암호화]")
+          .field(account.username, "고유 아이디 [RSA 암호화]")
+          .field(account.password, "비밀번호 [RSA 암호화]")
 
           .build()
           .getFieldList();
@@ -43,7 +44,22 @@ public class SignDocs {
           .prefixDescription("계정")
 
           .field("originPassword", "기존 비밀번호 [RSA 암호화]", STRING)
-          .field(sign.password, "비밀번호 [RSA 암호화]")
+          .field(account.password, "비밀번호 [RSA 암호화]")
+
+          .build()
+          .getFieldList();
+    }
+
+    public static List<FieldDescriptor> updateInfo() {
+      log.info("AccountDocs.Request.updateInfo");
+
+      return PrintUtil
+          .builder()
+
+          .field("rsa", "RSA 공개키", STRING)
+
+          .prefixDescription("관리자")
+          .field(account.name, "이름 [RSA 암호화]")
 
           .build()
           .getFieldList();
@@ -62,6 +78,7 @@ public class SignDocs {
   }
 
   public static class Response {
+
     public static List<FieldDescriptor> signIn() {
       log.info("SignDocs.Response.signIn");
 
@@ -74,6 +91,24 @@ public class SignDocs {
           .build()
           .getFieldList();
     }
+
+    public static List<FieldDescriptor> getInfo() {
+      log.info("AccountDocs.Response.getInfo");
+
+      return ResponseDocs
+          .data()
+
+          .prefixDescription("중간 관리자")
+          .field(account.id, account.username, account.name, account.useFlag)
+          .linkField("account-docs-get-info-privilege", account.privilege)
+
+          .prefixOptional()
+          .field(account.signAt, account.removeAt, account.createAt, account.updateAt)
+
+          .build()
+          .getFieldList();
+    }
+
     public static List<FieldDescriptor> refreshToken() {
       log.info("SignDocs.Response.refreshToken");
 
@@ -88,6 +123,7 @@ public class SignDocs {
   }
 
   public static class Docs {
+
     public static List<FieldDescriptor> setAuditor(String prefix, String description,
         Boolean optional) {
       log.info("ResponseDocs.setAuditor");
@@ -105,7 +141,7 @@ public class SignDocs {
       builder.prefixOptional(optional);
 
       return builder
-          .field(sign.id, sign.privilege, sign.username)
+          .field(account.id, account.privilege, account.username)
           .field("name", "이름", STRING)
           .build()
           .getFieldList();

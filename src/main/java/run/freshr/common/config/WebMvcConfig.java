@@ -24,8 +24,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
    * Add cors mappings.
    *
    * @param registry registry
-   * @apiNote 설정한 요청에 대해 CORS 허용<br>
-   * 현재 모든 요청에 대해 허용하도록 설정되어 있음
+   * @apiNote 설정한 요청에 대해 CORS 허용<br> 현재 모든 요청에 대해 허용하도록 설정되어 있음
    * @author FreshR
    * @since 2022. 12. 23. 오후 3:42:48
    */

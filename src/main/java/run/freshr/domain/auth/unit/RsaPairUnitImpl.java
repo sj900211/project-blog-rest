@@ -2,9 +2,9 @@ package run.freshr.domain.auth.unit;
 
 import static run.freshr.common.utils.RestUtil.getConfig;
 
+import jakarta.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
 import java.util.Optional;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;

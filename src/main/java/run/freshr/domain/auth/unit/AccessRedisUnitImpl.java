@@ -1,8 +1,8 @@
 package run.freshr.domain.auth.unit;
 
+import jakarta.persistence.EntityNotFoundException;
 import java.util.Optional;
 import java.util.stream.StreamSupport;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,12 +34,12 @@ public class AccessRedisUnitImpl implements AccessRedisUnit {
   }
 
   @Override
-  public Boolean exists(Long signId) {
+  public Boolean exists(Long signedId) {
     log.info("AccessRedisUnit.exists");
 
     Iterable<AccessRedis> accesses = repository.findAll();
     Optional<AccessRedis> authAccess = StreamSupport.stream(accesses.spliterator(), false)
-        .filter(access -> access.getSignId().equals(signId))
+        .filter(access -> access.getSignedId().equals(signedId))
         .findFirst();
 
     return authAccess.isPresent();
@@ -53,12 +53,12 @@ public class AccessRedisUnitImpl implements AccessRedisUnit {
   }
 
   @Override
-  public AccessRedis get(Long signId) {
+  public AccessRedis get(Long signedId) {
     log.info("AccessRedisUnit.get");
 
     Iterable<AccessRedis> accesses = repository.findAll();
     Optional<AccessRedis> authAccess = StreamSupport.stream(accesses.spliterator(), false)
-        .filter(access -> access.getSignId().equals(signId))
+        .filter(access -> access.getSignedId().equals(signedId))
         .findFirst();
 
     return authAccess.orElseThrow(EntityNotFoundException::new);
@@ -81,12 +81,12 @@ public class AccessRedisUnitImpl implements AccessRedisUnit {
 
   @Override
   @Transactional
-  public void delete(Long signId) {
+  public void delete(Long signedId) {
     log.info("AccessRedisUnit.delete");
 
     Iterable<AccessRedis> accesses = repository.findAll();
     Optional<AccessRedis> authAccess = StreamSupport.stream(accesses.spliterator(), false)
-        .filter(access -> access.getSignId().equals(signId))
+        .filter(access -> access.getSignedId().equals(signedId))
         .findFirst();
 
     authAccess.ifPresent(repository::delete);

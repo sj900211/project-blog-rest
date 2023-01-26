@@ -12,6 +12,7 @@ import run.freshr.common.util.PrintUtil;
 public class CryptoDocs {
 
   public static class Request {
+
     public static List<FieldDescriptor> getEncryptRsa() {
       log.info("CryptoDocs.Request.getEncryptRsa");
 
@@ -26,6 +27,7 @@ public class CryptoDocs {
   }
 
   public static class Response {
+
     public static List<FieldDescriptor> getPublicKey() {
       log.info("CryptoDocs.Request.getPublicKey");
 
@@ -52,6 +54,7 @@ public class CryptoDocs {
   }
 
   public static class Docs {
+
   }
 
 }

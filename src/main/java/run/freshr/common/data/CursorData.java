@@ -1,10 +1,9 @@
 package run.freshr.common.data;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import java.util.List;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-
-import java.util.List;
 
 /**
  * Cursor Page.

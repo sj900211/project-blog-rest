@@ -6,4 +6,8 @@ import run.freshr.domain.auth.vo.AuthSearch;
 
 public interface AccountUnit extends UnitPageExtension<Account, Long, AuthSearch> {
 
+  Boolean exists(String username);
+
+  Account get(String username);
+
 }

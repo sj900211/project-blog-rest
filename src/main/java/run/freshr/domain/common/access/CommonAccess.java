@@ -7,7 +7,7 @@ import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import run.freshr.domain.auth.entity.Sign;
+import run.freshr.domain.auth.entity.Account;
 import run.freshr.domain.common.entity.Attach;
 import run.freshr.domain.common.unit.AttachUnit;
 
@@ -27,7 +27,7 @@ public class CommonAccess {
 
     Attach entity = attachUnit.get(id);
 
-    Sign owner = entity.getCreator();
+    Account owner = entity.getCreator();
     Long signedId = getSignedId();
 
     return Objects.equals(owner.getId(), signedId);

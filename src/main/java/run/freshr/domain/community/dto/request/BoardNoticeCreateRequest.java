@@ -2,7 +2,6 @@ package run.freshr.domain.community.dto.request;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import java.util.ArrayList;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,6 +24,6 @@ public class BoardNoticeCreateRequest {
   private Boolean fixed;
   @NotNull
   private BoardNoticeExpose expose;
-  private List<BoardNoticeAttachMappingCreateRequest> attachList = new ArrayList<>();
+  private List<BoardNoticeAttachMappingCreateRequest> attachList;
 
 }

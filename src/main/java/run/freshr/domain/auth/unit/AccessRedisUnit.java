@@ -5,12 +5,12 @@ import run.freshr.domain.auth.redis.AccessRedis;
 
 public interface AccessRedisUnit extends UnitDocumentDefaultExtension<AccessRedis, String> {
 
-  Boolean exists(Long signId);
+  Boolean exists(Long signedId);
 
-  AccessRedis get(Long signId);
+  AccessRedis get(Long signedId);
 
   Iterable<AccessRedis> getList();
 
-  void delete(Long signId);
+  void delete(Long signedId);
 
 }

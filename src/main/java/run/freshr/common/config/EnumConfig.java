@@ -10,7 +10,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import run.freshr.domain.auth.enumeration.AccountSearchKeys;
 import run.freshr.domain.auth.enumeration.Privilege;
-import run.freshr.domain.auth.enumeration.PrivilegeStaff;
+import run.freshr.domain.community.enumeration.BoardNoticeExpose;
+import run.freshr.domain.community.enumeration.BoardNoticeOrderTypes;
+import run.freshr.domain.community.enumeration.BoardNoticeSearchKeys;
 import run.freshr.mappers.EnumMapper;
 import run.freshr.mappers.EnumModel;
 
@@ -32,8 +34,10 @@ public class EnumConfig {
    */
   private final List<Class<? extends EnumModel>> enums = new ArrayList<>(of(
       Privilege.class,
-      PrivilegeStaff.class,
-      AccountSearchKeys.class
+      AccountSearchKeys.class,
+      BoardNoticeExpose.class,
+      BoardNoticeOrderTypes.class,
+      BoardNoticeSearchKeys.class
   ));
 
   /**
@@ -54,8 +58,7 @@ public class EnumConfig {
    *
    * @param classes classes
    * @return mapper
-   * @apiNote Enum 데이터를 API 에서 접근할 때<br>
-   * Class 이름을 lower-hyphen 으로 변경한 뒤 Key 값으로 활용
+   * @apiNote Enum 데이터를 API 에서 접근할 때<br> Class 이름을 lower-hyphen 으로 변경한 뒤 Key 값으로 활용
    * @author FreshR
    * @since 2023. 1. 12. 오후 5:47:11
    */

@@ -8,8 +8,8 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-import run.freshr.domain.auth.entity.Manager;
-import run.freshr.domain.auth.unit.ManagerUnit;
+import run.freshr.domain.auth.entity.Account;
+import run.freshr.domain.auth.unit.AccountUnit;
 
 /**
  * Runner.
@@ -23,7 +23,7 @@ import run.freshr.domain.auth.unit.ManagerUnit;
 @RequiredArgsConstructor
 public class Runner implements ApplicationRunner {
 
-  private final ManagerUnit managerUnit;
+  private final AccountUnit accountUnit;
   private final PasswordEncoder passwordEncoder;
 
   /**
@@ -45,8 +45,12 @@ public class Runner implements ApplicationRunner {
     log.info("|__|     | _| `._____||_______|_______/    |__|  |__| | _| `._____|");
     log.info("-------------------------------------------------------------------");
 
-    managerUnit.create(Manager.createEntity(MANAGER_MAJOR, "mighty",
-        passwordEncoder.encode("1234"), "MIGHTY"));
+    Account entity = Account.createEntity("mighty",
+        passwordEncoder.encode("1234"), "MIGHTY");
+
+    entity.updatePrivilege(MANAGER_MAJOR);
+
+    accountUnit.create(entity);
   }
 
 }
