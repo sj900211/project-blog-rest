@@ -71,7 +71,7 @@ public class QueryUtil {
    * @since 2023. 1. 12. 오후 7:14:00
    */
   public static <E extends SearchEnumExtension> BooleanBuilder searchEnum
-      (String word, E enumeration) {
+  (String word, E enumeration) {
     log.info("QueryUtil.searchEnum");
 
     final SearchEnumFunctional<E> SEARCH_ENUM_FUNCTIONAL =

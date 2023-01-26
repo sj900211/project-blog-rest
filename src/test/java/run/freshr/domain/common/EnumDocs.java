@@ -14,6 +14,7 @@ import run.freshr.mappers.EnumGetter;
 public class EnumDocs {
 
   public static class Request {
+
     public static List<ParameterDescriptor> getEnum() {
       log.info("EnumDocs.Request.getEnum");
 
@@ -51,6 +52,7 @@ public class EnumDocs {
   }
 
   public static class Docs {
+
   }
 
 }

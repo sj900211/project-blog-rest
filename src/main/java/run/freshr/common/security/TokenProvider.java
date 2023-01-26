@@ -19,11 +19,11 @@ import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
+import jakarta.servlet.http.HttpServletRequest;
 import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
 import javax.crypto.spec.SecretKeySpec;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -239,7 +239,7 @@ public class TokenProvider {
     if (hasLength(accessToken)) {
       AccessRedis access = accessRedisUnit.get(accessToken);
 
-      id = access.getSignId();
+      id = access.getSignedId();
       role = access.getRole();
     }
 

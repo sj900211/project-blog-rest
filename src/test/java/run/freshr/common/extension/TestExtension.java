@@ -20,16 +20,12 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.pr
 import static org.springframework.util.StringUtils.hasLength;
 import static run.freshr.TestRunner.managerMajorId;
 import static run.freshr.TestRunner.managerMinorId;
-import static run.freshr.TestRunner.staffMajorId;
-import static run.freshr.TestRunner.staffMinorId;
 import static run.freshr.TestRunner.userId;
 import static run.freshr.common.security.TokenProvider.signedId;
 import static run.freshr.common.security.TokenProvider.signedRole;
 import static run.freshr.domain.auth.enumeration.Role.ROLE_ANONYMOUS;
 import static run.freshr.domain.auth.enumeration.Role.ROLE_MANAGER_MAJOR;
 import static run.freshr.domain.auth.enumeration.Role.ROLE_MANAGER_MINOR;
-import static run.freshr.domain.auth.enumeration.Role.ROLE_STAFF_MAJOR;
-import static run.freshr.domain.auth.enumeration.Role.ROLE_STAFF_MINOR;
 import static run.freshr.domain.auth.enumeration.Role.ROLE_USER;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -501,32 +497,6 @@ public abstract class TestExtension {
     log.info("TestExtension.setSignedManagerMinor");
 
     authentication(managerMinorId, ROLE_MANAGER_MINOR);
-  }
-
-  /**
-   * 인증 정보 생성.
-   *
-   * @apiNote ROLE_STAFF_MAJOR 권한으로 인증 정보 생성
-   * @author FreshR
-   * @since 2023. 1. 13. 오전 11:02:07
-   */
-  protected void setSignedStaffMajor() {
-    log.info("TestExtension.setSignedStaffMajor");
-
-    authentication(staffMajorId, ROLE_STAFF_MAJOR);
-  }
-
-  /**
-   * 인증 정보 생성.
-   *
-   * @apiNote ROLE_STAFF_MINOR 권한으로 인증 정보 생성
-   * @author FreshR
-   * @since 2023. 1. 13. 오전 11:02:07
-   */
-  protected void setSignedStaffMinor() {
-    log.info("TestExtension.setSignedStaffMinor");
-
-    authentication(staffMinorId, ROLE_STAFF_MINOR);
   }
 
   /**

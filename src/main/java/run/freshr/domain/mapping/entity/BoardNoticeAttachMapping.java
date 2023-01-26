@@ -63,7 +63,8 @@ public class BoardNoticeAttachMapping {
     this.sort = sort;
   }
 
-  public static BoardNoticeAttachMapping createEntity(BoardNotice notice, Attach attach, Integer sort) {
+  public static BoardNoticeAttachMapping createEntity(BoardNotice notice, Attach attach,
+      Integer sort) {
     log.info("BoardNoticeAttachMapping.createEntity");
 
     return new BoardNoticeAttachMapping(notice, attach, sort);

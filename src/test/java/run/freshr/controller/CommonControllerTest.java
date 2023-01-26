@@ -90,7 +90,7 @@ class CommonControllerTest extends TestExtension {
         uriCommonAttach,
         "",
         new MockMultipartFile("files", "original", IMAGE_PNG_VALUE,
-            new byte[] {1})
+            new byte[]{1})
     ).andDo(print())
         .andDo(docs(
             requestParts(AttachDocs.Request.createAttachFile()),

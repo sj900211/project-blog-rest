@@ -1,12 +1,12 @@
 package run.freshr.common.routing;
 
+import static io.lettuce.core.models.role.RedisInstance.Role.MASTER;
+import static io.lettuce.core.models.role.RedisInstance.Role.REPLICA;
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
-
-import static io.lettuce.core.models.role.RedisInstance.Role.MASTER;
-import static io.lettuce.core.models.role.RedisInstance.Role.REPLICA;
 
 /**
  * Replication Datasource 연결 설정.

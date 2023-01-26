@@ -1,15 +1,15 @@
 package run.freshr.common.logging;
 
+import static java.util.Optional.ofNullable;
+import static run.freshr.common.security.TokenProvider.signedId;
+import static run.freshr.common.security.TokenProvider.signedRole;
+import static run.freshr.domain.auth.enumeration.Role.ROLE_ANONYMOUS;
+
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.stereotype.Component;
-
-import static java.util.Optional.ofNullable;
-import static run.freshr.common.security.TokenProvider.signedId;
-import static run.freshr.common.security.TokenProvider.signedRole;
-import static run.freshr.domain.auth.enumeration.Role.ROLE_ANONYMOUS;
 
 /**
  * 공통 Logging 설정.

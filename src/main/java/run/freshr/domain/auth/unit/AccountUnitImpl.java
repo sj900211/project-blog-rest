@@ -34,10 +34,24 @@ public class AccountUnitImpl implements AccountUnit {
   }
 
   @Override
+  public Boolean exists(String username) {
+    log.info("AccountUnit.exists");
+
+    return repository.existsByUsername(username);
+  }
+
+  @Override
   public Account get(Long id) {
     log.info("AccountUnit.get");
 
     return repository.findById(id).orElseThrow(EntityNotFoundException::new);
+  }
+
+  @Override
+  public Account get(String username) {
+    log.info("AccountUnit.get");
+
+    return repository.findByUsername(username);
   }
 
   @Override

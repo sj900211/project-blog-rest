@@ -21,7 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.hibernate.annotations.Comment;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
-import run.freshr.common.extension.entity.EntityLogicalExtension;
+import run.freshr.common.extension.entity.EntityAuditLogicalExtension;
 import run.freshr.domain.community.enumeration.BoardType;
 
 @Slf4j
@@ -43,7 +43,7 @@ import run.freshr.domain.community.enumeration.BoardType;
 @Inheritance(strategy = JOINED)
 @NoArgsConstructor(access = PROTECTED)
 @Comment(value = "커뮤니티 관리 > 게시글 관리")
-public class Board extends EntityLogicalExtension {
+public class Board extends EntityAuditLogicalExtension {
 
   @Id
   @GeneratedValue(strategy = SEQUENCE, generator = "SEQUENCE_GENERATOR_COMMUNITY_BOARD")
@@ -55,10 +55,7 @@ public class Board extends EntityLogicalExtension {
   @Comment("유형")
   protected BoardType type;
 
-  @Column(
-      nullable = false,
-      length = 50
-  )
+  @Column(nullable = false, length = 100)
   @Comment("제목")
   protected String title;
 

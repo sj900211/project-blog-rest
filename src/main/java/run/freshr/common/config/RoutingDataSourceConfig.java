@@ -42,7 +42,7 @@ public class RoutingDataSourceConfig {
    * @since 2023. 1. 12. 오후 5:52:51
    */
   @Bean(name = "dataSourceMain")
-  @ConfigurationProperties(prefix="spring.datasource.main.hikari")
+  @ConfigurationProperties(prefix = "spring.datasource.main.hikari")
   public DataSource dataSourceMain() {
     return DataSourceBuilder.create().type(HikariDataSource.class).build();
   }
@@ -56,7 +56,7 @@ public class RoutingDataSourceConfig {
    * @since 2023. 1. 12. 오후 5:52:51
    */
   @Bean(name = "dataSourceReplica")
-  @ConfigurationProperties(prefix="spring.datasource.replica.hikari")
+  @ConfigurationProperties(prefix = "spring.datasource.replica.hikari")
   public DataSource dataSourceReplica() {
     return DataSourceBuilder.create().type(HikariDataSource.class).build();
   }
@@ -92,9 +92,8 @@ public class RoutingDataSourceConfig {
    *
    * @param routingDataSource routing data source
    * @return data source
-   * @apiNote 기존의 DataSource 는 Transaction 이 시작되는 시점에서<br>
-   * DataSource 를 결정하지만 LazyConnectionDataSourceProxy 를 사용하여<br>
-   * DataSource 결정을 실제 Statement 가 요청되었을 때로 설정
+   * @apiNote 기존의 DataSource 는 Transaction 이 시작되는 시점에서<br> DataSource 를 결정하지만
+   * LazyConnectionDataSourceProxy 를 사용하여<br> DataSource 결정을 실제 Statement 가 요청되었을 때로 설정
    * @author FreshR
    * @since 2023. 1. 12. 오후 5:52:51
    */

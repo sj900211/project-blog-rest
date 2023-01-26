@@ -14,22 +14,22 @@ public class AccessRedis {
   @Id
   private final String id;
 
-  private final Long signId;
+  private final Long signedId;
 
   private final Role role;
 
-  private AccessRedis(String id, Long signId, Role role) {
+  private AccessRedis(String id, Long signedId, Role role) {
     log.info("AccessRedis.Constructor");
 
     this.id = id;
-    this.signId = signId;
+    this.signedId = signedId;
     this.role = role;
   }
 
-  public static AccessRedis createRedis(String id, Long signId, Role role) {
+  public static AccessRedis createRedis(String id, Long signedId, Role role) {
     log.info("AccessRedis.createRedis");
 
-    return new AccessRedis(id, signId, role);
+    return new AccessRedis(id, signedId, role);
   }
 
 }

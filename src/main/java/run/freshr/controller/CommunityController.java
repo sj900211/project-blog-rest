@@ -6,8 +6,6 @@ import static run.freshr.common.utils.RestUtil.error;
 import static run.freshr.domain.auth.enumeration.Role.Secured.ANONYMOUS;
 import static run.freshr.domain.auth.enumeration.Role.Secured.MANAGER_MAJOR;
 import static run.freshr.domain.auth.enumeration.Role.Secured.MANAGER_MINOR;
-import static run.freshr.domain.auth.enumeration.Role.Secured.STAFF_MAJOR;
-import static run.freshr.domain.auth.enumeration.Role.Secured.STAFF_MINOR;
 import static run.freshr.domain.auth.enumeration.Role.Secured.USER;
 
 import jakarta.validation.Valid;
@@ -46,7 +44,7 @@ public class CommunityController {
     return service.createBoardNotice(dto);
   }
 
-  @Secured({MANAGER_MAJOR, MANAGER_MINOR, STAFF_MAJOR, STAFF_MINOR, USER, ANONYMOUS})
+  @Secured({MANAGER_MAJOR, MANAGER_MINOR, USER, ANONYMOUS})
   @GetMapping(uriCommunityNotice)
   public ResponseEntity<?> getBoardPage(@ModelAttribute @Valid CommunitySearch search,
       Errors errors) {
@@ -61,7 +59,7 @@ public class CommunityController {
     return service.getBoardNoticePage(search);
   }
 
-  @Secured({MANAGER_MAJOR, MANAGER_MINOR, STAFF_MAJOR, STAFF_MINOR, USER, ANONYMOUS})
+  @Secured({MANAGER_MAJOR, MANAGER_MINOR, USER, ANONYMOUS})
   @GetMapping(uriCommunityNoticeId)
   public ResponseEntity<?> getBoard(@PathVariable Long id) {
     log.info("CommunityController.getBoard");

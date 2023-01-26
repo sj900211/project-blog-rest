@@ -12,9 +12,10 @@ import java.time.LocalDateTime;
 import lombok.Getter;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.Comment;
+import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import run.freshr.domain.auth.entity.Sign;
+import run.freshr.domain.auth.entity.Account;
 
 /**
  * Audit 정보와 물리 삭제 정책을 가진 MappedSuperclass.
@@ -40,9 +41,10 @@ public class EntityAuditPhysicalExtension {
   @Comment("등록 날짜")
   protected LocalDateTime createAt;
 
+  @CreatedBy
   @ManyToOne(fetch = LAZY)
   @Comment("등록자 일련 번호")
-  @JoinColumn(name = "creator_id")
-  protected Sign creator;
+  @JoinColumn(name = "creator_by")
+  protected Account creator;
 
 }

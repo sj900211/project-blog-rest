@@ -37,7 +37,7 @@ public class LogstashConfig {
     return (LoggerContext) LoggerFactory.getILoggerFactory();
   }
 
-  @Bean(initMethod="start", destroyMethod="stop")
+  @Bean(initMethod = "start", destroyMethod = "stop")
   public static LogstashTcpSocketAppender logstashTcpSocketAppender(LoggerContext context)
       throws JsonProcessingException {
     LogstashTcpSocketAppender logstashTcpSocketAppender = new LogstashTcpSocketAppender();

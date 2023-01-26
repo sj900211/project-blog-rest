@@ -5,4 +5,8 @@ import run.freshr.domain.auth.entity.Account;
 
 public interface AccountRepository extends JpaRepository<Account, Long>, AccountRepositoryCustom {
 
+  Boolean existsByUsername(String username);
+
+  Account findByUsername(String username);
+
 }

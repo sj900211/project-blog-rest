@@ -22,11 +22,8 @@ import run.freshr.annotation.Docs;
 import run.freshr.annotation.DocsGroup;
 import run.freshr.annotation.DocsPopup;
 import run.freshr.common.extension.TestExtension;
-import run.freshr.domain.auth.AccountDocs;
 import run.freshr.domain.auth.CryptoDocs;
-import run.freshr.domain.auth.ManagerDocs;
 import run.freshr.domain.auth.SignDocs;
-import run.freshr.domain.auth.StaffDocs;
 import run.freshr.domain.auth.dto.request.EncryptRequest;
 import run.freshr.domain.auth.dto.request.RefreshTokenRequest;
 import run.freshr.domain.auth.dto.request.SignChangePasswordRequest;
@@ -118,42 +115,10 @@ public class AuthControllerTest extends TestExtension {
   }
 
   @Test
-  @DisplayName("로그인 계정 정보 조회 - MANAGER")
+  @DisplayName("로그인 계정 정보 조회")
   @Docs(existsResponseFields = true)
-  public void getInfoForManager() throws Exception {
-    log.info("AuthControllerTest.getInfoForManager");
-
-    setSignedManagerMinor();
-
-    apply();
-
-    GET(uriAuthInfo)
-        .andDo(print())
-        .andDo(docs(responseFields(ManagerDocs.Response.getInfo())))
-        .andExpect(status().isOk());
-  }
-
-  @Test
-  @DisplayName("로그인 계정 정보 조회 - STAFF")
-  @Docs(existsResponseFields = true)
-  public void getInfoForStaff() throws Exception {
-    log.info("AuthControllerTest.getInfoForStaff");
-
-    setSignedStaffMinor();
-
-    apply();
-
-    GET(uriAuthInfo)
-        .andDo(print())
-        .andDo(docs(responseFields(StaffDocs.Response.getInfo())))
-        .andExpect(status().isOk());
-  }
-
-  @Test
-  @DisplayName("로그인 계정 정보 조회 - USER")
-  @Docs(existsResponseFields = true)
-  public void getInfoForUser() throws Exception {
-    log.info("AuthControllerTest.getInfoForUser");
+  public void getInfo() throws Exception {
+    log.info("AuthControllerTest.getInfo");
 
     setSignedUser();
 
@@ -161,7 +126,7 @@ public class AuthControllerTest extends TestExtension {
 
     GET(uriAuthInfo)
         .andDo(print())
-        .andDo(docs(responseFields(AccountDocs.Response.getInfo())))
+        .andDo(docs(responseFields(SignDocs.Response.getInfo())))
         .andExpect(status().isOk());
   }
 
@@ -190,65 +155,13 @@ public class AuthControllerTest extends TestExtension {
   }
 
   @Test
-  @DisplayName("로그인 계정 정보 수정 - MANAGER")
-  @Docs(existsRequestFields = true, popup = {
-      @DocsPopup(name = "manager-docs-get-info-privilege",
-          include = "common-controller-test/get-enum-list/popup/popup-fields-privilege.adoc")
-  })
-  public void updateInfoForManager() throws Exception {
-    log.info("AuthControllerTest.updateInfoForManager");
-
-    setSignedManagerMinor();
-    setRsa();
-
-    apply();
-
-    PUT_BODY(
-        uriAuthInfo,
-        SignUpdateRequest
-            .builder()
-            .rsa(threadPublicKey.get())
-            .name(encryptRsa("input name", threadPublicKey.get()))
-            .build()
-    ).andDo(print())
-        .andDo(docs(requestFields(ManagerDocs.Request.updateInfo())))
-        .andExpect(status().isOk());
-  }
-
-  @Test
-  @DisplayName("로그인 계정 정보 수정 - STAFF")
-  @Docs(existsRequestFields = true, popup = {
-      @DocsPopup(name = "staff-docs-get-info-privilege",
-          include = "common-controller-test/get-enum-list/popup/popup-fields-privilege.adoc")
-  })
-  public void updateInfoForStaff() throws Exception {
-    log.info("AuthControllerTest.updateInfoForStaff");
-
-    setSignedStaffMinor();
-    setRsa();
-
-    apply();
-
-    PUT_BODY(
-        uriAuthInfo,
-        SignUpdateRequest
-            .builder()
-            .rsa(threadPublicKey.get())
-            .name(encryptRsa("input name", threadPublicKey.get()))
-            .build()
-    ).andDo(print())
-        .andDo(docs(requestFields(StaffDocs.Request.updateInfo())))
-        .andExpect(status().isOk());
-  }
-
-  @Test
-  @DisplayName("로그인한 계정 정보 수정 - USER")
+  @DisplayName("로그인한 계정 정보 수정")
   @Docs(existsRequestFields = true, popup = {
       @DocsPopup(name = "user-docs-get-info-privilege",
           include = "common-controller-test/get-enum-list/popup/popup-fields-privilege.adoc")
   })
-  public void updateInfoForUser() throws Exception {
-    log.info("AuthControllerTest.updateInfoForUser");
+  public void updateInfo() throws Exception {
+    log.info("AuthControllerTest.updateInfo");
 
     setSignedUser();
     setRsa();
@@ -263,45 +176,15 @@ public class AuthControllerTest extends TestExtension {
             .name(encryptRsa("input name", threadPublicKey.get()))
             .build()
     ).andDo(print())
-        .andDo(docs(requestFields(AccountDocs.Request.updateInfo())))
+        .andDo(docs(requestFields(SignDocs.Request.updateInfo())))
         .andExpect(status().isOk());
   }
 
   @Test
-  @DisplayName("로그인한 계정 탈퇴 처리 - MANAGER")
+  @DisplayName("로그인한 계정 탈퇴 처리")
   @Docs
-  public void removeInfoForManager() throws Exception {
-    log.info("AuthControllerTest.removeInfoForManager");
-
-    setSignedManagerMinor();
-
-    apply();
-
-    DELETE(uriAuthInfo)
-        .andDo(print())
-        .andExpect(status().isOk());
-  }
-
-  @Test
-  @DisplayName("로그인한 계정 탈퇴 처리 - STAFF")
-  @Docs
-  public void removeInfoForStaff() throws Exception {
-    log.info("AuthControllerTest.removeInfoForStaff");
-
-    setSignedStaffMinor();
-
-    apply();
-
-    DELETE(uriAuthInfo)
-        .andDo(print())
-        .andExpect(status().isOk());
-  }
-
-  @Test
-  @DisplayName("로그인한 계정 탈퇴 처리 - USER")
-  @Docs
-  public void removeInfoForUser() throws Exception {
-    log.info("AuthControllerTest.removeInfoForUser");
+  public void removeInfo() throws Exception {
+    log.info("AuthControllerTest.removeInfo");
 
     setSignedUser();
 

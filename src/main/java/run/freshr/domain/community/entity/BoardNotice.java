@@ -11,8 +11,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.ForeignKey;
 import jakarta.persistence.Index;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
@@ -24,7 +22,6 @@ import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.Comment;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
-import run.freshr.domain.auth.entity.Manager;
 import run.freshr.domain.community.enumeration.BoardNoticeExpose;
 import run.freshr.domain.mapping.entity.BoardNoticeAttachMapping;
 import run.freshr.utils.XssUtil;
@@ -59,21 +56,10 @@ public class BoardNotice extends Board {
   @Comment("조회수")
   private Integer views;
 
-  @ManyToOne(fetch = LAZY)
-  @JoinColumn(name = "creatorId", nullable = false)
-  @Comment("작성자")
-  private Manager creator;
-
-  @ManyToOne(fetch = LAZY)
-  @JoinColumn(name = "updaterId", nullable = false)
-  @Comment("마지막 수정자")
-  private Manager updater;
-
   @OneToMany(fetch = LAZY, mappedBy = "notice")
   private List<BoardNoticeAttachMapping> attachList;
 
-  private BoardNotice(String title, String contents, Boolean fixed, BoardNoticeExpose expose,
-      Manager creator) {
+  private BoardNotice(String title, String contents, Boolean fixed, BoardNoticeExpose expose) {
     log.info("BoardNotice.Constructor");
 
     this.type = NOTICE;
@@ -81,26 +67,22 @@ public class BoardNotice extends Board {
     this.contents = XssUtil.xssBasicIgnoreImg(contents);
     this.fixed = fixed;
     this.expose = expose;
-    this.creator = creator;
-    this.updater = creator;
   }
 
   public static BoardNotice createEntity(String title, String contents, Boolean fixed,
-      BoardNoticeExpose expose, Manager creator) {
+      BoardNoticeExpose expose) {
     log.info("BoardNotice.createEntity");
 
-    return new BoardNotice(title, contents, fixed, expose, creator);
+    return new BoardNotice(title, contents, fixed, expose);
   }
 
-  public void updateEntity(String title, String contents, Boolean fixed, BoardNoticeExpose expose,
-      Manager updater) {
+  public void updateEntity(String title, String contents, Boolean fixed, BoardNoticeExpose expose) {
     log.info("BoardNotice.updateEntity");
 
     this.title = title;
     this.contents = XssUtil.xssBasicIgnoreImg(contents);
     this.fixed = fixed;
     this.expose = expose;
-    this.updater = updater;
   }
 
   public void addViews() {
@@ -109,10 +91,8 @@ public class BoardNotice extends Board {
     this.views++;
   }
 
-  public void removeEntity(Manager updater) {
+  public void removeEntity() {
     log.info("BoardNotice.removeEntity");
-
-    this.updater = updater;
 
     remove();
   }

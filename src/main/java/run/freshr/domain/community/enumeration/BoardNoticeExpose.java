@@ -34,4 +34,5 @@ public enum BoardNoticeExpose implements EnumModel {
   public String getValue() {
     return this.value;
   }
+
 }

@@ -19,6 +19,7 @@ import run.freshr.common.util.PrintUtil.Builder;
 public class AttachDocs {
 
   public static class Request {
+
     public static RequestPartDescriptor createAttachFile() {
       log.info("AttachDocs.Request.createAttachFile");
 
@@ -86,6 +87,7 @@ public class AttachDocs {
   }
 
   public static class Response {
+
     public static List<FieldDescriptor> createAttach() {
       log.info("AttachDocs.Response.createAttach");
 
@@ -140,6 +142,7 @@ public class AttachDocs {
   }
 
   public static class Docs {
+
     public static List<FieldDescriptor> setAttach(String prefix, String description,
         Boolean optional) {
       log.info("ResponseDocs.setAttach");

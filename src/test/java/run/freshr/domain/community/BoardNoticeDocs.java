@@ -16,6 +16,7 @@ import run.freshr.domain.community.vo.FCommunitySearch;
 public class BoardNoticeDocs {
 
   public static class Request {
+
     public static List<FieldDescriptor> createBoardNotice() {
       log.info("BoardNoticeDocs.createBoardNotice");
 
@@ -117,6 +118,7 @@ public class BoardNoticeDocs {
   }
 
   public static class Response {
+
     public static List<FieldDescriptor> createBoardNotice() {
       log.info("BoardNoticeDocs.createBoardNotice");
 
@@ -161,7 +163,7 @@ public class BoardNoticeDocs {
 
           .prefixDescription("게시글")
 
-          .field(boardNotice.id, boardNotice.title, boardNotice.contents,boardNotice.fixed,
+          .field(boardNotice.id, boardNotice.title, boardNotice.contents, boardNotice.fixed,
               boardNotice.expose, boardNotice.views, boardNotice.createAt, boardNotice.updateAt)
 
           .addField(SignDocs.Docs
@@ -178,6 +180,7 @@ public class BoardNoticeDocs {
   }
 
   public static class Docs {
+
   }
 
 }

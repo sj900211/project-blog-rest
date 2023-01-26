@@ -10,8 +10,6 @@ import static run.freshr.common.security.TokenProvider.signedId;
 import static run.freshr.common.security.TokenProvider.signedRole;
 import static run.freshr.domain.auth.enumeration.Role.ROLE_MANAGER_MAJOR;
 import static run.freshr.domain.auth.enumeration.Role.ROLE_MANAGER_MINOR;
-import static run.freshr.domain.auth.enumeration.Role.ROLE_STAFF_MAJOR;
-import static run.freshr.domain.auth.enumeration.Role.ROLE_STAFF_MINOR;
 import static run.freshr.domain.auth.enumeration.Role.ROLE_USER;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -38,14 +36,8 @@ import run.freshr.common.config.CustomConfig;
 import run.freshr.common.data.ResponseData;
 import run.freshr.common.dto.response.IdResponse;
 import run.freshr.domain.auth.entity.Account;
-import run.freshr.domain.auth.entity.Manager;
-import run.freshr.domain.auth.entity.Sign;
-import run.freshr.domain.auth.entity.Staff;
 import run.freshr.domain.auth.enumeration.Role;
 import run.freshr.domain.auth.unit.AccountUnit;
-import run.freshr.domain.auth.unit.ManagerUnit;
-import run.freshr.domain.auth.unit.SignUnit;
-import run.freshr.domain.auth.unit.StaffUnit;
 import run.freshr.response.ExceptionsResponse;
 
 /**
@@ -72,9 +64,6 @@ public class RestUtil {
   private static CustomConfig customConfig;
   private static ExceptionsResponse exceptionsResponse;
 
-  private static SignUnit signUnit;
-  private static ManagerUnit managerUnit;
-  private static StaffUnit staffUnit;
   private static AccountUnit accountUnit;
 
   /**
@@ -98,9 +87,12 @@ public class RestUtil {
     JavaTimeModule javaTimeModule = new JavaTimeModule();
 
     javaTimeModule.addSerializer(LocalDate.class, new LocalDateSerializer(ofPattern(DATE_FORMAT)));
-    javaTimeModule.addDeserializer(LocalDate.class, new LocalDateDeserializer(ofPattern(DATE_FORMAT)));
-    javaTimeModule.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer(ofPattern(DATE_TIME_FORMAT)));
-    javaTimeModule.addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer(ofPattern(DATE_TIME_FORMAT)));
+    javaTimeModule.addDeserializer(LocalDate.class,
+        new LocalDateDeserializer(ofPattern(DATE_FORMAT)));
+    javaTimeModule.addSerializer(LocalDateTime.class,
+        new LocalDateTimeSerializer(ofPattern(DATE_TIME_FORMAT)));
+    javaTimeModule.addDeserializer(LocalDateTime.class,
+        new LocalDateTimeDeserializer(ofPattern(DATE_TIME_FORMAT)));
 
     objectMapper.registerModule(javaTimeModule);
   }
@@ -111,23 +103,17 @@ public class RestUtil {
    * @param environment        environment
    * @param customConfig       custom config
    * @param exceptionsResponse exceptions response
-   * @param signUnit           sign unit
-   * @param managerUnit        manager unit
-   * @param staffUnit          staff unit
    * @param accountUnit        account unit
    * @apiNote 의존성 주입
    * @author FreshR
    * @since 2023. 1. 13. 오전 10:14:25
    */
   @Autowired
-  public RestUtil(Environment environment, CustomConfig customConfig, ExceptionsResponse exceptionsResponse,
-      SignUnit signUnit, ManagerUnit managerUnit, StaffUnit staffUnit, AccountUnit accountUnit) {
+  public RestUtil(Environment environment, CustomConfig customConfig,
+      ExceptionsResponse exceptionsResponse, AccountUnit accountUnit) {
     RestUtil.environment = environment;
     RestUtil.customConfig = customConfig;
     RestUtil.exceptionsResponse = exceptionsResponse;
-    RestUtil.signUnit = signUnit;
-    RestUtil.managerUnit = managerUnit;
-    RestUtil.staffUnit = staffUnit;
     RestUtil.accountUnit = accountUnit;
   }
 
@@ -314,8 +300,10 @@ public class RestUtil {
    * @param exceptions exceptions
    * @return response entity
    * @apiNote 참조한 Library 의 Exception 객체를 사용해서 설정 후 반환
-   * @see <a href="https://nexus.freshr.run/#browse/browse:maven-releases:run/freshr/exceptions">FreshR Exceptions</a>
    * @author FreshR
+   * @see <a
+   * href="https://nexus.freshr.run/#browse/browse:maven-releases:run/freshr/exceptions">FreshR
+   * Exceptions</a>
    * @since 2023. 1. 13. 오전 10:14:26
    */
   public static ResponseEntity<?> error(final ExceptionsResponse.Exceptions exceptions) {
@@ -331,8 +319,10 @@ public class RestUtil {
    * @param message    message
    * @return response entity
    * @apiNote 참조한 Library 의 Exception 객체를 사용해서 설정하고 처리 메시지는 따로 설정해서 반환
-   * @see <a href="https://nexus.freshr.run/#browse/browse:maven-releases:run/freshr/exceptions">FreshR Exceptions</a>
    * @author FreshR
+   * @see <a
+   * href="https://nexus.freshr.run/#browse/browse:maven-releases:run/freshr/exceptions">FreshR
+   * Exceptions</a>
    * @since 2023. 1. 13. 오전 10:14:26
    */
   public static ResponseEntity<?> error(final ExceptionsResponse.Exceptions exceptions,
@@ -349,10 +339,12 @@ public class RestUtil {
    * @param message    message
    * @param args       args
    * @return response entity
-   * @apiNote 참조한 Library 의 Exception 객체를 사용해서 설정하고<br>
-   * 처리 메시지가 pattern 을 사용할 때 format 처리 후 따로 설정해서 반환
-   * @see <a href="https://nexus.freshr.run/#browse/browse:maven-releases:run/freshr/exceptions">FreshR Exceptions</a>
+   * @apiNote 참조한 Library 의 Exception 객체를 사용해서 설정하고<br> 처리 메시지가 pattern 을 사용할 때 format 처리 후 따로 설정해서
+   * 반환
    * @author FreshR
+   * @see <a
+   * href="https://nexus.freshr.run/#browse/browse:maven-releases:run/freshr/exceptions">FreshR
+   * Exceptions</a>
    * @since 2023. 1. 13. 오전 10:14:26
    */
   public static ResponseEntity<?> error(final ExceptionsResponse.Exceptions exceptions,
@@ -682,20 +674,6 @@ public class RestUtil {
   }
 
   /**
-   * Staff 권한 체크.
-   *
-   * @return boolean
-   * @apiNote 통신중인 계정의 권한이 ROLE_STAFF_* 인지 체크
-   * @author FreshR
-   * @since 2023. 1. 23. 오전 1:29:20
-   */
-  public static boolean checkStaff() {
-    log.info("RestUtil.checkStaff");
-
-    return getSignedRole().check(ROLE_STAFF_MAJOR, ROLE_STAFF_MINOR);
-  }
-
-  /**
    * User 권한 체크.
    *
    * @return boolean
@@ -717,62 +695,8 @@ public class RestUtil {
    * @author FreshR
    * @since 2023. 1. 13. 오전 10:14:27
    */
-  public static Sign getSigned() {
+  public static Account getSigned() {
     log.info("RestUtil.getSigned");
-
-    return signUnit.get(getSignedId());
-  }
-
-  /**
-   * MANAGER 정보 조회.
-   *
-   * @return signed manager
-   * @apiNote 통신중인 계정의 상세 정보 조회
-   * @author FreshR
-   * @since 2023. 1. 13. 오전 10:14:27
-   */
-  public static Manager getSignedManager() {
-    log.info("RestUtil.getSignedManager");
-
-    if (!checkManager()) {
-      return null;
-    }
-
-    return managerUnit.get(getSignedId());
-  }
-
-  /**
-   * STAFF 정보 조회.
-   *
-   * @return signed staff
-   * @apiNote 통신중인 계정의 상세 정보 조회
-   * @author FreshR
-   * @since 2023. 1. 13. 오전 10:14:27
-   */
-  public static Staff getSignedStaff() {
-    log.info("RestUtil.getSignedStaff");
-
-    if (!checkStaff()) {
-      return null;
-    }
-
-    return staffUnit.get(getSignedId());
-  }
-
-  /**
-   * USER 정보 조회.
-   *
-   * @return signed account
-   * @apiNote 통신중인 계정의 상세 정보 조회
-   * @author FreshR
-   * @since 2023. 1. 13. 오전 10:14:27
-   */
-  public static Account getSignedAccount() {
-    log.info("RestUtil.getSignedAccount");
-
-    if (!checkUser()) {
-      return null;
-    }
 
     return accountUnit.get(getSignedId());
   }

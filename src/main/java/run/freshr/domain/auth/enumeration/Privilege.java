@@ -4,8 +4,6 @@ import static java.util.Arrays.stream;
 import static run.freshr.domain.auth.enumeration.Role.ROLE_ANONYMOUS;
 import static run.freshr.domain.auth.enumeration.Role.ROLE_MANAGER_MAJOR;
 import static run.freshr.domain.auth.enumeration.Role.ROLE_MANAGER_MINOR;
-import static run.freshr.domain.auth.enumeration.Role.ROLE_STAFF_MAJOR;
-import static run.freshr.domain.auth.enumeration.Role.ROLE_STAFF_MINOR;
 import static run.freshr.domain.auth.enumeration.Role.ROLE_USER;
 
 import lombok.extern.slf4j.Slf4j;
@@ -23,8 +21,6 @@ public enum Privilege implements EnumModel {
 
   MANAGER_MAJOR("시스템 최상위 관리자", ROLE_MANAGER_MAJOR),
   MANAGER_MINOR("시스템 관리자", ROLE_MANAGER_MINOR),
-  STAFF_MAJOR("최상위 관리자", ROLE_STAFF_MAJOR),
-  STAFF_MINOR("관리자", ROLE_STAFF_MINOR),
   USER("사용자", ROLE_USER),
   ANONYMOUS("게스트", ROLE_ANONYMOUS);
 

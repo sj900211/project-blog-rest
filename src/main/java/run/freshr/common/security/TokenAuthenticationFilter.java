@@ -39,9 +39,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
    * @param request     request
    * @param response    response
    * @param filterChain filter chain
-   * @apiNote {@link TokenProvider} 를 사용해서<br>
-   * 요청 정보에서 토큰을 조회, 검증하는 단계를 거쳐<br>
-   * 인증 처리
+   * @apiNote {@link TokenProvider} 를 사용해서<br> 요청 정보에서 토큰을 조회, 검증하는 단계를 거쳐<br> 인증 처리
    * @author FreshR
    * @since 2023. 1. 12. 오후 6:54:32
    */
