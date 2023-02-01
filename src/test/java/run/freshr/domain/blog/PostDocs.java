@@ -17,6 +17,7 @@ import run.freshr.domain.common.HashtagDocs;
 public class PostDocs {
 
   public static class Request {
+
     public static List<ParameterDescriptor> createPostPath() {
       log.info("PostDocs.createPostPath");
 
@@ -168,6 +169,7 @@ public class PostDocs {
   }
 
   public static class Response {
+
     public static List<FieldDescriptor> createPost() {
       log.info("PostDocs.createPost");
 
@@ -247,6 +249,7 @@ public class PostDocs {
   }
 
   public static class Docs {
+
   }
 
 }

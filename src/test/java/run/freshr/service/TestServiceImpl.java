@@ -29,7 +29,6 @@ import run.freshr.domain.auth.unit.RsaPairUnit;
 import run.freshr.domain.blog.entity.Blog;
 import run.freshr.domain.blog.entity.Post;
 import run.freshr.domain.blog.enumeration.BlogRole;
-import run.freshr.domain.blog.enumeration.BlogViewType;
 import run.freshr.domain.blog.unit.BlogUnit;
 import run.freshr.domain.blog.unit.PostUnit;
 import run.freshr.domain.common.entity.Attach;
@@ -257,10 +256,12 @@ public class TestServiceImpl implements TestService {
   public void createBlogHashtagMapping(Blog blog, Hashtag hashtag, Integer sort) {
     blogHashtagMappingUnit.create(BlogHashtagMapping.createEntity(blog, hashtag, sort));
   }
+
   @Override
   public void createBlogRequestMapping(Blog blog, long accountId) {
     blogRequestMappingUnit.create(BlogRequestMapping.createEntity(blog, getAccount(accountId)));
   }
+
   @Override
   public void createBlogPermissionMapping(Blog blog, long accountId, BlogRole role) {
     blogPermissionMappingUnit

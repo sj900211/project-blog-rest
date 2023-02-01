@@ -19,6 +19,7 @@ import run.freshr.domain.common.HashtagDocs;
 public class BlogDocs {
 
   public static class Request {
+
     public static List<FieldDescriptor> createBlog() {
       log.info("BlogDocs.createBlog");
 
@@ -222,6 +223,7 @@ public class BlogDocs {
   }
 
   public static class Response {
+
     public static List<FieldDescriptor> createBlog() {
       log.info("BlogDocs.createBlog");
 

@@ -47,11 +47,7 @@ public class BlogPermission {
     BlogRole role = blogPermission.getRole();
     Boolean blog = role.getBlog();
 
-    if (blog) {
-      return true;
-    }
-
-    return false;
+    return blog;
   }
 
   public boolean removeBlog(Long id) {
@@ -75,11 +71,7 @@ public class BlogPermission {
     BlogRole role = blogPermission.getRole();
     Boolean hasPermission = role.getBlog();
 
-    if (hasPermission) {
-      return true;
-    }
-
-    return false;
+    return hasPermission;
   }
 
   public boolean approvalBlog(Long id) {
@@ -103,11 +95,7 @@ public class BlogPermission {
     BlogRole role = blogPermission.getRole();
     Boolean hasPermission = role.getApprove();
 
-    if (hasPermission) {
-      return true;
-    }
-
-    return false;
+    return hasPermission;
   }
 
   public boolean permitBlog(Long id, BlogPermissionMappingSaveRequest dto) {
@@ -146,11 +134,7 @@ public class BlogPermission {
     BlogPermissionMapping targetBlogPermission = blogPermissionMappingUnit.get(id, accountId);
     BlogRole targetRole = targetBlogPermission.getRole();
 
-    if (targetRole.getOrder() <= role.getOrder()) {
-      return true;
-    }
-
-    return false;
+    return targetRole.getOrder() <= role.getOrder();
   }
 
   public boolean createPost(Long blogId) {
@@ -174,11 +158,7 @@ public class BlogPermission {
     BlogRole role = blogPermission.getRole();
     Boolean hasPermission = role.getPosting();
 
-    if (hasPermission) {
-      return true;
-    }
-
-    return false;
+    return hasPermission;
   }
 
   public boolean getPostPage(Long blogId) {
@@ -194,11 +174,7 @@ public class BlogPermission {
 
     Boolean existsPermission = blogPermissionMappingUnit.exists(blogId, signedId);
 
-    if (existsPermission) {
-      return true;
-    }
-
-    return false;
+    return existsPermission;
   }
 
   public boolean getPost(Long blogId) {
@@ -214,11 +190,7 @@ public class BlogPermission {
 
     Boolean existsPermission = blogPermissionMappingUnit.exists(blogId, signedId);
 
-    if (existsPermission) {
-      return true;
-    }
-
-    return false;
+    return existsPermission;
   }
 
   public boolean updatePost(Long blogId, Long id) {
@@ -256,11 +228,7 @@ public class BlogPermission {
     Account creator = post.getCreator();
     Long createBy = creator.getId();
 
-    if (Objects.equals(createBy, signedId)) {
-      return true;
-    }
-
-    return false;
+    return Objects.equals(createBy, signedId);
   }
 
   public boolean removePost(Long blogId, Long id) {
@@ -298,11 +266,7 @@ public class BlogPermission {
     Account creator = post.getCreator();
     Long createBy = creator.getId();
 
-    if (Objects.equals(createBy, signedId)) {
-      return true;
-    }
-
-    return false;
+    return Objects.equals(createBy, signedId);
   }
 
 }

@@ -184,7 +184,7 @@ public class TestRunner implements ApplicationRunner {
       for (int j = 0; j < 15; j++) {
         String paddingJ = padding(j + 1, 3);
         long postId = service.createPost("title " + padding + "-" + paddingJ,
-                "contents" + padding + "-" + paddingJ, blog);
+            "contents" + padding + "-" + paddingJ, blog);
         Post post = service.getPost(postId);
 
         for (int k = 0; k < 3; k++) {

@@ -16,5 +16,4 @@ public class CommonSearch extends SearchExtension<Long> {
   private List<String> hashtags;
 
 
-
 }

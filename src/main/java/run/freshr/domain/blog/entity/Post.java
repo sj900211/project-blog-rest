@@ -24,8 +24,6 @@ import org.hibernate.annotations.Comment;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import run.freshr.common.extension.entity.EntityAuditLogicalExtension;
-import run.freshr.domain.blog.enumeration.BlogViewType;
-import run.freshr.domain.common.entity.Attach;
 import run.freshr.domain.mapping.entity.PostAttachMapping;
 import run.freshr.domain.mapping.entity.PostHashtagMapping;
 

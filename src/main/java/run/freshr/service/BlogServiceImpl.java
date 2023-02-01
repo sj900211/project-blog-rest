@@ -25,7 +25,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import run.freshr.common.dto.request.IdRequest;
 import run.freshr.common.dto.response.IsResponse;
-import run.freshr.common.utils.RestUtil;
 import run.freshr.domain.auth.entity.Account;
 import run.freshr.domain.auth.unit.AccountUnit;
 import run.freshr.domain.blog.dto.request.BlogCreateRequest;

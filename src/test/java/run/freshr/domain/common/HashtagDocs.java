@@ -20,6 +20,7 @@ import run.freshr.domain.common.vo.FCommonSearch;
 public class HashtagDocs {
 
   public static class Request {
+
     public static List<ParameterDescriptor> searchHashtag() {
       log.info("HashtagDocs.searchHashtag");
 
@@ -93,6 +94,7 @@ public class HashtagDocs {
   }
 
   public static class Response {
+
     public static List<FieldDescriptor> getHashtagStatistics() {
       log.info("HashtagDocs.Response.getHashtagStatistics");
 

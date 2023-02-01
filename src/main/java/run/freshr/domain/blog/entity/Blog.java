@@ -29,8 +29,8 @@ import run.freshr.common.extension.entity.EntityAuditLogicalExtension;
 import run.freshr.domain.blog.enumeration.BlogViewType;
 import run.freshr.domain.common.entity.Attach;
 import run.freshr.domain.mapping.entity.BlogHashtagMapping;
-import run.freshr.domain.mapping.entity.BlogRequestMapping;
 import run.freshr.domain.mapping.entity.BlogPermissionMapping;
+import run.freshr.domain.mapping.entity.BlogRequestMapping;
 
 @Slf4j
 @Entity
