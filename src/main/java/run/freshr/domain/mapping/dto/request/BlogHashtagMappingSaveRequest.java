@@ -12,10 +12,10 @@ import run.freshr.common.dto.request.IdRequest;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class BoardNoticeAttachMappingCreateRequest {
+public class BlogHashtagMappingSaveRequest {
 
   @NotEmpty
-  private IdRequest<Long> attach;
+  private IdRequest<String> hashtag;
 
   @NotEmpty
   @Size(min = 1)

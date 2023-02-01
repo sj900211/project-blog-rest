@@ -154,7 +154,7 @@ public class AttachDocs {
       }
 
       if (hasLength(description)) {
-        builder.prefixDescription(prefix);
+        builder.prefixDescription(description);
       }
 
       builder.prefixOptional(optional);

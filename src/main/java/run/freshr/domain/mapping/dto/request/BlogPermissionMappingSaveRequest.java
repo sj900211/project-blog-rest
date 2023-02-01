@@ -1,24 +1,22 @@
 package run.freshr.domain.mapping.dto.request;
 
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import run.freshr.common.dto.request.IdRequest;
+import run.freshr.domain.blog.enumeration.BlogRole;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class BoardNoticeAttachMappingUpdateRequest {
+public class BlogPermissionMappingSaveRequest {
 
-  @NotEmpty
-  private IdRequest<Long> attach;
+  @NotNull
+  private IdRequest<Long> account;
 
-  @NotEmpty
-  @Size(min = 1)
-  private Integer sort;
+  private BlogRole role;
 
 }

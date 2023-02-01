@@ -10,6 +10,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import run.freshr.domain.auth.enumeration.AccountSearchKeys;
 import run.freshr.domain.auth.enumeration.Privilege;
+import run.freshr.domain.blog.enumeration.BlogRole;
+import run.freshr.domain.blog.enumeration.BlogSearchKeys;
+import run.freshr.domain.blog.enumeration.BlogViewType;
+import run.freshr.domain.blog.enumeration.PostSearchKeys;
 import run.freshr.domain.community.enumeration.BoardNoticeExpose;
 import run.freshr.domain.community.enumeration.BoardNoticeOrderTypes;
 import run.freshr.domain.community.enumeration.BoardNoticeSearchKeys;
@@ -37,7 +41,11 @@ public class EnumConfig {
       AccountSearchKeys.class,
       BoardNoticeExpose.class,
       BoardNoticeOrderTypes.class,
-      BoardNoticeSearchKeys.class
+      BoardNoticeSearchKeys.class,
+      BlogRole.class,
+      BlogViewType.class,
+      BlogSearchKeys.class,
+      PostSearchKeys.class
   ));
 
   /**

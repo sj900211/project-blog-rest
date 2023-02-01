@@ -8,7 +8,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import run.freshr.domain.community.enumeration.BoardNoticeExpose;
-import run.freshr.domain.mapping.dto.request.BoardNoticeAttachMappingCreateRequest;
+import run.freshr.domain.mapping.dto.request.BoardNoticeAttachMappingSaveRequest;
 
 @Data
 @Builder
@@ -24,6 +24,6 @@ public class BoardNoticeCreateRequest {
   private Boolean fixed;
   @NotNull
   private BoardNoticeExpose expose;
-  private List<BoardNoticeAttachMappingCreateRequest> attachList;
+  private List<BoardNoticeAttachMappingSaveRequest> attachList;
 
 }

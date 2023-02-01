@@ -45,8 +45,9 @@ public class BoardNoticeDocs {
           .parameter(FCommunitySearch.page, FCommunitySearch.size)
 
           .prefixOptional()
-          .linkParameter("board-notice-docs-get-board-notice-page-key", FCommunitySearch.key)
-          .parameter(FCommunitySearch.word,
+          .linkParameter("board-notice-docs-get-board-notice-page-key",
+              FCommunitySearch.key)
+          .parameter(FCommunitySearch.cursor, FCommunitySearch.word,
               FCommunitySearch.startDate, FCommunitySearch.endDate,
               FCommunitySearch.orderType, FCommunitySearch.orderBy)
 
@@ -145,10 +146,10 @@ public class BoardNoticeDocs {
           .field(boardNotice.id, boardNotice.title, boardNotice.fixed, boardNotice.expose,
               boardNotice.views, boardNotice.createAt, boardNotice.updateAt)
 
-          .addField(SignDocs.Docs
-              .setAuditor("page.content[].creator", "작성자", false))
-          .addField(SignDocs.Docs
-              .setAuditor("page.content[].updater", "작성자", false))
+          .addField(SignDocs.Docs.setAuditor("page.content[].creator",
+              "작성자", false))
+          .addField(SignDocs.Docs.setAuditor("page.content[].updater",
+              "마지막 수정자", false))
 
           .clear()
           .build()
@@ -170,8 +171,12 @@ public class BoardNoticeDocs {
               .setAuditor("data.creator", "작성자", false))
           .addField(SignDocs.Docs
               .setAuditor("data.updater", "작성자", false))
+
+          .prefixDescription("첨부 파일")
+
+          .field(boardNotice.attachList.any().sort)
           .addField(AttachDocs.Docs
-              .setAttach("data.attach", "첨부 파일", true))
+              .setAttach("data.attachList[].attach", "첨부 파일", true))
 
           .clear()
           .build()

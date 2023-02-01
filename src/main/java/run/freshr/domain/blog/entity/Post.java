@@ -72,4 +72,33 @@ public class Post extends EntityAuditLogicalExtension {
   @OneToMany(fetch = LAZY, mappedBy = "post")
   private List<PostAttachMapping> attachList;
 
+  private Post(String title, String contents, Boolean useFlag, Blog blog) {
+    log.info("Post.Constructor");
+
+    this.title = title;
+    this.contents = contents;
+    this.useFlag = useFlag;
+    this.blog = blog;
+  }
+
+  public static Post createEntity(String title, String contents, Boolean useFlag, Blog blog) {
+    log.info("Post.createEntity");
+
+    return new Post(title, contents, useFlag, blog);
+  }
+
+  public void updateEntity(String title, String contents, Boolean useFlag) {
+    log.info("Post.updateEntity");
+
+    this.title = title;
+    this.contents = contents;
+    this.useFlag = useFlag;
+  }
+
+  public void removeEntity() {
+    log.info("Post.removeEntity");
+
+    remove();
+  }
+
 }

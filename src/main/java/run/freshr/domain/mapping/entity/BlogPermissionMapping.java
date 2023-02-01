@@ -22,7 +22,7 @@ import org.hibernate.annotations.DynamicUpdate;
 import run.freshr.domain.auth.entity.Account;
 import run.freshr.domain.blog.entity.Blog;
 import run.freshr.domain.blog.enumeration.BlogRole;
-import run.freshr.domain.mapping.embedded.BlogRoleMappingEmbeddedId;
+import run.freshr.domain.mapping.embedded.BlogPermissionMappingEmbeddedId;
 
 @Slf4j
 @Entity
@@ -32,10 +32,10 @@ import run.freshr.domain.mapping.embedded.BlogRoleMappingEmbeddedId;
 @DynamicUpdate
 @NoArgsConstructor(access = PROTECTED)
 @Comment(value = "연관 관계 관리 > 블로그 권한 관리")
-public class BlogRoleMapping {
+public class BlogPermissionMapping {
 
   @EmbeddedId
-  private BlogRoleMappingEmbeddedId id;
+  private BlogPermissionMappingEmbeddedId id;
 
   @MapsId("blogId")
   @ManyToOne(fetch = LAZY)
@@ -56,19 +56,25 @@ public class BlogRoleMapping {
   @Comment("권한")
   private BlogRole role;
 
-  private BlogRoleMapping(Blog blog, Account account, BlogRole role) {
-    log.info("BlogRoleMapping.Constructor");
+  private BlogPermissionMapping(Blog blog, Account account, BlogRole role) {
+    log.info("BlogPermissionMapping.Constructor");
 
-    this.id = BlogRoleMappingEmbeddedId.createId(blog.getId(), account.getId());
+    this.id = BlogPermissionMappingEmbeddedId.createId(blog.getId(), account.getId());
     this.blog = blog;
     this.account = account;
     this.role = role;
   }
 
-  public static BlogRoleMapping createEntity(Blog blog, Account account, BlogRole role) {
-    log.info("BlogRoleMapping.createEntity");
+  public static BlogPermissionMapping createEntity(Blog blog, Account account, BlogRole role) {
+    log.info("BlogPermissionMapping.createEntity");
 
-    return new BlogRoleMapping(blog, account, role);
+    return new BlogPermissionMapping(blog, account, role);
+  }
+
+  public void updateEntity(BlogRole role) {
+    log.info("BlogPermissionMapping.updateEntity");
+
+    this.role = role;
   }
 
 }

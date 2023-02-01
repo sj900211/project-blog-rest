@@ -1,4 +1,4 @@
-package run.freshr.domain.common.access;
+package run.freshr.domain.common.permission;
 
 import static run.freshr.common.utils.RestUtil.checkManager;
 import static run.freshr.common.utils.RestUtil.getSignedId;
@@ -14,12 +14,12 @@ import run.freshr.domain.common.unit.AttachUnit;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class CommonAccess {
+public class CommonPermission {
 
   private final AttachUnit attachUnit;
 
   public boolean removeAttach(Long id) {
-    log.info("CommonAccess.removeAttach");
+    log.info("CommonPermission.removeAttach");
 
     if (checkManager()) {
       return true;

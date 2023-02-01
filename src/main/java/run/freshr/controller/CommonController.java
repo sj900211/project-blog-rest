@@ -10,7 +10,12 @@ import static run.freshr.common.config.URIConfig.uriCommonAttachId;
 import static run.freshr.common.config.URIConfig.uriCommonAttachIdDownload;
 import static run.freshr.common.config.URIConfig.uriCommonEnum;
 import static run.freshr.common.config.URIConfig.uriCommonEnumPick;
+import static run.freshr.common.config.URIConfig.uriCommonHashtagKeyword;
+import static run.freshr.common.config.URIConfig.uriCommonHashtagKeywordBlog;
+import static run.freshr.common.config.URIConfig.uriCommonHashtagKeywordPost;
+import static run.freshr.common.config.URIConfig.uriCommonHashtagStatistics;
 import static run.freshr.common.config.URIConfig.uriCommonHeartbeat;
+import static run.freshr.common.utils.RestUtil.error;
 import static run.freshr.common.utils.RestUtil.getConfig;
 import static run.freshr.common.utils.RestUtil.ok;
 import static run.freshr.domain.auth.enumeration.Role.Secured.ANONYMOUS;
@@ -20,11 +25,13 @@ import static run.freshr.domain.auth.enumeration.Role.Secured.USER;
 
 import jakarta.validation.Valid;
 import java.io.IOException;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -32,6 +39,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import run.freshr.domain.common.dto.request.AttachCreateRequest;
+import run.freshr.domain.common.validator.CommonValidator;
+import run.freshr.domain.common.vo.CommonSearch;
 import run.freshr.mappers.EnumMapper;
 import run.freshr.service.CommonService;
 
@@ -42,6 +51,7 @@ public class CommonController {
 
   private final EnumMapper enumMapper;
   private final CommonService service;
+  private final CommonValidator validator;
 
   @GetMapping(uriCommonHeartbeat)
   public String getHeartBeat() throws IOException {
@@ -117,12 +127,69 @@ public class CommonController {
   }
 
   @Secured({MANAGER_MAJOR, MANAGER_MINOR, USER})
-  @PreAuthorize("@commonAccess.removeAttach(#id)")
+  @PreAuthorize("@commonPermission.removeAttach(#id)")
   @DeleteMapping(uriCommonAttachId)
   public ResponseEntity<?> removeAttach(@PathVariable Long id) {
     log.info("CommonController.removeAttach");
 
     return service.deleteAttach(id);
+  }
+
+  //  __    __       ___           _______. __    __  .___________.    ___       _______
+  // |  |  |  |     /   \         /       ||  |  |  | |           |   /   \     /  _____|
+  // |  |__|  |    /  ^  \       |   (----`|  |__|  | `---|  |----`  /  ^  \   |  |  __
+  // |   __   |   /  /_\  \       \   \    |   __   |     |  |      /  /_\  \  |  | |_ |
+  // |  |  |  |  /  _____  \  .----)   |   |  |  |  |     |  |     /  _____  \ |  |__| |
+  // |__|  |__| /__/     \__\ |_______/    |__|  |__|     |__|    /__/     \__\ \______|
+
+  @Secured({MANAGER_MAJOR, MANAGER_MINOR, USER, ANONYMOUS})
+  @GetMapping(uriCommonHashtagKeyword)
+  public ResponseEntity<?> searchHashtag(@PathVariable String keyword) {
+    log.info("CommonController.searchHashtag");
+
+    return service.searchHashtag(keyword);
+  }
+
+  @Secured({MANAGER_MAJOR, MANAGER_MINOR, USER, ANONYMOUS})
+  @GetMapping(uriCommonHashtagStatistics)
+  public ResponseEntity<?> getHashtagStatistics() {
+    log.info("CommonController.getHashtagStatistics");
+
+    return service.getHashtagStatistics();
+  }
+
+  @Secured({MANAGER_MAJOR, MANAGER_MINOR, USER, ANONYMOUS})
+  @GetMapping(uriCommonHashtagKeywordBlog)
+  public ResponseEntity<?> getBlogPageByHashtag(@PathVariable String keyword,
+      @ModelAttribute CommonSearch search, Errors errors) {
+    log.info("CommonController.getBlogPageByHashtag");
+
+    validator.getBlogPageByHashtag(search, errors);
+
+    if (errors.hasErrors()) {
+      return error(errors);
+    }
+
+    search.setHashtags(List.of(keyword));
+
+    return service.getBlogPageByHashtag(search);
+  }
+
+  @Secured({MANAGER_MAJOR, MANAGER_MINOR, USER, ANONYMOUS})
+  @GetMapping(uriCommonHashtagKeywordPost)
+  public ResponseEntity<?> getPostPageByHashtag(@PathVariable String keyword,
+      @ModelAttribute CommonSearch search, Errors errors) {
+    log.info("CommonController.getPostPageByHashtag");
+
+    validator.getPostPageByHashtag(search, errors);
+
+    if (errors.hasErrors()) {
+      return error(errors);
+    }
+
+    search.setHashtags(List.of(keyword));
+
+    return service.getPostPageByHashtag(search);
   }
 
 }

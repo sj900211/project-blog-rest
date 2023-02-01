@@ -3,9 +3,11 @@ package run.freshr.domain.auth.repository.jpa;
 import static org.springframework.util.StringUtils.hasLength;
 import static run.freshr.domain.auth.entity.QAccount.account;
 
+import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.time.LocalDateTime;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import run.freshr.common.utils.QueryUtil;
@@ -33,7 +35,9 @@ public class AccountRepositoryImpl implements AccountRepositoryCustom {
       query.where(QueryUtil.searchEnum(word, AccountSearchKeys.find(search.getKey())));
     }
 
-    return QueryUtil.paging(query, account, search);
+    List<OrderSpecifier<?>> orderList = List.of(account.createAt.desc(), account.id.desc());
+
+    return QueryUtil.paging(query, account, search, orderList);
   }
 
 }

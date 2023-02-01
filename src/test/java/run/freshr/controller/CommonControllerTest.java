@@ -6,16 +6,22 @@ import static org.springframework.http.MediaType.IMAGE_PNG_VALUE;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.formParameters;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
+import static org.springframework.restdocs.request.RequestDocumentation.queryParameters;
 import static org.springframework.restdocs.request.RequestDocumentation.requestParts;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static run.freshr.TestRunner.attachIdList;
+import static run.freshr.TestRunner.attachId;
+import static run.freshr.TestRunner.hashtagList;
 import static run.freshr.common.config.URIConfig.uriCommonAttach;
 import static run.freshr.common.config.URIConfig.uriCommonAttachExist;
 import static run.freshr.common.config.URIConfig.uriCommonAttachId;
 import static run.freshr.common.config.URIConfig.uriCommonAttachIdDownload;
 import static run.freshr.common.config.URIConfig.uriCommonEnum;
 import static run.freshr.common.config.URIConfig.uriCommonEnumPick;
+import static run.freshr.common.config.URIConfig.uriCommonHashtagKeyword;
+import static run.freshr.common.config.URIConfig.uriCommonHashtagKeywordBlog;
+import static run.freshr.common.config.URIConfig.uriCommonHashtagKeywordPost;
+import static run.freshr.common.config.URIConfig.uriCommonHashtagStatistics;
 
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
@@ -27,11 +33,23 @@ import run.freshr.common.extension.TestExtension;
 import run.freshr.domain.auth.enumeration.Privilege;
 import run.freshr.domain.common.AttachDocs;
 import run.freshr.domain.common.EnumDocs;
+import run.freshr.domain.common.HashtagDocs;
+import run.freshr.domain.common.vo.CommonSearch;
 
 @Slf4j
 @DisplayName("공통 관리")
 @DocsGroup(name = "common")
 class CommonControllerTest extends TestExtension {
+
+//  @Test
+//  @DisplayName("테스트")
+//  public void test() throws Exception {
+//    log.info("CommonControllerTest.test");
+//
+//    setAnonymous();
+//
+//    log.info("This is Test");
+//  }
 
   //  _______ .__   __.  __    __  .___  ___.
   // |   ____||  \ |  | |  |  |  | |   \/   |
@@ -110,7 +128,7 @@ class CommonControllerTest extends TestExtension {
 
     apply();
 
-    GET(uriCommonAttachExist, attachIdList.get(0))
+    GET(uriCommonAttachExist, attachId)
         .andDo(print())
         .andDo(docs(
             pathParameters(AttachDocs.Request.existAttach()),
@@ -129,7 +147,7 @@ class CommonControllerTest extends TestExtension {
 
     apply();
 
-    GET(uriCommonAttachId, attachIdList.get(0))
+    GET(uriCommonAttachId, attachId)
         .andDo(print())
         .andDo(docs(
             pathParameters(AttachDocs.Request.getAttach()),
@@ -148,7 +166,7 @@ class CommonControllerTest extends TestExtension {
 
     apply();
 
-    GET(uriCommonAttachIdDownload, attachIdList.get(0))
+    GET(uriCommonAttachIdDownload, attachId)
         .andDo(print())
         .andDo(docs(pathParameters(AttachDocs.Request.getAttach())))
         .andExpect(status().isOk());
@@ -164,9 +182,95 @@ class CommonControllerTest extends TestExtension {
 
     apply();
 
-    DELETE(uriCommonAttachId, attachIdList.get(0))
+    DELETE(uriCommonAttachId, attachId)
         .andDo(print())
         .andDo(docs(pathParameters(AttachDocs.Request.removeAttach())))
+        .andExpect(status().isOk());
+  }
+
+  //  __    __       ___           _______. __    __  .___________.    ___       _______
+  // |  |  |  |     /   \         /       ||  |  |  | |           |   /   \     /  _____|
+  // |  |__|  |    /  ^  \       |   (----`|  |__|  | `---|  |----`  /  ^  \   |  |  __
+  // |   __   |   /  /_\  \       \   \    |   __   |     |  |      /  /_\  \  |  | |_ |
+  // |  |  |  |  /  _____  \  .----)   |   |  |  |  |     |  |     /  _____  \ |  |__| |
+  // |__|  |__| /__/     \__\ |_______/    |__|  |__|     |__|    /__/     \__\ \______|
+
+  @Test
+  @DisplayName("해시태그 검색")
+  @Docs(existsPathParameters = true, existsResponseFields = true)
+  public void searchHashtag() throws Exception {
+    log.info("CommonControllerTest.searchHashtag");
+
+    setAnonymous();
+
+    apply();
+
+    GET(uriCommonHashtagKeyword, hashtagList.get(0))
+        .andDo(print())
+        .andDo(docs(pathParameters(HashtagDocs.Request.searchHashtag()),
+            responseFields(HashtagDocs.Response.searchHashtag())))
+        .andExpect(status().isOk());
+  }
+
+  @Test
+  @DisplayName("해시태그 조회 - List")
+  @Docs(existsResponseFields = true)
+  public void getHashtagStatistics() throws Exception {
+    log.info("CommonControllerTest.getHashtagStatistics");
+
+    setAnonymous();
+
+    apply();
+
+    GET(uriCommonHashtagStatistics)
+        .andDo(print())
+        .andDo(docs(responseFields(HashtagDocs.Response.getHashtagStatistics())))
+        .andExpect(status().isOk());
+  }
+
+  @Test
+  @DisplayName("해시태그 검색 - Blog Page")
+  @Docs(existsPathParameters = true, existsQueryParameters = true, existsResponseFields = true)
+  public void getBlogPageByHashtag() throws Exception {
+    log.info("CommonControllerTest.getBlogPageByHashtag");
+
+    setAnonymous();
+
+    apply();
+
+    CommonSearch search = new CommonSearch();
+
+    search.setPage(1);
+    search.setSize(5);
+
+    GET_PARAM(uriCommonHashtagKeywordBlog, search, hashtagList.get(0))
+        .andDo(print())
+        .andDo(docs(pathParameters(HashtagDocs.Request.getBlogPageByHashtagPath()),
+            queryParameters(HashtagDocs.Request.getBlogPageByHashtag()),
+            responseFields(HashtagDocs.Response.getBlogPageByHashtag())))
+        .andExpect(status().isOk());
+  }
+
+  @Test
+  @DisplayName("해시태그 검색 - Post Page")
+  @Docs(existsPathParameters = true, existsQueryParameters = true, existsResponseFields = true)
+  public void getPostPageByHashtag() throws Exception {
+    log.info("CommonControllerTest.getPostPageByHashtag");
+
+    setAnonymous();
+
+    apply();
+
+    CommonSearch search = new CommonSearch();
+
+    search.setPage(1);
+    search.setSize(5);
+
+    GET_PARAM(uriCommonHashtagKeywordPost, search, hashtagList.get(0))
+        .andDo(print())
+        .andDo(docs(pathParameters(HashtagDocs.Request.getPostPageByHashtagPath()),
+            queryParameters(HashtagDocs.Request.getPostPageByHashtag()),
+            responseFields(HashtagDocs.Response.getPostPageByHashtag())))
         .andExpect(status().isOk());
   }
 
