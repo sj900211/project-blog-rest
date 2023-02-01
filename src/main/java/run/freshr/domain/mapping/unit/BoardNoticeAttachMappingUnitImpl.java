@@ -27,18 +27,19 @@ public class BoardNoticeAttachMappingUnitImpl implements BoardNoticeAttachMappin
   }
 
   @Override
-  public Boolean exists(BoardNoticeAttachMappingEmbeddedId id) {
+  public Boolean exists(Long noticeId, Long attachId) {
     log.info("BoardNoticeAttachMappingUnit.exists");
 
-    return repository.existsById(id);
+    return repository.existsByIdNoticeIdAndIdAttachId(noticeId, attachId);
   }
 
   @Override
   @Transactional
-  public BoardNoticeAttachMapping get(BoardNoticeAttachMappingEmbeddedId id) {
+  public BoardNoticeAttachMapping get(Long noticeId, Long attachId) {
     log.info("BoardNoticeAttachMappingUnit.get");
 
-    return repository.findById(id).orElseThrow(EntityNotFoundException::new);
+    return repository.findByIdNoticeIdAndIdAttachId(noticeId, attachId)
+        .orElseThrow(EntityNotFoundException::new);
   }
 
   @Override

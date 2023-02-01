@@ -29,7 +29,8 @@ import run.freshr.common.extension.entity.EntityAuditLogicalExtension;
 import run.freshr.domain.blog.enumeration.BlogViewType;
 import run.freshr.domain.common.entity.Attach;
 import run.freshr.domain.mapping.entity.BlogHashtagMapping;
-import run.freshr.domain.mapping.entity.BlogRoleMapping;
+import run.freshr.domain.mapping.entity.BlogRequestMapping;
+import run.freshr.domain.mapping.entity.BlogPermissionMapping;
 
 @Slf4j
 @Entity
@@ -78,7 +79,10 @@ public class Blog extends EntityAuditLogicalExtension {
   private List<BlogHashtagMapping> hashtagList;
 
   @OneToMany(fetch = LAZY, mappedBy = "blog")
-  private List<BlogRoleMapping> roleList;
+  private List<BlogRequestMapping> requestList;
+
+  @OneToMany(fetch = LAZY, mappedBy = "blog")
+  private List<BlogPermissionMapping> roleList;
 
   @OneToMany(fetch = LAZY, mappedBy = "blog")
   private List<Post> postList;

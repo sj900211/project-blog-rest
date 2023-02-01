@@ -14,7 +14,7 @@ import run.freshr.common.extension.request.SearchExtension;
  * @since 2023. 1. 12. 오후 6:43:27
  */
 public interface UnitPageExtension<E, ID, S extends SearchExtension<ID>>
-    extends UnitDefaultExtension<E, ID> {
+    extends UnitGetExtension<E, ID> {
 
   /**
    * 페이징 데이터 조회.

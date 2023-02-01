@@ -10,16 +10,25 @@ import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import run.freshr.common.dto.response.IdResponse;
 import run.freshr.common.dto.response.IsResponse;
+import run.freshr.domain.blog.dto.response.BlogListResponse;
+import run.freshr.domain.blog.dto.response.PostListResponse;
+import run.freshr.domain.blog.entity.Blog;
+import run.freshr.domain.blog.entity.Post;
 import run.freshr.domain.common.dto.request.AttachCreateRequest;
 import run.freshr.domain.common.dto.response.AttachResponse;
+import run.freshr.domain.common.dto.response.HashtagStatisticsResponse;
 import run.freshr.domain.common.entity.Attach;
+import run.freshr.domain.common.entity.Hashtag;
 import run.freshr.domain.common.unit.AttachUnit;
+import run.freshr.domain.common.unit.HashtagUnit;
+import run.freshr.domain.common.vo.CommonSearch;
 import run.freshr.response.PutResultResponse;
 
 @Slf4j
@@ -29,8 +38,8 @@ import run.freshr.response.PutResultResponse;
 public class CommonServiceImpl implements CommonService {
 
   private final AttachUnit attachUnit;
-
   private final MinioService minioService;
+  private final HashtagUnit hashtagUnit;
 
   @Override
   @Transactional
@@ -105,6 +114,46 @@ public class CommonServiceImpl implements CommonService {
     entity.removeEntity();
 
     return ok();
+  }
+
+  @Override
+  public ResponseEntity<?> searchHashtag(String keyword) {
+    log.info("CommonService.search");
+
+    List<Hashtag> entityList = hashtagUnit.search(keyword);
+    List<IdResponse<String>> list = entityList.stream()
+        .map(item -> IdResponse.<String>builder().id(item.getId()).build()).toList();
+
+    return ok(list);
+  }
+
+  @Override
+  public ResponseEntity<?> getHashtagStatistics() {
+    log.info("CommonService.getStatistics");
+
+    List<HashtagStatisticsResponse> statistics = hashtagUnit.getStatistics();
+
+    return ok(statistics);
+  }
+
+  @Override
+  public ResponseEntity<?> getBlogPageByHashtag(CommonSearch search) {
+    log.info("CommonService.getBlogPage");
+
+    Page<Blog> entityPage = hashtagUnit.getBlogPage(search);
+    Page<BlogListResponse> page = entityPage.map(item -> map(item, BlogListResponse.class));
+
+    return ok(page);
+  }
+
+  @Override
+  public ResponseEntity<?> getPostPageByHashtag(CommonSearch search) {
+    log.info("CommonService.getPostPage");
+
+    Page<Post> entityPage = hashtagUnit.getPostPage(search);
+    Page<PostListResponse> page = entityPage.map(item -> map(item, PostListResponse.class));
+
+    return ok(page);
   }
 
 }

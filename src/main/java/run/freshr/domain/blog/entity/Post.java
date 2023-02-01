@@ -24,6 +24,8 @@ import org.hibernate.annotations.Comment;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import run.freshr.common.extension.entity.EntityAuditLogicalExtension;
+import run.freshr.domain.blog.enumeration.BlogViewType;
+import run.freshr.domain.common.entity.Attach;
 import run.freshr.domain.mapping.entity.PostAttachMapping;
 import run.freshr.domain.mapping.entity.PostHashtagMapping;
 
@@ -71,5 +73,34 @@ public class Post extends EntityAuditLogicalExtension {
 
   @OneToMany(fetch = LAZY, mappedBy = "post")
   private List<PostAttachMapping> attachList;
+
+  private Post(String title, String contents, Boolean useFlag, Blog blog) {
+    log.info("Post.Constructor");
+
+    this.title = title;
+    this.contents = contents;
+    this.useFlag = useFlag;
+    this.blog = blog;
+  }
+
+  public static Post createEntity(String title, String contents, Boolean useFlag, Blog blog) {
+    log.info("Post.createEntity");
+
+    return new Post(title, contents, useFlag, blog);
+  }
+
+  public void updateEntity(String title, String contents, Boolean useFlag) {
+    log.info("Post.updateEntity");
+
+    this.title = title;
+    this.contents = contents;
+    this.useFlag = useFlag;
+  }
+
+  public void removeEntity() {
+    log.info("Post.removeEntity");
+
+    remove();
+  }
 
 }

@@ -30,8 +30,7 @@ public class BoardNoticeRepositoryImpl implements BoardNoticeRepositoryCustom {
     LocalDateTime cursorAt = search.getCursorAt();
 
     JPAQuery<BoardNotice> query = queryFactory.selectFrom(boardNotice)
-        .where(boardNotice.deleteFlag.isFalse(), boardNotice.useFlag.isTrue(),
-            boardNotice.createAt.before(cursorAt));
+        .where(boardNotice.deleteFlag.isFalse(), boardNotice.useFlag.isTrue());
 
     String word = search.getWord();
 
@@ -53,6 +52,9 @@ public class BoardNoticeRepositoryImpl implements BoardNoticeRepositoryCustom {
         case EXPOSE -> orderList.add(new OrderSpecifier<>(order, boardNotice.expose));
         case CREATOR -> orderList.add(new OrderSpecifier<>(order, boardNotice.creator.username));
       }
+    } else {
+      query.where(boardNotice.createAt.before(cursorAt));
+      orderList.add(boardNotice.createAt.desc());
     }
 
     orderList.add(boardNotice.id.desc());

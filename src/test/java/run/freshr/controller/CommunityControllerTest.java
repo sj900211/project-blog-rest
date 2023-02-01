@@ -27,8 +27,7 @@ import run.freshr.domain.community.dto.request.BoardNoticeCreateRequest;
 import run.freshr.domain.community.dto.request.BoardNoticeUpdateRequest;
 import run.freshr.domain.community.enumeration.BoardNoticeExpose;
 import run.freshr.domain.community.vo.CommunitySearch;
-import run.freshr.domain.mapping.dto.request.BoardNoticeAttachMappingCreateRequest;
-import run.freshr.domain.mapping.dto.request.BoardNoticeAttachMappingUpdateRequest;
+import run.freshr.domain.mapping.dto.request.BoardNoticeAttachMappingSaveRequest;
 
 @Slf4j
 @DocsGroup(name = "community")
@@ -51,21 +50,21 @@ class CommunityControllerTest extends TestExtension {
             .fixed(false)
             .expose(BoardNoticeExpose.ALL)
             .attachList(List.of(
-                BoardNoticeAttachMappingCreateRequest
+                BoardNoticeAttachMappingSaveRequest
                     .builder()
                     .attach(IdRequest.<Long>builder()
                         .id(attachIdList.get(0))
                         .build())
                     .sort(0)
                     .build(),
-                BoardNoticeAttachMappingCreateRequest
+                BoardNoticeAttachMappingSaveRequest
                     .builder()
                     .attach(IdRequest.<Long>builder()
                         .id(attachIdList.get(1))
                         .build())
                     .sort(1)
                     .build(),
-                BoardNoticeAttachMappingCreateRequest
+                BoardNoticeAttachMappingSaveRequest
                     .builder()
                     .attach(IdRequest.<Long>builder()
                         .id(attachIdList.get(2))
@@ -82,8 +81,8 @@ class CommunityControllerTest extends TestExtension {
   @Test
   @DisplayName("공지사항 조회 - Page")
   @Docs(existsQueryParameters = true, existsResponseFields = true, popup = {
-      @DocsPopup(name = "board-docs-get-board-page-key",
-          include = "common-controller-test/get-enum-list/popup/popup-fields-board-search-keys.adoc")
+      @DocsPopup(name = "board-notice-docs-get-board-notice-page-key",
+          include = "common-controller-test/get-enum-list/popup/popup-fields-board-notice-search-keys.adoc")
   })
   public void getBoardNoticePage() throws Exception {
     setAnonymous();
@@ -137,21 +136,21 @@ class CommunityControllerTest extends TestExtension {
             .fixed(false)
             .expose(BoardNoticeExpose.ALL)
             .attachList(List.of(
-                BoardNoticeAttachMappingUpdateRequest
+                BoardNoticeAttachMappingSaveRequest
                     .builder()
                     .attach(IdRequest.<Long>builder()
                         .id(attachIdList.get(0))
                         .build())
                     .sort(0)
                     .build(),
-                BoardNoticeAttachMappingUpdateRequest
+                BoardNoticeAttachMappingSaveRequest
                     .builder()
                     .attach(IdRequest.<Long>builder()
                         .id(attachIdList.get(1))
                         .build())
                     .sort(1)
                     .build(),
-                BoardNoticeAttachMappingUpdateRequest
+                BoardNoticeAttachMappingSaveRequest
                     .builder()
                     .attach(IdRequest.<Long>builder()
                         .id(attachIdList.get(2))
@@ -179,4 +178,5 @@ class CommunityControllerTest extends TestExtension {
         .andDo(docs(pathParameters(BoardNoticeDocs.Request.removeBoardNotice())))
         .andExpect(status().isOk());
   }
+
 }

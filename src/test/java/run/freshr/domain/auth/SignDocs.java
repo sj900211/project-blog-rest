@@ -126,7 +126,7 @@ public class SignDocs {
 
     public static List<FieldDescriptor> setAuditor(String prefix, String description,
         Boolean optional) {
-      log.info("ResponseDocs.setAuditor");
+      log.info("SignDocs.Docs.setAuditor");
 
       Builder builder = PrintUtil.builder();
 
@@ -135,7 +135,7 @@ public class SignDocs {
       }
 
       if (hasLength(description)) {
-        builder.prefixDescription(prefix);
+        builder.prefixDescription(description);
       }
 
       builder.prefixOptional(optional);

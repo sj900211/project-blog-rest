@@ -3,6 +3,7 @@ package run.freshr.service;
 import static run.freshr.common.util.ThreadUtil.threadAccess;
 import static run.freshr.common.util.ThreadUtil.threadPublicKey;
 import static run.freshr.common.util.ThreadUtil.threadRefresh;
+import static run.freshr.domain.blog.enumeration.BlogViewType.PUBLIC;
 
 import java.security.KeyPair;
 import java.security.PrivateKey;
@@ -25,13 +26,31 @@ import run.freshr.domain.auth.unit.AccessRedisUnit;
 import run.freshr.domain.auth.unit.AccountUnit;
 import run.freshr.domain.auth.unit.RefreshRedisUnit;
 import run.freshr.domain.auth.unit.RsaPairUnit;
+import run.freshr.domain.blog.entity.Blog;
+import run.freshr.domain.blog.entity.Post;
+import run.freshr.domain.blog.enumeration.BlogRole;
+import run.freshr.domain.blog.enumeration.BlogViewType;
+import run.freshr.domain.blog.unit.BlogUnit;
+import run.freshr.domain.blog.unit.PostUnit;
 import run.freshr.domain.common.entity.Attach;
+import run.freshr.domain.common.entity.Hashtag;
 import run.freshr.domain.common.unit.AttachUnit;
+import run.freshr.domain.common.unit.HashtagUnit;
 import run.freshr.domain.community.entity.BoardNotice;
 import run.freshr.domain.community.enumeration.BoardNoticeExpose;
 import run.freshr.domain.community.unit.BoardNoticeUnit;
+import run.freshr.domain.mapping.entity.BlogHashtagMapping;
+import run.freshr.domain.mapping.entity.BlogPermissionMapping;
+import run.freshr.domain.mapping.entity.BlogRequestMapping;
 import run.freshr.domain.mapping.entity.BoardNoticeAttachMapping;
+import run.freshr.domain.mapping.entity.PostAttachMapping;
+import run.freshr.domain.mapping.entity.PostHashtagMapping;
+import run.freshr.domain.mapping.unit.BlogHashtagMappingUnit;
+import run.freshr.domain.mapping.unit.BlogPermissionMappingUnit;
+import run.freshr.domain.mapping.unit.BlogRequestMappingUnit;
 import run.freshr.domain.mapping.unit.BoardNoticeAttachMappingUnit;
+import run.freshr.domain.mapping.unit.PostAttachMappingUnit;
+import run.freshr.domain.mapping.unit.PostHashtagMappingUnit;
 import run.freshr.mappers.EnumGetter;
 import run.freshr.mappers.EnumMapper;
 import run.freshr.utils.CryptoUtil;
@@ -88,6 +107,24 @@ public class TestServiceImpl implements TestService {
   @Override
   public Attach getAttach(long id) {
     return attachUnit.get(id);
+  }
+
+  //  __    __       ___           _______. __    __  .___________.    ___       _______
+  // |  |  |  |     /   \         /       ||  |  |  | |           |   /   \     /  _____|
+  // |  |__|  |    /  ^  \       |   (----`|  |__|  | `---|  |----`  /  ^  \   |  |  __
+  // |   __   |   /  /_\  \       \   \    |   __   |     |  |      /  /_\  \  |  | |_ |
+  // |  |  |  |  /  _____  \  .----)   |   |  |  |  |     |  |     /  _____  \ |  |__| |
+  // |__|  |__| /__/     \__\ |_______/    |__|  |__|     |__|    /__/     \__\ \______|
+  private final HashtagUnit hashtagUnit;
+
+  @Override
+  public void createHashtag(String id) {
+    hashtagUnit.create(Hashtag.createEntity(id));
+  }
+
+  @Override
+  public Hashtag getHashtag(String id) {
+    return hashtagUnit.get(id);
   }
 
   //      ___      __    __  .___________. __    __
@@ -193,6 +230,71 @@ public class TestServiceImpl implements TestService {
   public void createBoardNoticeAttachMapping(long noticeId, long attachId, int sort) {
     boardNoticeAttachMappingUnit.create(BoardNoticeAttachMapping
         .createEntity(getBoardNotice(noticeId), getAttach(attachId), sort));
+  }
+
+  // .______    __        ______     _______
+  // |   _  \  |  |      /  __  \   /  _____|
+  // |  |_)  | |  |     |  |  |  | |  |  __
+  // |   _  <  |  |     |  |  |  | |  | |_ |
+  // |  |_)  | |  `----.|  `--'  | |  |__| |
+  // |______/  |_______| \______/   \______|
+  private final BlogUnit blogUnit;
+  private final BlogHashtagMappingUnit blogHashtagMappingUnit;
+  private final BlogRequestMappingUnit blogRequestMappingUnit;
+  private final BlogPermissionMappingUnit blogPermissionMappingUnit;
+
+  @Override
+  public long createBlog(String title, String description, long coverId) {
+    return blogUnit.create(Blog.createEntity(title, description, attachUnit.get(coverId), PUBLIC));
+  }
+
+  @Override
+  public Blog getBlog(long id) {
+    return blogUnit.get(id);
+  }
+
+  @Override
+  public void createBlogHashtagMapping(Blog blog, Hashtag hashtag, Integer sort) {
+    blogHashtagMappingUnit.create(BlogHashtagMapping.createEntity(blog, hashtag, sort));
+  }
+  @Override
+  public void createBlogRequestMapping(Blog blog, long accountId) {
+    blogRequestMappingUnit.create(BlogRequestMapping.createEntity(blog, getAccount(accountId)));
+  }
+  @Override
+  public void createBlogPermissionMapping(Blog blog, long accountId, BlogRole role) {
+    blogPermissionMappingUnit
+        .create(BlogPermissionMapping.createEntity(blog, getAccount(accountId), role));
+  }
+
+  // .______     ______        _______.___________.
+  // |   _  \   /  __  \      /       |           |
+  // |  |_)  | |  |  |  |    |   (----`---|  |----`
+  // |   ___/  |  |  |  |     \   \       |  |
+  // |  |      |  `--'  | .----)   |      |  |
+  // | _|       \______/  |_______/       |__|
+  private final PostUnit postUnit;
+  private final PostAttachMappingUnit postAttachMappingUnit;
+  private final PostHashtagMappingUnit postHashtagMappingUnit;
+
+  @Override
+  public long createPost(String title, String contents, Blog blog) {
+    return postUnit.create(Post.createEntity(title, contents, true, blog));
+  }
+
+  @Override
+  public Post getPost(long id) {
+    return postUnit.get(id);
+  }
+
+  @Override
+  public void createPostAttachMapping(Post post, long attachId, Integer sort) {
+    postAttachMappingUnit.create(PostAttachMapping.createEntity(post, getAttach(attachId), sort));
+  }
+
+  @Override
+  public void createPostHashtagMapping(Post post, Hashtag hashtag, Integer sort) {
+    postHashtagMappingUnit.create(PostHashtagMapping.createEntity(post, hashtag, sort));
   }
 
 }

@@ -12,23 +12,23 @@ import lombok.extern.slf4j.Slf4j;
 @Embeddable
 @Getter
 @NoArgsConstructor(access = PROTECTED)
-public class BlogRoleMappingEmbeddedId implements Serializable {
+public class BlogPermissionMappingEmbeddedId implements Serializable {
 
   private Long blogId;
 
   private Long accountId;
 
-  private BlogRoleMappingEmbeddedId(Long blogId, Long accountId) {
-    log.info("BlogRoleMappingEmbeddedId.Constructor");
+  private BlogPermissionMappingEmbeddedId(Long blogId, Long accountId) {
+    log.info("BlogPermissionMappingEmbeddedId.Constructor");
 
     this.blogId = blogId;
     this.accountId = accountId;
   }
 
-  public static BlogRoleMappingEmbeddedId createId(Long blogId, Long accountId) {
-    log.info("BlogRoleMappingEmbeddedId.createId");
+  public static BlogPermissionMappingEmbeddedId createId(Long blogId, Long accountId) {
+    log.info("BlogPermissionMappingEmbeddedId.createId");
 
-    return new BlogRoleMappingEmbeddedId(blogId, accountId);
+    return new BlogPermissionMappingEmbeddedId(blogId, accountId);
   }
 
 }

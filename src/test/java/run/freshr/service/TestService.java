@@ -7,7 +7,11 @@ import run.freshr.domain.auth.entity.Account;
 import run.freshr.domain.auth.enumeration.Privilege;
 import run.freshr.domain.auth.enumeration.Role;
 import run.freshr.domain.auth.redis.AccessRedis;
+import run.freshr.domain.blog.entity.Blog;
+import run.freshr.domain.blog.entity.Post;
+import run.freshr.domain.blog.enumeration.BlogRole;
 import run.freshr.domain.common.entity.Attach;
+import run.freshr.domain.common.entity.Hashtag;
 import run.freshr.domain.community.entity.BoardNotice;
 import run.freshr.domain.community.enumeration.BoardNoticeExpose;
 import run.freshr.mappers.EnumGetter;
@@ -41,6 +45,16 @@ public interface TestService {
   long createAttach(String filename, String path);
 
   Attach getAttach(long id);
+
+  //  __    __       ___           _______. __    __  .___________.    ___       _______
+  // |  |  |  |     /   \         /       ||  |  |  | |           |   /   \     /  _____|
+  // |  |__|  |    /  ^  \       |   (----`|  |__|  | `---|  |----`  /  ^  \   |  |  __
+  // |   __   |   /  /_\  \       \   \    |   __   |     |  |      /  /_\  \  |  | |_ |
+  // |  |  |  |  /  _____  \  .----)   |   |  |  |  |     |  |     /  _____  \ |  |__| |
+  // |__|  |__| /__/     \__\ |_______/    |__|  |__|     |__|    /__/     \__\ \______|
+  void createHashtag(String id);
+
+  Hashtag getHashtag(String id);
 
   //      ___      __    __  .___________. __    __
   //     /   \    |  |  |  | |           ||  |  |  |
@@ -77,5 +91,35 @@ public interface TestService {
   BoardNotice getBoardNotice(long id);
 
   void createBoardNoticeAttachMapping(long noticeId, long attachId, int sort);
+
+  // .______    __        ______     _______
+  // |   _  \  |  |      /  __  \   /  _____|
+  // |  |_)  | |  |     |  |  |  | |  |  __
+  // |   _  <  |  |     |  |  |  | |  | |_ |
+  // |  |_)  | |  `----.|  `--'  | |  |__| |
+  // |______/  |_______| \______/   \______|
+  long createBlog(String title, String description, long coverId);
+
+  Blog getBlog(long id);
+
+  void createBlogHashtagMapping(Blog blog, Hashtag hashtag, Integer sort);
+
+  void createBlogRequestMapping(Blog blog, long accountId);
+
+  void createBlogPermissionMapping(Blog blog, long accountId, BlogRole role);
+
+  // .______     ______        _______.___________.
+  // |   _  \   /  __  \      /       |           |
+  // |  |_)  | |  |  |  |    |   (----`---|  |----`
+  // |   ___/  |  |  |  |     \   \       |  |
+  // |  |      |  `--'  | .----)   |      |  |
+  // | _|       \______/  |_______/       |__|
+  long createPost(String title, String contents, Blog blog);
+
+  Post getPost(long id);
+
+  void createPostAttachMapping(Post post, long attachId, Integer sort);
+
+  void createPostHashtagMapping(Post post, Hashtag hashtag, Integer sort);
 
 }
